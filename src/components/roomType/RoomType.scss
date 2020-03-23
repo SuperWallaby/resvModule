@@ -1,0 +1,10 @@
+@import "../../variables.scss";
+
+.roomType {
+  padding: $standard-space;
+  border: 1px solid $grey-level1;
+  &__slider {
+    max-width: 15.25rem;
+  }
+  margin-bottom: $standard-small-space;
+}
