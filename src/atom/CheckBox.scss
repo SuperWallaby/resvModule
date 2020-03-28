@@ -1,0 +1,16 @@
+@import "../variables.scss";
+
+.checkBoxMini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $grey-level2;
+  width: $standard-small-space;
+  height: $standard-small-space;
+  margin-right: $standard-space;
+  ;
+  &:hover {
+    cursor: pointer;
+    background: $grey-level2;
+  }
+}

@@ -1,6 +1,7 @@
 @import "../variables.scss";
 
 .dateSelecter {
+  border-radius: $standard-border-radius;
   padding: $standard-small-space;
   border: $standard-small-space solid $grey-level2;
   margin-bottom: $standard-largest-space;

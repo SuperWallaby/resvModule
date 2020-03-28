@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ApolloProvider } from "react-apollo";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import client from "./apollo/apolloClient";
-import { Toast } from "@janda-com/front";
+import { Toast, toast } from "@janda-com/front";
 import ReservationWrap from "./pages/ReservationWrap";
 import kr from "./lang/kr";
 import "./App.scss";
@@ -33,7 +33,7 @@ const useLang = (defaultLang: "kr" | "en") => {
   return { currentLang, setCurrentLang };
 };
 
-const TEST_PUBLICK_KEY = "0dcf581e-78e5-6e8d-7b26-38797196b21d";
+const TEST_PUBLICK_KEY = "7941ff5c-e330-c0dd-2f13-1e341aa47182";
 
 function App({ publickey }: any) {
   const langHook = useLang((localStorage.getItem("LastLang") as any) || "kr");
@@ -43,13 +43,7 @@ function App({ publickey }: any) {
   return (
     <div className="App">
       <ApolloProvider client={client}>
-        <Router>
-          <Switch>
-            <Route
-              render={() => <ReservationWrap publickey={TEST_PUBLICK_KEY} />}
-            />
-          </Switch>
-        </Router>
+        <ReservationWrap publickey={TEST_PUBLICK_KEY} />
       </ApolloProvider>
       <Toast />
     </div>

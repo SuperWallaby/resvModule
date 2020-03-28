@@ -62,8 +62,8 @@ const DateSelecter: React.FC<Iprops> = ({
               {LANG("day_unit")}
             </JDtypho>
           ) : (
-            <span />
-          )}
+              <span />
+            )}
         </JDalign>
       </div>
     </JDtypho>

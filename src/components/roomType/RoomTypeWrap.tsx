@@ -4,14 +4,20 @@ import {
   getRoomTypeInfo,
   getRoomTypeInfoVariables,
   getHouseForPublic_GetHouseForPublic_house_roomTypes,
-  getHouseForPublic_GetHouseForPublic_house
+  getHouseForPublic_GetHouseForPublic_house,
+  RoomTypeCapacityInitValueInput,
+  getRoomTypeInfo_GetRoomTypeById_roomType,
+  getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory
 } from "../../types/api";
 import client from "../../apollo/apolloClient";
 import { useQuery } from "react-apollo";
-import { utills } from "@janda-com/front";
+import { utills, JDpreloader } from "@janda-com/front";
 import RoomType from "./RoomType";
 import { getAveragePrice } from "../../pages/helper";
-import { IResvContext } from "../../pages/Reservation";
+import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
+import { PricingType } from "../../types/enum";
+import moment from "moment";
+import { ApolloQueryResult } from "apollo-client";
 
 const { queryDataFormater, instanceOfA } = utills;
 
@@ -20,11 +26,23 @@ export enum Gender {
   MALE = "MALE"
 }
 
+export type TDomitoryCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory;
+
 export interface IGuestCount {
   male: number;
   female: number;
   room: number;
   initGender: Gender;
+}
+
+export interface IRoomTypeContext {
+  sharedQueryVariable: getRoomTypeInfoVariables;
+  refetchCapacity: (variables?: getRoomTypeInfoVariables | undefined) => Promise<ApolloQueryResult<getRoomTypeInfo>>;
+  capacityData: getRoomTypeInfo_GetRoomTypeById_roomType | undefined;
+  isSelected: boolean;
+  targetSelectInfo: IRoomSelectInfo | undefined;
+  isDomitory: boolean;
+  fullDatePrice: number;
 }
 
 interface ICheckInOutInfo {
@@ -39,56 +57,53 @@ interface IProps {
   dateInfo: ICheckInOutInfo;
 }
 
+
 const RoomTypeWrap: React.FC<IProps> = ({
   roomType,
   resvContext,
   houseData,
   dateInfo
 }) => {
-  const { selectedRoom, setSelectedRoom } = resvContext;
+  const { roomSelectInfo, from, to } = resvContext;
   const { checkIn, checkOut } = dateInfo;
   const { _id: houseId } = houseData;
   const { _id: roomTypeId } = roomType;
-  const [guestCountValue, setGuestCount] = useState<IGuestCount>({
-    male: 0,
-    female: 0,
-    room: 0,
-    initGender: Gender.MALE
-  });
 
-  const initMale = guestCountValue.initGender === Gender.FEMALE;
-  const initCount = initMale ? guestCountValue.male : guestCountValue.female;
 
   const shouldSkip = () =>
     checkIn && checkOut && checkIn != checkOut ? false : true;
 
-  const { data, loading: countLoading, networkStatus } = useQuery<
+  const sharedVariable = {
+    roomTypeId,
+    GetRoomTypeDatePricesInput: {
+      checkOut,
+      checkIn,
+      houseId,
+      roomTypeIds: [roomTypeId]
+    },
+    RoomTypeCapacityInput: {
+      checkInOut: {
+        checkIn,
+        checkOut
+      },
+      initValue: {
+        count: 0,
+        gender: Gender.MALE
+      }
+    }
+  }
+
+  const { data, loading: countLoading, refetch: refetchCapacity, networkStatus } = useQuery<
     getRoomTypeInfo,
     getRoomTypeInfoVariables
   >(GET_ROOM_TYPE_INFO, {
     client,
-    notifyOnNetworkStatusChange: true,
     skip: shouldSkip(),
     variables: {
-      roomTypeId,
-      GetRoomTypeDatePricesInput: {
-        checkOut,
-        checkIn,
-        houseId,
-        roomTypeIds: [roomTypeId]
-      },
-      RoomTypeCapacityInput: {
-        checkInOut: {
-          checkIn,
-          checkOut
-        },
-        initValue: {
-          count: initCount,
-          gender: guestCountValue.initGender
-        }
-      }
-    }
+      ...sharedVariable
+    },
   });
+
 
   const roomTypeDatePrices =
     queryDataFormater(
@@ -116,10 +131,46 @@ const RoomTypeWrap: React.FC<IProps> = ({
 
   if (roomType.roomCount === 0) return <div />;
 
-  const truePrice = getAveragePrice(roomTypeDatePrices[0]?.datePrices || []);
-  const formattedTruePrice = Math.floor(truePrice / 10) * 10;
+  const dailyPrice = getAveragePrice(roomTypeDatePrices[0]?.datePrices || []);
+  const formattedDailyPrice = Math.floor(dailyPrice / 10) * 10;
+  const isSelected = roomSelectInfo.find(r => r.roomTypeId === roomType._id) !== undefined;
+  const isDomitory = roomType.pricingType === PricingType.DOMITORY;
+  const diff = moment(to || new Date()).diff(from || new Date(), "d");
+  const targetSelectInfo = roomSelectInfo.find(r => r.roomTypeId === roomType._id);
+  const fullDatePrice = diff * formattedDailyPrice;
 
-  return <RoomType totalPrice={formattedTruePrice} roomType={roomType} />;
+
+
+  if (networkStatus === 1)
+    return (
+      <Fragment>
+        <div className="roomType--loading" />
+      </Fragment>
+    );
+
+  if (!capacityData) {
+    console.error(`can not load roomType with this id ${roomTypeId}`);
+    return <div />;
+  }
+
+
+
+  const roomTypeContext: IRoomTypeContext = {
+    refetchCapacity,
+    capacityData,
+    isSelected,
+    targetSelectInfo,
+    isDomitory,
+    fullDatePrice,
+    sharedQueryVariable: sharedVariable
+  }
+
+  return (
+    <Fragment>
+      <RoomType roomTypeContext={roomTypeContext} resvContext={resvContext} dailyPrice={formattedDailyPrice} roomType={roomType} />
+      <JDpreloader floating loading={countLoading} />
+    </Fragment>
+  );
 };
 
 export default RoomTypeWrap;

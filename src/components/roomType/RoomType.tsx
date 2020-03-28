@@ -10,27 +10,59 @@ import {
 } from "@janda-com/front";
 import {
   getHouseForPublic_GetHouseForPublic_house_roomTypes,
-  getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../../types/api";
+import { PricingType } from "../../types/enum"
 import "./RoomType.scss";
 import { LANG } from "../../App";
+import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
+import moment from "moment";
+import CountSelecter from "./CountSelecter";
+import { IRoomTypeContext } from "./RoomTypeWrap";
 
 const { autoComma } = utills;
 
 interface IProps {
+  resvContext: IResvContext;
   roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
-  totalPrice: number;
+  dailyPrice: number;
+  roomTypeContext: IRoomTypeContext
 }
 
-const RoomType: React.FC<IProps> = ({ roomType, totalPrice }) => {
+const RoomType: React.FC<IProps> = ({ roomType, dailyPrice, resvContext, roomTypeContext }) => {
   const { name } = roomType;
+  const { setRoomSelectInfo, roomSelectInfo } = resvContext;
+  const { fullDatePrice, isDomitory, isSelected, targetSelectInfo } = roomTypeContext;
+
+
+
+  let classes = "roomType";
+  classes += isSelected ? " roomType--selected" : "";
+
+  const handleRoomSelectTooggler = () => {
+    const filted = roomSelectInfo.filter(r => r.roomTypeId !== roomType._id)
+    const addInfo: IRoomSelectInfo = {
+      count: {
+        female: 0,
+        male: 0,
+        roomCount: 0
+      },
+      price: 0,
+      pricingType: roomType.pricingType,
+      roomTypeId: roomType._id,
+      roomTypeName: roomType.name
+    }
+    const added = [...roomSelectInfo, addInfo];
+    setRoomSelectInfo(isSelected ? filted : added)
+  }
+
   return (
-    <div>
+    <div className={classes}
+    >
       <JDalign
+        className="roomType__up"
         flex={{
           grow: true
         }}
-        className="roomType"
       >
         <JDalign className="roomType__slider">
           <JDslider
@@ -43,24 +75,27 @@ const RoomType: React.FC<IProps> = ({ roomType, totalPrice }) => {
             <JDslide>
               <JDphotoFrame
                 isBgImg
+                unStyle
                 style={{
-                  height: "4rem"
+                  height: "6rem"
                 }}
               />
             </JDslide>
             <JDslide>
               <JDphotoFrame
                 isBgImg
+                unStyle
                 style={{
-                  height: "4rem"
+                  height: "6rem"
                 }}
               />
             </JDslide>
             <JDslide>
               <JDphotoFrame
                 isBgImg
+                unStyle
                 style={{
-                  height: "4rem"
+                  height: "6rem"
                 }}
               />
             </JDslide>
@@ -81,22 +116,29 @@ const RoomType: React.FC<IProps> = ({ roomType, totalPrice }) => {
             <div className="roomType__title">
               {1 + LANG("sleep_unit")}
               {` - `}
-              {autoComma(totalPrice)}
+              {autoComma(dailyPrice)}
             </div>
           </div>
           <JDalign
+            style={{
+              alignItems: "flex-end"
+            }}
             flex={{
               column: true,
-              between: true
+              between: true,
+              end: true
             }}
           >
-            <JDbutton mr="no" mb="normal" br="no" mode="flat" thema="primary">
-              {LANG("choice")}
+            <JDbutton size="tiny" onClick={handleRoomSelectTooggler} mr="no" mb="normal" br="no" mode="flat" thema={isSelected ? "white" : "primary"}>
+              {LANG(isSelected ? "cancel" : "choice")}
             </JDbutton>
-            <JDtypho size="h6">{autoComma(totalPrice)}</JDtypho>
+            <JDtypho size="h6">{autoComma(fullDatePrice)}</JDtypho>
           </JDalign>
         </JDalign>
       </JDalign>
+      {targetSelectInfo &&
+        <CountSelecter roomTypeContext={roomTypeContext} isDomitory={isDomitory} targetSelectInfo={targetSelectInfo} fullDatePrice={fullDatePrice} roomType={roomType} resvContext={resvContext} />
+      }
     </div>
   );
 };

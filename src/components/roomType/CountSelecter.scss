@@ -1,0 +1,34 @@
+@import "../../variables.scss";
+
+#root {
+.countSelecter {
+    padding: $standard-space;
+    background-color: $grey-level1;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.counter {
+    display: inline-block;
+    &__btn,.counter__count {
+        border-radius: 0px;
+        margin: 0px!important;
+        font-weight: 600;;
+    }
+    
+    &__count {
+        background-color: $grey-level3;
+    }
+    &__btn {
+        background-color: white;
+        color: $grey-level3!important;
+        border:none;
+    }
+    
+    &__inner {
+        border-radius: $standard-border-radius;
+        border: 1px solid $grey-level2;
+    }
+}
+}

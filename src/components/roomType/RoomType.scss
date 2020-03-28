@@ -1,10 +1,43 @@
 @import "../../variables.scss";
 
 .roomType {
-  padding: $standard-space;
-  border: 1px solid $grey-level1;
+  margin-bottom: $standard-small-space;
+  border-radius: $standard-border-radius;
+  border: 1px solid $grey-level2;
+  overflow: hidden;
+  
   &__slider {
     max-width: 15.25rem;
   }
-  margin-bottom: $standard-small-space;
+  
+  &__up {
+    height: 6rem;
+    padding: $standard-space;
+  }
+
+  &--loading {
+    height: 6rem;
+    background-color: $grey-level1;
+  }
+
+  &--selected {
+    .roomType__up {
+    height: auto;
+    margin-bottom: 0;
+    background-color: $primary-color;
+    color: white;
+    .JDbtn__contents {
+      color:$html-color;
+    }
+  }
+  }
+
+  &__slider {
+    height: 100%;
+  }
+
+  &__counter {
+    padding: $standard-space;
+    background-color: $grey-level2;
+  }
 }

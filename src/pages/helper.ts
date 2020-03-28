@@ -3,7 +3,7 @@ import { utills } from "@janda-com/front";
 const { arraySum } = utills;
 
 
-// 날자들에 대해서 방타입들의 평균 가격을 가져옴
+//  "방타입들"의 평균 가격을 가져옴
 export const totalPriceGetAveragePrice = (
     priceData: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices[]
 ): number => {
@@ -13,7 +13,7 @@ export const totalPriceGetAveragePrice = (
     return averagePrice;
 };
 
-// 위쪽 함수 종속
+// 가격 정보들의 평균가를 가져옴
 export const getAveragePrice = (
     priceData: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[]
 ): number => {

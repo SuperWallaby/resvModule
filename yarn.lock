@@ -1786,6 +1786,13 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-window-size@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-window-size/-/react-window-size-1.2.0.tgz#76e74a43c3a8b0f139e13f0b66175ccd6feb5233"
+  integrity sha512-HSEJU6IcTn9t/OEUODPTQdJ0ZRWJOS2jeoiMLmwB6kw7OEJK6f2c4yv5DewX8lw0zmFuy8PazKZeExsVukwcRQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.9.23":
   version "16.9.23"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.23.tgz#1a66c6d468ba11a8943ad958a8cb3e737568271c"
