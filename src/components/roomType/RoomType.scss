@@ -5,31 +5,32 @@
   border-radius: $standard-border-radius;
   border: 1px solid $grey-level2;
   overflow: hidden;
-  
+
   &__slider {
     max-width: 15.25rem;
   }
-  
+
   &__up {
     height: 6rem;
     padding: $standard-space;
   }
 
-  &--loading {
-    height: 6rem;
+  &--loadingCard {
+    height: 9rem;
+    width: 100%;
     background-color: $grey-level1;
   }
 
   &--selected {
     .roomType__up {
-    height: auto;
-    margin-bottom: 0;
-    background-color: $primary-color;
-    color: white;
-    .JDbtn__contents {
-      color:$html-color;
+      height: auto;
+      margin-bottom: 0;
+      background-color: $primary-color;
+      color: white;
+      .JDbtn__contents {
+        color: $html-color;
+      }
     }
-  }
   }
 
   &__slider {

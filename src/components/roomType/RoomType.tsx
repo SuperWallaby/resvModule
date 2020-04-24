@@ -6,12 +6,10 @@ import {
   JDalign,
   JDtypho,
   utills,
-  JDbutton
+  JDbutton,
 } from "@janda-com/front";
-import {
-  getHouseForPublic_GetHouseForPublic_house_roomTypes,
-} from "../../types/api";
-import { PricingType } from "../../types/enum"
+import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
+import { PricingType } from "../../types/enum";
 import "./RoomType.scss";
 import { LANG } from "../../App";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
@@ -25,59 +23,68 @@ interface IProps {
   resvContext: IResvContext;
   roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
   dailyPrice: number;
-  roomTypeContext: IRoomTypeContext
+  roomTypeContext: IRoomTypeContext;
 }
 
-const RoomType: React.FC<IProps> = ({ roomType, dailyPrice, resvContext, roomTypeContext }) => {
-  const { name } = roomType;
+const RoomType: React.FC<IProps> = ({
+  roomType,
+  dailyPrice,
+  resvContext,
+  roomTypeContext,
+}) => {
+  const { name, img } = roomType;
   const { setRoomSelectInfo, roomSelectInfo } = resvContext;
-  const { fullDatePrice, isDomitory, isSelected, targetSelectInfo } = roomTypeContext;
-
-
+  const {
+    fullDatePrice,
+    isDomitory,
+    isSelected,
+    targetSelectInfo,
+  } = roomTypeContext;
 
   let classes = "roomType";
   classes += isSelected ? " roomType--selected" : "";
 
   const handleRoomSelectTooggler = () => {
-    const filted = roomSelectInfo.filter(r => r.roomTypeId !== roomType._id)
+    const filted = roomSelectInfo.filter((r) => r.roomTypeId !== roomType._id);
     const addInfo: IRoomSelectInfo = {
       count: {
         female: 0,
         male: 0,
-        roomCount: 0
+        roomCount: 0,
       },
       price: 0,
       pricingType: roomType.pricingType,
       roomTypeId: roomType._id,
-      roomTypeName: roomType.name
-    }
+      roomTypeName: roomType.name,
+      img: roomType.img?.url,
+    };
     const added = [...roomSelectInfo, addInfo];
-    setRoomSelectInfo(isSelected ? filted : added)
-  }
+    setRoomSelectInfo(isSelected ? filted : added);
+  };
 
   return (
-    <div className={classes}
-    >
+    <div className={classes}>
       <JDalign
         className="roomType__up"
         flex={{
-          grow: true
+          grow: true,
         }}
       >
         <JDalign className="roomType__slider">
           <JDslider
-            mr="small"
-            mb="no"
             autoplay
             dots={false}
+            mr="small"
+            mb="no"
             displayArrow={false}
           >
             <JDslide>
               <JDphotoFrame
+                src={img?.url}
                 isBgImg
                 unStyle
                 style={{
-                  height: "6rem"
+                  height: "6rem",
                 }}
               />
             </JDslide>
@@ -86,16 +93,7 @@ const RoomType: React.FC<IProps> = ({ roomType, dailyPrice, resvContext, roomTyp
                 isBgImg
                 unStyle
                 style={{
-                  height: "6rem"
-                }}
-              />
-            </JDslide>
-            <JDslide>
-              <JDphotoFrame
-                isBgImg
-                unStyle
-                style={{
-                  height: "6rem"
+                  height: "6rem",
                 }}
               />
             </JDslide>
@@ -103,7 +101,7 @@ const RoomType: React.FC<IProps> = ({ roomType, dailyPrice, resvContext, roomTyp
         </JDalign>
         <JDalign
           flex={{
-            between: true
+            between: true,
           }}
           className="roomType__img"
         >
@@ -121,24 +119,39 @@ const RoomType: React.FC<IProps> = ({ roomType, dailyPrice, resvContext, roomTyp
           </div>
           <JDalign
             style={{
-              alignItems: "flex-end"
+              alignItems: "flex-end",
             }}
             flex={{
               column: true,
               between: true,
-              end: true
+              end: true,
             }}
           >
-            <JDbutton size="tiny" onClick={handleRoomSelectTooggler} mr="no" mb="normal" br="no" mode="flat" thema={isSelected ? "white" : "primary"}>
+            <JDbutton
+              size="small"
+              onClick={handleRoomSelectTooggler}
+              mr="no"
+              mb="normal"
+              br="no"
+              mode="flat"
+              thema={isSelected ? "white" : "primary"}
+            >
               {LANG(isSelected ? "cancel" : "choice")}
             </JDbutton>
             <JDtypho size="h6">{autoComma(fullDatePrice)}</JDtypho>
           </JDalign>
         </JDalign>
       </JDalign>
-      {targetSelectInfo &&
-        <CountSelecter roomTypeContext={roomTypeContext} isDomitory={isDomitory} targetSelectInfo={targetSelectInfo} fullDatePrice={fullDatePrice} roomType={roomType} resvContext={resvContext} />
-      }
+      {targetSelectInfo && (
+        <CountSelecter
+          roomTypeContext={roomTypeContext}
+          isDomitory={isDomitory}
+          targetSelectInfo={targetSelectInfo}
+          fullDatePrice={fullDatePrice}
+          roomType={roomType}
+          resvContext={resvContext}
+        />
+      )}
     </div>
   );
 };

@@ -1,15 +1,14 @@
 import React from "react";
 import "./SelectViewer.scss";
-import { JDbutton, JDtypho, JDalign, utills, toast, Toast } from "@janda-com/front";
+import { JDbutton, JDtypho, JDalign, utills, toast } from "@janda-com/front";
 import "./SelectViewer.scss";
 import { LANG } from "../App";
 import { IResvContext } from "../pages/declare";
-import moment from "moment";
 import { PricingType } from "../types/enum";
-const { isEmpty, arraySum, autoComma } = utills;
+const { isEmpty, arraySum, autoComma, dateRangeFormat } = utills;
 
 interface IProps {
-  resvContext: IResvContext
+  resvContext: IResvContext;
 }
 
 const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
@@ -18,28 +17,34 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
   const validation = (): boolean => {
     if (!to || !from) {
       toast.warn(LANG("date_un_selected"));
-      return false
-    }
-    if (isEmpty(roomSelectInfo)) {
-      toast.warn(LANG("no_room_select"))
       return false;
     }
-    const countCapcity = arraySum(roomSelectInfo.map(rsi => rsi.count.female + rsi.count.male + rsi.count.roomCount));
+    if (isEmpty(roomSelectInfo)) {
+      toast.warn(LANG("no_room_select"));
+      return false;
+    }
+    const countCapcity = arraySum(
+      roomSelectInfo.map(
+        (rsi) => rsi.count.female + rsi.count.male + rsi.count.roomCount
+      )
+    );
     if (countCapcity === 0) {
-      toast.warn(LANG("there_is_no_select_person"))
+      toast.warn(LANG("there_is_no_select_person"));
       return false;
     }
     return true;
-  }
-
+  };
 
   const sharedBtnProp: any = {
     onClick: () => {
       if (validation()) {
         setStep("input");
       }
-    }, mb: "no", size: "longLarge", thema: "primary"
-  }
+    },
+    mb: "no",
+    size: "longLarge",
+    thema: "primary",
+  };
 
   if (!to || !from) {
     return (
@@ -47,11 +52,18 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
         <JDtypho mb="no" size="h6">
           {LANG("date_un_selected")}
         </JDtypho>
-        <JDbutton {...sharedBtnProp} label={LANG("do_reservation")} mb="no" size="longLarge" thema="primary" />
+        <div>
+          <JDbutton
+            {...sharedBtnProp}
+            label={LANG("do_reservation")}
+            mb="no"
+            size="longLarge"
+            thema="primary"
+          />
+        </div>
       </div>
-    )
+    );
   }
-
 
   const unSelected = isEmpty(roomSelectInfo);
   if (unSelected) {
@@ -60,65 +72,90 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
         <JDtypho mb="no" size="h6">
           {LANG("un_selected")}
         </JDtypho>
-        <JDbutton {...sharedBtnProp} label={LANG("do_reservation")} mb="no" size="longLarge" thema="primary" />
+        <div>
+          <JDbutton
+            {...sharedBtnProp}
+            label={LANG("do_reservation")}
+            mb="no"
+            size="longLarge"
+            thema="primary"
+          />
+        </div>
       </div>
-    )
+    );
   }
-
-
 
   return (
     <div className="selectViewer">
       <div className="selectViewer__header">
-        {roomSelectInfo.map(RI => {
+        {roomSelectInfo.map((RI) => {
           const { pricingType, count, price } = RI;
           const isDomitory = pricingType === PricingType.DOMITORY;
           const { female, male, roomCount } = count;
-          return (<div className="selectViewer__headerCell" key={RI.roomTypeId + "view"}>
-            <JDtypho mb="small" size="h6" weight={600}>
-              {RI.roomTypeName}
-            </JDtypho>
-            <JDtypho weight={300}>
-              {LANG("date")} : {moment(from).format("YYYY-MM-DD") + " ~ " + moment(to).format("YYYY-MM-DD")}
-            </JDtypho>
-            <JDtypho mb="no" weight={300}>
-              {LANG(isDomitory ? "people" : "room_count")} : {isDomitory ? LANG("female") + female + " " + LANG("male") + male : roomCount + LANG("count")}
-            </JDtypho>
-          </div>)
+          return (
+            <div
+              className="selectViewer__headerCell"
+              key={RI.roomTypeId + "view"}
+            >
+              <JDtypho mb="small" size="h6" weight={600}>
+                {RI.roomTypeName}
+              </JDtypho>
+              <JDtypho weight={300}>
+                {LANG("date")} : {dateRangeFormat(from, to)}
+              </JDtypho>
+              <JDtypho mb="no" weight={300}>
+                {LANG(isDomitory ? "people" : "room_count")} :{" "}
+                {isDomitory
+                  ? LANG("female") + female + " " + LANG("male") + male
+                  : roomCount + LANG("count")}
+              </JDtypho>
+            </div>
+          );
         })}
       </div>
       <div className="selectViewer__calculater">
         <div className="selectViewer__calculaterBody">
-
-          <JDalign mb="small" flex={{
-            between: true
-          }}>
+          <JDalign
+            mb="small"
+            flex={{
+              between: true,
+            }}
+          >
             <JDtypho>{LANG("select_product")}</JDtypho>
-            <JDtypho weight={600}>{autoComma(totalPrice)}  KRW</JDtypho>
+            <JDtypho weight={600}>{autoComma(totalPrice)} KRW</JDtypho>
           </JDalign>
 
-
-          <JDalign mb="small" flex={{
-            between: true
-          }}>
-            <JDtypho>{LANG("select_product")}</JDtypho>
-            <JDtypho weight={600}>0  KRW</JDtypho>
+          <JDalign
+            mb="small"
+            flex={{
+              between: true,
+            }}
+          >
+            <JDtypho>{LANG("option")}</JDtypho>
+            <JDtypho weight={600}>0 KRW</JDtypho>
           </JDalign>
 
-          <JDalign mb="small" flex={{
-            between: true
-          }}>
-            <JDtypho>{LANG("select_product")}</JDtypho>
-            <JDtypho weight={600}>?  KRW</JDtypho>
+          <JDalign
+            mb="small"
+            flex={{
+              between: true,
+            }}
+          >
+            <JDtypho>{LANG("addition_tax")}</JDtypho>
+            <JDtypho weight={600}>0 KRW</JDtypho>
           </JDalign>
-
         </div>
         <div className="selectViewer__calculaterTotal">
-          <JDalign mb="small" flex={{
-            between: true
-          }}>
+          <JDalign
+            mb="small"
+            flex={{
+              between: true,
+            }}
+          >
             <JDtypho>{LANG("total_price")}</JDtypho>
-            <JDtypho size="h6" mb="no" weight={600}>{autoComma(totalPrice)}  KRW</JDtypho>
+            <JDtypho size="h6" mb="no" weight={600}>
+              {autoComma(totalPrice)} KRW
+            </JDtypho>
           </JDalign>
         </div>
         <JDbutton {...sharedBtnProp} label={LANG("do_reservation")} />

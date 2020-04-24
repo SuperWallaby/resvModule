@@ -4,23 +4,20 @@ import {
   JDalign,
   JDselect,
   JDtypho,
-  useSelect,
-  WindowSizeNumber
+  hooks,
+  WindowSizeNumber,
 } from "@janda-com/front";
 import { LANG } from "../../../App";
-import { NGO_NUMS } from "../../nationalcode";
 import "./BookerForm.scss";
 import { IResvContext, IBookerInfo } from "../../../pages/declare";
-import reactWindowSize, { WindowSizeProps } from "react-window-size";
+const { useWindowSize } = hooks;
 
 interface IProps {
   resvContext: IResvContext;
 }
 
-const BookerForm: React.FC<IProps & WindowSizeProps> = ({
-  resvContext,
-  windowWidth
-}) => {
+const BookerForm: React.FC<IProps> = ({ resvContext }) => {
+  const { width } = useWindowSize();
   const { setBookerInfo, bookerInfo } = resvContext;
   const { memo, name, password, phoneNumber } = bookerInfo;
 
@@ -28,7 +25,7 @@ const BookerForm: React.FC<IProps & WindowSizeProps> = ({
     setBookerInfo({ ...bookerInfo, [key]: value });
   }
 
-  const isPhabletDown = windowWidth < WindowSizeNumber.PHABLET;
+  const isPhabletDown = width < WindowSizeNumber.PHABLET;
 
   return (
     <div className="bookerForm">
@@ -36,12 +33,13 @@ const BookerForm: React.FC<IProps & WindowSizeProps> = ({
         mb="normal"
         flex={{
           vCenter: true,
-          grow: isPhabletDown
+          grow: isPhabletDown,
         }}
       >
         <JDtypho className="bookerForm__label">{LANG("name")}*</JDtypho>
         <InputText
-          onChange={v => {
+          id="nameInput"
+          onChange={(v: any) => {
             set("name", v);
           }}
           value={name}
@@ -52,7 +50,7 @@ const BookerForm: React.FC<IProps & WindowSizeProps> = ({
         mb="normal"
         flex={{
           vCenter: true,
-          grow: isPhabletDown
+          grow: isPhabletDown,
         }}
       >
         <JDtypho className="bookerForm__label">{LANG("phoneNumber")}*</JDtypho>
@@ -65,9 +63,11 @@ const BookerForm: React.FC<IProps & WindowSizeProps> = ({
           mb="no"
         />
         <InputText
+          id="phoneInput"
           hyphen
-          onChange={op => {
-            set("phoneNumber", op.value);
+          autoComplete="off"
+          onChange={(op: any) => {
+            set("phoneNumber", op);
           }}
           value={phoneNumber}
           mb="no"
@@ -78,16 +78,18 @@ const BookerForm: React.FC<IProps & WindowSizeProps> = ({
         mb="normal"
         flex={{
           vCenter: true,
-          grow: isPhabletDown
+          grow: isPhabletDown,
         }}
       >
         <JDtypho className="bookerForm__label">{LANG("password")}*</JDtypho>
         <InputText
-          onChange={v => {
+          autoComplete="off"
+          id="passwordInput"
+          onChange={(v: any) => {
             set("password", v);
           }}
-          maxLength={2}
           value={password}
+          type="password"
           mb="no"
         />
       </JDalign>
@@ -95,12 +97,12 @@ const BookerForm: React.FC<IProps & WindowSizeProps> = ({
         mb="normal"
         flex={{
           vCenter: true,
-          grow: isPhabletDown
+          grow: isPhabletDown,
         }}
       >
         <JDtypho className="bookerForm__label">{LANG("memo")}</JDtypho>
         <InputText
-          onChange={v => {
+          onChange={(v: any) => {
             set("memo", v);
           }}
           value={memo}
@@ -111,4 +113,8 @@ const BookerForm: React.FC<IProps & WindowSizeProps> = ({
   );
 };
 
-export default reactWindowSize(BookerForm);
+export default React.memo(
+  BookerForm,
+  ({ resvContext }, { resvContext: resvContext2 }) =>
+    resvContext.bookerInfo === resvContext2.bookerInfo
+);

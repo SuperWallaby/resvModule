@@ -43,5 +43,25 @@ export default {
   must: "(필수)",
   use_policy: "이용약관",
   personal_use_agree: "개인정보 수집 및 이용 동의",
-  do_resv: "예약하기"
+  do_resv: "예약하기",
+  pay_form: "결제정보",
+  go_back: "뒤로가기",
+  bankName: "은행명",
+  accountHolder: "예금주",
+  accountNum: "통장번호",
+  total_get: (male: number, female: number, roomCount: number) => {
+    let result = "";
+
+    if (male) {
+      result += male + "남 ";
+    }
+    if (female) {
+      result += female + "여 ";
+    }
+    if (roomCount) {
+      result += roomCount + "개 ";
+    }
+
+    return result;
+  },
 };

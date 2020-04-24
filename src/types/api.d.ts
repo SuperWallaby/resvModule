@@ -264,6 +264,208 @@ export interface getRoomTypeInfoVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getBookingForPublic
+// ====================================================
+
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[] | null;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  index: number;
+  roomCount: number;
+  roomGender: RoomGender;
+  img: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img | null;
+  description: string | null;
+  /**
+   * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+   */
+  defaultPrice: number | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_checkInInfo {
+  __typename: "CheckInInfo";
+  isIn: boolean;
+  checkInDateTime: any | null;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_payment_cardInfo {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  card: Card | null;
+  cardCode: number;
+  cardNoHashed: string | null;
+  isLive: boolean;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_payment {
+  __typename: "Payment";
+  /**
+   * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
+   */
+  type: PaymentType;
+  payMethod: PayMethod;
+  totalPrice: number;
+  goodsVat: number | null;
+  supplyAmt: number | null;
+  status: PaymentStatus;
+  paymentResultParam: any | null;
+  refundedPrice: number | null;
+  tid: string | null;
+  cardInfo: getBookingForPublic_GetBookingForPublic_booking_payment_cardInfo | null;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_guests_roomType {
+  __typename: "RoomType";
+  _id: string;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_guests {
+  __typename: "GuestDomitory" | "GuestRoom";
+  _id: string;
+  pricingType: PricingType;
+  checkIn: any;
+  checkOut: any;
+  /**
+   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+   */
+  roomType: getBookingForPublic_GetBookingForPublic_booking_guests_roomType;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking {
+  __typename: "Booking";
+  _id: string;
+  roomTypes: getBookingForPublic_GetBookingForPublic_booking_roomTypes[] | null;
+  paidByNice: boolean | null;
+  isNew: boolean;
+  name: any;
+  bookingNum: string;
+  password: string | null;
+  breakfast: boolean | null;
+  phoneNumber: any;
+  email: any | null;
+  checkInInfo: getBookingForPublic_GetBookingForPublic_booking_checkInInfo;
+  memo: string | null;
+  agreePrivacyPolicy: boolean;
+  checkIn: any;
+  checkOut: any;
+  payment: getBookingForPublic_GetBookingForPublic_booking_payment;
+  funnels: Funnels | null;
+  status: BookingStatus;
+  createdAt: any;
+  updatedAt: any | null;
+  isConfirm: boolean;
+  guests: getBookingForPublic_GetBookingForPublic_booking_guests[] | null;
+}
+
+export interface getBookingForPublic_GetBookingForPublic {
+  __typename: "GetBookingResponse";
+  ok: boolean;
+  error: string | null;
+  booking: getBookingForPublic_GetBookingForPublic_booking | null;
+}
+
+export interface getBookingForPublic {
+  GetBookingForPublic: getBookingForPublic_GetBookingForPublic;
+}
+
+export interface getBookingForPublicVariables {
+  param: GetBookingForPublicInput;
+  skip: boolean;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: Fguest
+// ====================================================
+
+export interface Fguest {
+  __typename: "GuestDomitory" | "GuestRoom";
+  _id: string;
+  pricingType: PricingType;
+  checkIn: any;
+  checkOut: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: FcardInfo
+// ====================================================
+
+export interface FcardInfo {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  card: Card | null;
+  cardCode: number;
+  cardNoHashed: string | null;
+  isLive: boolean;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: Fpayment
+// ====================================================
+
+export interface Fpayment {
+  __typename: "Payment";
+  /**
+   * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
+   */
+  type: PaymentType;
+  payMethod: PayMethod;
+  totalPrice: number;
+  goodsVat: number | null;
+  supplyAmt: number | null;
+  status: PaymentStatus;
+  paymentResultParam: any | null;
+  refundedPrice: number | null;
+  tid: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: FbankAccountInfo
 // ====================================================
 
@@ -489,9 +691,153 @@ export interface FcapacityDomitory {
 // @generated
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL fragment: Fbooking
+// ====================================================
+
+export interface Fbooking_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface Fbooking_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: Fbooking_roomTypes_img_tags[] | null;
+}
+
+export interface Fbooking_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  index: number;
+  roomCount: number;
+  roomGender: RoomGender;
+  img: Fbooking_roomTypes_img | null;
+  description: string | null;
+  /**
+   * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+   */
+  defaultPrice: number | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface Fbooking_checkInInfo {
+  __typename: "CheckInInfo";
+  isIn: boolean;
+  checkInDateTime: any | null;
+}
+
+export interface Fbooking_payment_cardInfo {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  card: Card | null;
+  cardCode: number;
+  cardNoHashed: string | null;
+  isLive: boolean;
+}
+
+export interface Fbooking_payment {
+  __typename: "Payment";
+  /**
+   * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
+   */
+  type: PaymentType;
+  payMethod: PayMethod;
+  totalPrice: number;
+  goodsVat: number | null;
+  supplyAmt: number | null;
+  status: PaymentStatus;
+  paymentResultParam: any | null;
+  refundedPrice: number | null;
+  tid: string | null;
+  cardInfo: Fbooking_payment_cardInfo | null;
+}
+
+export interface Fbooking {
+  __typename: "Booking";
+  _id: string;
+  roomTypes: Fbooking_roomTypes[] | null;
+  paidByNice: boolean | null;
+  isNew: boolean;
+  name: any;
+  bookingNum: string;
+  password: string | null;
+  breakfast: boolean | null;
+  phoneNumber: any;
+  email: any | null;
+  checkInInfo: Fbooking_checkInInfo;
+  memo: string | null;
+  agreePrivacyPolicy: boolean;
+  checkIn: any;
+  checkOut: any;
+  payment: Fbooking_payment;
+  funnels: Funnels | null;
+  status: BookingStatus;
+  createdAt: any;
+  updatedAt: any | null;
+  isConfirm: boolean;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+export enum BookingStatus {
+  CANCELED = "CANCELED",
+  COMPLETED = "COMPLETED",
+}
+
+export enum Card {
+  AMX = "AMX",
+  BC_CARD = "BC_CARD",
+  CHOHUNG = "CHOHUNG",
+  CHUKHYUP = "CHUKHYUP",
+  CITY = "CITY",
+  DINERS_CARD = "DINERS_CARD",
+  GWANGJU = "GWANGJU",
+  HANMI = "HANMI",
+  HYUNDAI = "HYUNDAI",
+  JCB = "JCB",
+  JEJU_BANK = "JEJU_BANK",
+  JEOCHUK = "JEOCHUK",
+  JEONBOOK = "JEONBOOK",
+  KAKAO_BANK = "KAKAO_BANK",
+  KB_CARD = "KB_CARD",
+  KDB = "KDB",
+  KEB_HANA = "KEB_HANA",
+  KOREA_POST = "KOREA_POST",
+  K_BANK = "K_BANK",
+  LOTTE_CARD = "LOTTE_CARD",
+  MASTER_CARD = "MASTER_CARD",
+  MG_CARD = "MG_CARD",
+  NONGHYUP = "NONGHYUP",
+  OK_CASH_BAG = "OK_CASH_BAG",
+  SAMSUNG = "SAMSUNG",
+  SAVINGS_BANK = "SAVINGS_BANK",
+  SHINHAN = "SHINHAN",
+  SHINSEGAE = "SHINSEGAE",
+  SUHYUP = "SUHYUP",
+  UNIONPAY = "UNIONPAY",
+  VISA = "VISA",
+  WOORI = "WOORI",
+}
 
 export enum Funnels {
   AGODA = "AGODA",
@@ -532,6 +878,11 @@ export enum PaymentStatus {
   NOT_YET = "NOT_YET",
 }
 
+export enum PaymentType {
+  ONE_TIME = "ONE_TIME",
+  SUBSCRIPTION = "SUBSCRIPTION",
+}
+
 export enum PricingType {
   DOMITORY = "DOMITORY",
   ROOM = "ROOM",
@@ -557,6 +908,13 @@ export interface CreateBillKeyInput {
   idNo: string;
 }
 
+export interface GetBookingForPublicInput {
+  bookingNum?: string | null;
+  name?: string | null;
+  phoneNumber?: string | null;
+  password?: string | null;
+}
+
 export interface GetRoomTypeDatePricesInput {
   houseId?: string | null;
   checkIn: any;
@@ -579,7 +937,7 @@ export interface RoomTypeCapacityInput {
  */
 export interface StartBookingBookerInput {
   name: any;
-  phoneNumber: any;
+  phoneNumber?: any | null;
   password: string;
   memo: string;
   email?: string | null;
@@ -597,7 +955,7 @@ export interface StartBookingDomitoryGuestInput {
 
 export interface StartBookingPaymentInput {
   price: number;
-  payMethod: PayMethod;
+  payMethod?: PayMethod | null;
   status?: PaymentStatus | null;
   cardPayInfo?: CreateBillKeyInput | null;
 }

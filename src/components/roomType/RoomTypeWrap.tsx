@@ -1,13 +1,12 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { GET_ROOM_TYPE_INFO } from "../../apollo/queries";
 import {
   getRoomTypeInfo,
   getRoomTypeInfoVariables,
   getHouseForPublic_GetHouseForPublic_house_roomTypes,
   getHouseForPublic_GetHouseForPublic_house,
-  RoomTypeCapacityInitValueInput,
   getRoomTypeInfo_GetRoomTypeById_roomType,
-  getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory
+  getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory,
 } from "../../types/api";
 import client from "../../apollo/apolloClient";
 import { useQuery } from "react-apollo";
@@ -19,11 +18,11 @@ import { PricingType } from "../../types/enum";
 import moment from "moment";
 import { ApolloQueryResult } from "apollo-client";
 
-const { queryDataFormater, instanceOfA } = utills;
+const { queryDataFormater } = utills;
 
 export enum Gender {
   FEMALE = "FEMALE",
-  MALE = "MALE"
+  MALE = "MALE",
 }
 
 export type TDomitoryCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory;
@@ -37,7 +36,9 @@ export interface IGuestCount {
 
 export interface IRoomTypeContext {
   sharedQueryVariable: getRoomTypeInfoVariables;
-  refetchCapacity: (variables?: getRoomTypeInfoVariables | undefined) => Promise<ApolloQueryResult<getRoomTypeInfo>>;
+  refetchCapacity: (
+    variables?: getRoomTypeInfoVariables | undefined
+  ) => Promise<ApolloQueryResult<getRoomTypeInfo>>;
   capacityData: getRoomTypeInfo_GetRoomTypeById_roomType | undefined;
   isSelected: boolean;
   targetSelectInfo: IRoomSelectInfo | undefined;
@@ -57,18 +58,16 @@ interface IProps {
   dateInfo: ICheckInOutInfo;
 }
 
-
 const RoomTypeWrap: React.FC<IProps> = ({
   roomType,
   resvContext,
   houseData,
-  dateInfo
+  dateInfo,
 }) => {
   const { roomSelectInfo, from, to } = resvContext;
   const { checkIn, checkOut } = dateInfo;
   const { _id: houseId } = houseData;
   const { _id: roomTypeId } = roomType;
-
 
   const shouldSkip = () =>
     checkIn && checkOut && checkIn != checkOut ? false : true;
@@ -79,31 +78,32 @@ const RoomTypeWrap: React.FC<IProps> = ({
       checkOut,
       checkIn,
       houseId,
-      roomTypeIds: [roomTypeId]
+      roomTypeIds: [roomTypeId],
     },
     RoomTypeCapacityInput: {
       checkInOut: {
         checkIn,
-        checkOut
+        checkOut,
       },
       initValue: {
         count: 0,
-        gender: Gender.MALE
-      }
-    }
-  }
+        gender: Gender.MALE,
+      },
+    },
+  };
 
-  const { data, loading: countLoading, refetch: refetchCapacity, networkStatus } = useQuery<
-    getRoomTypeInfo,
-    getRoomTypeInfoVariables
-  >(GET_ROOM_TYPE_INFO, {
+  const {
+    data,
+    loading: countLoading,
+    refetch: refetchCapacity,
+    networkStatus,
+  } = useQuery<getRoomTypeInfo, getRoomTypeInfoVariables>(GET_ROOM_TYPE_INFO, {
     client,
     skip: shouldSkip(),
     variables: {
-      ...sharedVariable
+      ...sharedVariable,
     },
   });
-
 
   const roomTypeDatePrices =
     queryDataFormater(
@@ -120,7 +120,7 @@ const RoomTypeWrap: React.FC<IProps> = ({
   if (networkStatus === 1)
     return (
       <Fragment>
-        <div className="roomTypeCard roomTypeCard--loadingCard" />
+        <div className="roomType roomType--loadingCard" />
       </Fragment>
     );
 
@@ -133,27 +133,21 @@ const RoomTypeWrap: React.FC<IProps> = ({
 
   const dailyPrice = getAveragePrice(roomTypeDatePrices[0]?.datePrices || []);
   const formattedDailyPrice = Math.floor(dailyPrice / 10) * 10;
-  const isSelected = roomSelectInfo.find(r => r.roomTypeId === roomType._id) !== undefined;
+  const isSelected =
+    roomSelectInfo.find((r) => r.roomTypeId === roomType._id) !== undefined;
+  console.log("roomType.pricingType");
+  console.log(roomType.pricingType);
   const isDomitory = roomType.pricingType === PricingType.DOMITORY;
   const diff = moment(to || new Date()).diff(from || new Date(), "d");
-  const targetSelectInfo = roomSelectInfo.find(r => r.roomTypeId === roomType._id);
+  const targetSelectInfo = roomSelectInfo.find(
+    (r) => r.roomTypeId === roomType._id
+  );
   const fullDatePrice = diff * formattedDailyPrice;
-
-
-
-  if (networkStatus === 1)
-    return (
-      <Fragment>
-        <div className="roomType--loading" />
-      </Fragment>
-    );
 
   if (!capacityData) {
     console.error(`can not load roomType with this id ${roomTypeId}`);
     return <div />;
   }
-
-
 
   const roomTypeContext: IRoomTypeContext = {
     refetchCapacity,
@@ -162,12 +156,17 @@ const RoomTypeWrap: React.FC<IProps> = ({
     targetSelectInfo,
     isDomitory,
     fullDatePrice,
-    sharedQueryVariable: sharedVariable
-  }
+    sharedQueryVariable: sharedVariable,
+  };
 
   return (
     <Fragment>
-      <RoomType roomTypeContext={roomTypeContext} resvContext={resvContext} dailyPrice={formattedDailyPrice} roomType={roomType} />
+      <RoomType
+        roomTypeContext={roomTypeContext}
+        resvContext={resvContext}
+        dailyPrice={formattedDailyPrice}
+        roomType={roomType}
+      />
       <JDpreloader floating loading={countLoading} />
     </Fragment>
   );

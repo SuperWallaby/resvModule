@@ -5,42 +5,42 @@ import {
   JDselect,
   JDtypho,
   WindowSizeNumber,
-  useSelect
+  useSelect,
+  useWindowSize,
 } from "@janda-com/front";
 import { LANG } from "../../../App";
 import "./PayForm.scss";
 import { IResvContext, IPayInfo } from "../../../pages/declare";
 import { PayMethod } from "../../../types/enum";
-import reactWindowSize, { WindowSizeProps } from "react-window-size";
 
 enum SelectBoxSize {
   TWO = "4rem",
   FOUR = "6rem",
   SIX = "9rem",
-  FIVE = "11rem"
+  FIVE = "11rem",
 }
 
 interface IProps {
   resvContext: IResvContext;
 }
 
-const PayForm: React.FC<IProps & WindowSizeProps> = ({
-  resvContext,
-  windowWidth,
-  windowHeight
-}) => {
-  const { payInfo, setPayInfo } = resvContext;
-  const { cardNum, password, expireM, expireY, idNum, paymethod } = payInfo;
+const PayForm: React.FC<IProps> = ({ resvContext }) => {
+  const { payInfo, setPayInfo, houseData } = resvContext;
+  const { bookingPayInfo } = houseData;
+  const { width } = useWindowSize();
+  const { bankAccountInfo, payMethods } = bookingPayInfo;
+  const { password, expireM, expireY, idNum, cardNum, paymethod } = payInfo;
 
-  const isPhabletDown = windowWidth < WindowSizeNumber.PHABLET;
+  const isCardMode = paymethod === PayMethod.CARD;
+  const isPhabletDown = width < WindowSizeNumber.PHABLET;
 
   const PAYMETHOD_FOR_BOOKER_OP = [
     { value: PayMethod.CARD, label: LANG("card") },
     {
       value: PayMethod.BANK_TRANSFER,
-      label: LANG("bank_trans")
-    }
-  ];
+      label: LANG("bank_trans"),
+    },
+  ].filter((op) => (payMethods || []).includes(op.value));
 
   function set<T extends keyof IPayInfo>(key: T, value: IPayInfo[T]) {
     setPayInfo({ ...payInfo, [key]: value });
@@ -52,25 +52,71 @@ const PayForm: React.FC<IProps & WindowSizeProps> = ({
         mb="normal"
         flex={{
           vCenter: true,
-          grow: isPhabletDown
+          grow: isPhabletDown,
         }}
       >
         <JDtypho className="payForm__label">{LANG("payMethod")}*</JDtypho>
         <JDselect
+          selectedOption={PAYMETHOD_FOR_BOOKER_OP.find(
+            (so) => so.value === payInfo.paymethod
+          )}
           placeholder={" "}
           size={SelectBoxSize.SIX}
-          onChange={op => {
+          onChange={(op: any) => {
             set("paymethod", op.value);
           }}
           options={PAYMETHOD_FOR_BOOKER_OP}
           mb="no"
         />
       </JDalign>
-      <JDalign grid>
+      {bankAccountInfo && (
+        <JDalign hide={isCardMode}>
+          <JDalign>
+            <JDalign
+              mb="normal"
+              flex={{
+                vCenter: true,
+                grow: isPhabletDown,
+              }}
+            >
+              <JDtypho className="payForm__label">{LANG("accountNum")}</JDtypho>
+              <JDtypho weight={400} className="payForm__label">
+                {bankAccountInfo.accountNum}
+              </JDtypho>
+            </JDalign>
+          </JDalign>
+          <JDalign
+            mb="normal"
+            flex={{
+              vCenter: true,
+              grow: isPhabletDown,
+            }}
+          >
+            <JDtypho className="payForm__label">
+              {LANG("accountHolder")}
+            </JDtypho>
+            <JDtypho weight={400} className="payForm__label">
+              {bankAccountInfo.accountHolder}
+            </JDtypho>
+          </JDalign>
+          <JDalign
+            flex={{
+              vCenter: true,
+              grow: isPhabletDown,
+            }}
+          >
+            <JDtypho className="payForm__label">{LANG("bankName")}</JDtypho>
+            <JDtypho weight={400} className="payForm__label">
+              {bankAccountInfo.bankName}
+            </JDtypho>
+          </JDalign>
+        </JDalign>
+      )}
+      <JDalign hide={!isCardMode} grid>
         <JDalign
           col={{
             full: 6,
-            md: 12
+            md: 12,
           }}
           mb="normal"
         >
@@ -78,35 +124,46 @@ const PayForm: React.FC<IProps & WindowSizeProps> = ({
             mb="normal"
             flex={{
               vCenter: true,
-              grow: isPhabletDown
+              grow: isPhabletDown,
             }}
           >
             <JDtypho className="payForm__label">{LANG("cardNumber")}*</JDtypho>
-            <InputText mb="no" placeholder={"**** **** **** ****"} />
+            <InputText
+              value={cardNum}
+              card
+              onChange={(v: any) => {
+                set("cardNum", v);
+              }}
+              id="cardNumInput"
+              mb="no"
+              placeholder={"**** **** **** ****"}
+            />
           </JDalign>
           <JDalign
             mb="normal"
             flex={{
               vCenter: true,
-              grow: isPhabletDown
+              grow: isPhabletDown,
             }}
           >
             <JDtypho className="payForm__label">{LANG("password")}*</JDtypho>
             <InputText
-              onChange={v => {
+              id="cardPasswordInput"
+              onChange={(v: any) => {
                 set("password", v);
               }}
               maxLength={2}
               value={password}
+              type="password"
               mb="no"
-              placeholder={"front2"}
+              placeholder={LANG("front2")}
             />
           </JDalign>
         </JDalign>
         <JDalign
           col={{
             full: 6,
-            md: 12
+            md: 12,
           }}
           mb="normal"
         >
@@ -114,16 +171,17 @@ const PayForm: React.FC<IProps & WindowSizeProps> = ({
             mb="normal"
             flex={{
               vCenter: true,
-              grow: isPhabletDown
+              grow: isPhabletDown,
             }}
           >
             <JDtypho className="payForm__label">{LANG("expiration")}*</JDtypho>
             <JDtypho mr="small">{LANG("month")}</JDtypho>
             <InputText
               style={{
-                width: "52px"
+                width: "52px",
               }}
-              onChange={v => {
+              id="cardExpireInput"
+              onChange={(v: any) => {
                 set("expireM", v);
               }}
               maxLength={2}
@@ -134,10 +192,10 @@ const PayForm: React.FC<IProps & WindowSizeProps> = ({
             <JDtypho mr="small">{LANG("year")}</JDtypho>
             <InputText
               style={{
-                width: "52px"
+                width: "52px",
               }}
               maxLength={2}
-              onChange={v => {
+              onChange={(v: any) => {
                 set("expireY", v);
               }}
               value={expireY}
@@ -149,16 +207,37 @@ const PayForm: React.FC<IProps & WindowSizeProps> = ({
             mb="normal"
             flex={{
               vCenter: true,
-              grow: isPhabletDown
+              grow: isPhabletDown,
             }}
           >
             <JDtypho className="payForm__label">{LANG("id_num")}*</JDtypho>
-            <InputText value={idNum} mb="no" placeholder={LANG("front6_id")} />
+            <InputText
+              id="idNumInput"
+              onChange={(v: any) => {
+                set("idNum", v);
+              }}
+              value={idNum}
+              mb="no"
+              max={6}
+              placeholder={LANG("front6_id")}
+            />
           </JDalign>
         </JDalign>
+        <JDbutton
+          mr="no"
+          onClick={() => {
+            setStep("select");
+          }}
+          size="long"
+          label={LANG("go_back")}
+        />
       </JDalign>
     </div>
   );
 };
 
-export default reactWindowSize(PayForm);
+export default React.memo(
+  PayForm,
+  ({ resvContext }, { resvContext: resvContext2 }) =>
+    resvContext.payInfo === resvContext2.payInfo
+);

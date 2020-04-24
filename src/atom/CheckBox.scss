@@ -8,9 +8,16 @@
   width: $standard-small-space;
   height: $standard-small-space;
   margin-right: $standard-space;
-  ;
+  font-size: 5px;
+
   &:hover {
     cursor: pointer;
     background: $grey-level2;
+  }
+
+  &--checked {
+    color: $positive-color;
+    border-color: $positive-color;
+    background-color: $positive-opacity2;
   }
 }

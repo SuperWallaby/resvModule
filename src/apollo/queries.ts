@@ -1,13 +1,49 @@
 import gql from "graphql-tag";
 
-export const F_BANK_ACOUNT_INFO = gql`
-  fragment FbankAccountInfo on BankAccountInfo {
-      bankName
-      accountNum
-      accountHolder
+export const F_GUEST = gql`
+  fragment Fguest on GuestGQLInterface {
+    _id
+    pricingType
+    checkIn
+    checkOut
   }
 `;
 
+export const F_CARD_INFO = gql`
+  fragment FcardInfo on PaymentInfo {
+    authDate
+    billKey
+    cardName
+    cardNo
+    cardCl
+    card
+    cardCode
+    cardNoHashed
+    isLive
+  }
+`;
+
+export const F_PAYMENT = gql`
+  fragment Fpayment on Payment {
+    type
+    payMethod
+    totalPrice
+    goodsVat
+    supplyAmt
+    status
+    paymentResultParam
+    refundedPrice
+    tid
+  }
+`;
+
+export const F_BANK_ACOUNT_INFO = gql`
+  fragment FbankAccountInfo on BankAccountInfo {
+    bankName
+    accountNum
+    accountHolder
+  }
+`;
 
 export const F_IMG = gql`
   fragment Fimg on JdFile {
@@ -61,7 +97,6 @@ export const F_ROOM_TYPE_DATE_PRICE_RESULT = gql`
   ${F_ROOMTYPE}
 `;
 
-
 //  방에대한 정보 프레임
 export const F_ROOM = gql`
   fragment Froom on Room {
@@ -106,10 +141,6 @@ export const F_CAPACITY_DOMITORY = gql`
   ${F_ROOM}
 `;
 
-
-
-
-
 // 예약 ::예약생성 (게스트용)
 export const START_BOOKING_FOR_PUBLIC = gql`
   mutation startBookingForPublic(
@@ -142,9 +173,9 @@ export const GET_HOUSE_FOR_PUBLIC = gql`
       ok
       error
       house {
-        _id,
-        phoneNumber,
-        name,
+        _id
+        phoneNumber
+        name
         location {
           address
           addressDetail
@@ -166,7 +197,11 @@ export const GET_HOUSE_FOR_PUBLIC = gql`
 `;
 
 export const GET_ROOM_TYPE_INFO = gql`
-  query getRoomTypeInfo($roomTypeId: ID!,$RoomTypeCapacityInput:RoomTypeCapacityInput!, $GetRoomTypeDatePricesInput:GetRoomTypeDatePricesInput!) {
+  query getRoomTypeInfo(
+    $roomTypeId: ID!
+    $RoomTypeCapacityInput: RoomTypeCapacityInput!
+    $GetRoomTypeDatePricesInput: GetRoomTypeDatePricesInput!
+  ) {
     GetRoomTypeById(roomTypeId: $roomTypeId) {
       ok
       error
@@ -174,7 +209,7 @@ export const GET_ROOM_TYPE_INFO = gql`
         _id
         capacity(param: $RoomTypeCapacityInput) {
           ... on CapacityRoomType {
-            ...FcapacityRoom 
+            ...FcapacityRoom
           }
           ... on CapacityRoomTypeDomitory {
             ...FcapacityDomitory
@@ -182,14 +217,76 @@ export const GET_ROOM_TYPE_INFO = gql`
         }
       }
     }
-    GetRoomTypeDatePrices(
-      param: $GetRoomTypeDatePricesInput
-    ) {
+    GetRoomTypeDatePrices(param: $GetRoomTypeDatePricesInput) {
       ...FroomTypePriceResult
     }
   }
   ${F_CAPACITY_DOMITORY}
   ${F_ROOM_TYPE_DATE_PRICE_RESULT}
   ${F_CAPACITY_ROOM}
-`
+`;
 
+export const F_BOOKING = gql`
+  fragment Fbooking on Booking {
+    _id
+    roomTypes {
+      ...FroomType
+    }
+    paidByNice
+    isNew
+    name
+    bookingNum
+    password
+    breakfast
+    phoneNumber
+    email
+    checkInInfo {
+      isIn
+      checkInDateTime
+    }
+    memo
+    agreePrivacyPolicy
+    checkIn
+    checkOut
+    payment {
+      ...Fpayment
+      cardInfo {
+        ...FcardInfo
+      }
+    }
+    funnels
+    status
+    createdAt
+    updatedAt
+    isNew
+    isConfirm
+  }
+  ${F_ROOMTYPE}
+  ${F_PAYMENT}
+  ${F_CARD_INFO}
+`;
+
+// BOOKING_FOR_PUBLIC 가져오기
+export const GET_BOOKING_FOR_PUBLIC = gql`
+  query getBookingForPublic(
+    $param: GetBookingForPublicInput!
+    $skip: Boolean!
+  ) {
+    GetBookingForPublic(param: $param) @skip(if: $skip) {
+      ok
+      error
+      booking {
+        ...Fbooking
+        guests {
+          ...Fguest
+          roomType {
+            _id
+          }
+        }
+      }
+    }
+  }
+  ${F_PAYMENT}
+  ${F_GUEST}
+  ${F_BOOKING}
+`;

@@ -1,15 +1,25 @@
 import React from "react";
+import classNames from "classnames";
 import "./CheckBox.scss";
+import { IDiv } from "@janda-com/front/src/types/interface";
 
-interface IProps {
+interface IProps extends IDiv {
   checked: boolean;
   handleClick: any;
 }
 
-const CheckBoxMini: React.FC<IProps> = ({ checked, handleClick }) => {
+const CheckBoxMini: React.FC<IProps> = ({
+  checked,
+  className,
+  handleClick,
+}) => {
+  const classes = classNames("checkBoxMini", className, {
+    "checkBoxMini--checked": checked,
+  });
+
   return (
-    <div onClick={handleClick} className="checkBoxMini">
-      {checked && "☺"}
+    <div onClick={handleClick} className={classes}>
+      {checked && "✓"}
     </div>
   );
 };
