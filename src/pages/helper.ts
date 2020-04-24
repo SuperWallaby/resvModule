@@ -5,7 +5,7 @@ import {
 import { utills } from "@janda-com/front";
 import { IPayInfo, IBookerInfo, IRoomSelectInfo } from "./declare";
 import { Tstep } from "../types/type";
-import moment from "@janda-com/front/node_modules/moment";
+import moment from "moment";
 import {
   DEFAULT_PAY_INFO,
   DEFAULT_ROOM_SELET_INFO,
@@ -42,12 +42,13 @@ export const memoRizeSelectInfo = (
   step: Tstep,
   roomSelectInfo: IRoomSelectInfo[]
 ) => {
-  payInfo.password = "";
+  const copy = Object.assign({}, payInfo);
+  copy.password = "";
   if (from && to) {
     sessionStorage.setItem("from", from.toDateString());
     sessionStorage.setItem("to", to.toDateString());
   }
-  sessionStorage.setItem("payInfo", JSON.stringify(payInfo));
+  sessionStorage.setItem("payInfo", JSON.stringify(copy));
   sessionStorage.setItem("bookerInfo", JSON.stringify(bookerInfo));
   sessionStorage.setItem("step", step);
   sessionStorage.setItem("roomSelectInfo", JSON.stringify(roomSelectInfo));

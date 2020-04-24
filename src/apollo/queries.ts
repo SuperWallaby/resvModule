@@ -142,15 +142,15 @@ export const F_CAPACITY_DOMITORY = gql`
 `;
 
 // 예약 ::예약생성 (게스트용)
-export const START_BOOKING_FOR_PUBLIC = gql`
-  mutation startBookingForPublic(
-    $bookerParams: StartBookingBookerInput!
+export const MAKE_BOOKING_FOR_PUBLIC = gql`
+  mutation makeBookingForPublic(
+    $bookerParams: MakeBookingBookerInput!
     $checkInOut: CheckInOutInput!
-    $guestDomitoryParams: [StartBookingDomitoryGuestInput!]
-    $guestRoomParams: [StartBookingRoomGuestInput!]
-    $paymentParams: StartBookingPaymentInput!
+    $guestDomitoryParams: [MakeBookingDomitoryGuestInput!]
+    $guestRoomParams: [MakeBookingRoomGuestInput!]
+    $paymentParams: MakeBookingPaymentInput!
   ) {
-    StartBookingForPublic(
+    MakeBookingForPublic(
       bookerParams: $bookerParams
       checkInOut: $checkInOut
       guestDomitoryParams: $guestDomitoryParams

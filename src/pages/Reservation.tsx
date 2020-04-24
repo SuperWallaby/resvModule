@@ -12,7 +12,7 @@ import {
 } from "@janda-com/front";
 import SelectViewer from "../components/SelectViewer";
 import {
-  startBookingForPublicVariables,
+  makeBookingForPublicVariables,
   getHouseForPublic_GetHouseForPublic_house,
 } from "../types/api";
 import RoomTypeWrap from "../components/roomType/RoomTypeWrap";
@@ -41,11 +41,11 @@ const ngoSelectOp = NGO_NUMS.map((num) => ({
 }));
 
 interface IProps {
-  startBookingFn: (param: startBookingForPublicVariables) => void;
+  makeBookingFn: (param: makeBookingForPublicVariables) => void;
   houseData: getHouseForPublic_GetHouseForPublic_house;
 }
 
-const Reservation: React.FC<IProps> = ({ houseData, startBookingFn }) => {
+const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
   const dayPickerModalHook = useModal(false);
   const dayPickerHook = useDayPicker(loadMemo("from"), loadMemo("to"));
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
@@ -97,11 +97,22 @@ const Reservation: React.FC<IProps> = ({ houseData, startBookingFn }) => {
         $("idNumInput").focus();
         return false;
       }
+
+      console.log("payInfo.password");
+      console.log(payInfo.password);
+
+      if (payInfo.password.length !== 2) {
+        toast.warn("카드 비밀번호를 입력 해주세요.");
+        $("idNumInput").focus();
+        return false;
+      }
     }
 
     return true;
   };
 
+  console.log("payInfo");
+  console.log(payInfo);
   const handleDoResvBtn = () => {
     if (validater()) {
       const { memo, name, password, phoneNumber } = bookerInfo;
@@ -113,10 +124,11 @@ const Reservation: React.FC<IProps> = ({ houseData, startBookingFn }) => {
         password: cardPassword,
         paymethod,
       } = payInfo;
-      startBookingFn({
+      makeBookingFn({
         bookerParams: {
           agreePrivacyPolicy: true,
           memo,
+          email: "crawl1234@nave.com",
           name: name,
           password: password,
           phoneNumber: phoneNumber,
@@ -178,7 +190,6 @@ const Reservation: React.FC<IProps> = ({ houseData, startBookingFn }) => {
   };
 
   useEffect(() => {
-    console.count("occur");
     memoRizeSelectInfo(from, to, payInfo, bookerInfo, step, roomSelectInfo);
   });
 
@@ -250,6 +261,13 @@ const Reservation: React.FC<IProps> = ({ houseData, startBookingFn }) => {
             lg: 12,
           }}
         >
+          <JDbutton
+            size="long"
+            label={LANG("go_back")}
+            onClick={() => {
+              setStep("select");
+            }}
+          />
           <JDtypho {...sharedSectionTitleProp}>{LANG("bookerInfo")}</JDtypho>
           <BookerForm resvContext={resvContext} />
           <JDtypho {...sharedSectionTitleProp}>{LANG("pay_form")}</JDtypho>

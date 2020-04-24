@@ -20,5 +20,5 @@ export const DEFAULT_BOOKER_INFO: IBookerInfo = {
   agreePersonal: false,
 };
 
-export const DEFAULT_STEP: Tstep = "input";
+export const DEFAULT_STEP: Tstep = "select";
 export const DEFAULT_ROOM_SELET_INFO: IRoomSelectInfo[] = [];

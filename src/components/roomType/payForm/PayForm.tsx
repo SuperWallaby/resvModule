@@ -223,14 +223,6 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
             />
           </JDalign>
         </JDalign>
-        <JDbutton
-          mr="no"
-          onClick={() => {
-            setStep("select");
-          }}
-          size="long"
-          label={LANG("go_back")}
-        />
       </JDalign>
     </div>
   );

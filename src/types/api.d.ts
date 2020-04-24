@@ -4,35 +4,35 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: startBookingForPublic
+// GraphQL mutation operation: makeBookingForPublic
 // ====================================================
 
-export interface startBookingForPublic_StartBookingForPublic_booking {
+export interface makeBookingForPublic_MakeBookingForPublic_booking {
   __typename: "Booking";
   _id: string;
   bookingNum: string;
 }
 
-export interface startBookingForPublic_StartBookingForPublic {
-  __typename: "StartBookingResponse";
+export interface makeBookingForPublic_MakeBookingForPublic {
+  __typename: "MakeBookingResponse";
   ok: boolean;
   error: string | null;
   /**
    * Booking 말고... 트랜잭션 ID를 넘겨주자
    */
-  booking: startBookingForPublic_StartBookingForPublic_booking | null;
+  booking: makeBookingForPublic_MakeBookingForPublic_booking | null;
 }
 
-export interface startBookingForPublic {
-  StartBookingForPublic: startBookingForPublic_StartBookingForPublic;
+export interface makeBookingForPublic {
+  MakeBookingForPublic: makeBookingForPublic_MakeBookingForPublic;
 }
 
-export interface startBookingForPublicVariables {
-  bookerParams: StartBookingBookerInput;
+export interface makeBookingForPublicVariables {
+  bookerParams: MakeBookingBookerInput;
   checkInOut: CheckInOutInput;
-  guestDomitoryParams?: StartBookingDomitoryGuestInput[] | null;
-  guestRoomParams?: StartBookingRoomGuestInput[] | null;
-  paymentParams: StartBookingPaymentInput;
+  guestDomitoryParams?: MakeBookingDomitoryGuestInput[] | null;
+  guestRoomParams?: MakeBookingRoomGuestInput[] | null;
+  paymentParams: MakeBookingPaymentInput;
 }
 
 /* tslint:disable */
@@ -922,20 +922,10 @@ export interface GetRoomTypeDatePricesInput {
   roomTypeIds?: string[] | null;
 }
 
-export interface RoomTypeCapacityInitValueInput {
-  count: number;
-  gender: Gender;
-}
-
-export interface RoomTypeCapacityInput {
-  checkInOut: CheckInOutInput;
-  initValue?: RoomTypeCapacityInitValueInput | null;
-}
-
 /**
  * hosueId는 token에 의해서 불러와지는걸로
  */
-export interface StartBookingBookerInput {
+export interface MakeBookingBookerInput {
   name: any;
   phoneNumber?: any | null;
   password: string;
@@ -947,22 +937,32 @@ export interface StartBookingBookerInput {
   breakfast?: boolean | null;
 }
 
-export interface StartBookingDomitoryGuestInput {
+export interface MakeBookingDomitoryGuestInput {
   roomTypeId: string;
   countFemale: number;
   countMale: number;
 }
 
-export interface StartBookingPaymentInput {
+export interface MakeBookingPaymentInput {
   price: number;
-  payMethod?: PayMethod | null;
+  payMethod: PayMethod;
   status?: PaymentStatus | null;
   cardPayInfo?: CreateBillKeyInput | null;
 }
 
-export interface StartBookingRoomGuestInput {
+export interface MakeBookingRoomGuestInput {
   roomTypeId: string;
   countRoom: number;
+}
+
+export interface RoomTypeCapacityInitValueInput {
+  count: number;
+  gender: Gender;
+}
+
+export interface RoomTypeCapacityInput {
+  checkInOut: CheckInOutInput;
+  initValue?: RoomTypeCapacityInitValueInput | null;
 }
 
 //==============================================================

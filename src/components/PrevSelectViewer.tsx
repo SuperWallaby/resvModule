@@ -1,5 +1,5 @@
 import React from "react";
-import { JDphotoFrame, JDslider, JDslide } from "@janda-com/front";
+import { JDphotoFrame, JDslider, JDslide, JDbutton } from "@janda-com/front";
 import { JDtypho, JDalign, utills } from "@janda-com/front";
 import { LANG } from "../App";
 import "./PrevSelectViewer.scss";
@@ -11,14 +11,7 @@ interface IProps {
 }
 
 const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
-  const {
-    totalPrice,
-    roomSelectInfo,
-    payInfo,
-    from,
-    to,
-    bookerInfo,
-  } = resvContext;
+  const { totalPrice, roomSelectInfo, from, setStep, to } = resvContext;
   let totalWoman = 0;
   let totalMale = 0;
   let totalRoom = 0;
@@ -87,9 +80,9 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
           <JDtypho />-
         </JDalign>
       </div>
-      <div className="prevSelectViewer__totalPrice">
+      <JDalign mb="small" className="prevSelectViewer__totalPrice">
         {autoComma(totalPrice)} KRW
-      </div>
+      </JDalign>
     </div>
   );
 };
