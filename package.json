@@ -84,9 +84,10 @@
 		"prebuild": "cp ./envs/env.pro ./.env",
 		"prod": "node scripts/build.js",
 		"build": "react-app-rewired build",
+		"build:bundle": "webpack --config webpack.config.js",
 		"prebuild:b": "cp ./envs/env.dev ./.env",
 		"build:b": "react-app-rewired build",
-		"upload": "aws s3 cp ./build/static/js/resvModule.min s3://stayjanda.modules.public/resvModule/1.0.0/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.0.0/resvModule.css ",
+		"upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.0.0/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.0.0/resvModule.css ",
 		"test": "react-app-rewired test --env=jsdom",
 		"precodegen": "apollo schema:download --endpoint=https://temp-booking.stayjanda.cloud/graphql",
 		"codegen": "apollo codegen:generate src/types/api.d.ts --queries=src/apollo/queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat"
@@ -95,16 +96,8 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"production": [ ">0.2%", "not dead", "not op_mini all" ],
+		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
 	},
 	"resolutions": {
 		"**/react": "16.13.0",
@@ -127,22 +120,15 @@
 		"customize-cra": "^0.9.1",
 		"node-sass": "^4.13.1",
 		"react-app-rewired": "^2.1.5",
-		"typescript": "~3.7.2"
+		"typescript": "~3.7.2",
+		"uglifyjs-webpack-plugin": "^2.2.0",
+		"webpack-cli": "^3.3.11"
 	},
 	"jest": {
-		"roots": [
-			"<rootDir>/src"
-		],
-		"collectCoverageFrom": [
-			"src/**/*.{js,jsx,ts,tsx}",
-			"!src/**/*.d.ts"
-		],
-		"setupFiles": [
-			"react-app-polyfill/jsdom"
-		],
-		"setupFilesAfterEnv": [
-			"<rootDir>/src/setupTests.ts"
-		],
+		"roots": [ "<rootDir>/src" ],
+		"collectCoverageFrom": [ "src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts" ],
+		"setupFiles": [ "react-app-polyfill/jsdom" ],
+		"setupFilesAfterEnv": [ "<rootDir>/src/setupTests.ts" ],
 		"testMatch": [
 			"<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
 			"<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
@@ -162,26 +148,10 @@
 			"^react-native$": "react-native-web",
 			"^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
 		},
-		"moduleFileExtensions": [
-			"web.js",
-			"js",
-			"web.ts",
-			"ts",
-			"web.tsx",
-			"tsx",
-			"json",
-			"web.jsx",
-			"jsx",
-			"node"
-		],
-		"watchPlugins": [
-			"jest-watch-typeahead/filename",
-			"jest-watch-typeahead/testname"
-		]
+		"moduleFileExtensions": [ "web.js", "js", "web.ts", "ts", "web.tsx", "tsx", "json", "web.jsx", "jsx", "node" ],
+		"watchPlugins": [ "jest-watch-typeahead/filename", "jest-watch-typeahead/testname" ]
 	},
 	"babel": {
-		"presets": [
-			"react-app"
-		]
+		"presets": [ "react-app" ]
 	}
 }
