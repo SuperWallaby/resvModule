@@ -30,9 +30,10 @@
 	"scripts": {
 		"start": "react-app-rewired start",
 		"prebuild": "cp ./envs/env.pro ./.env",
-		"build": "react-app-rewired build",
-		"prebuild:b": "cp ./envs/env.dev ./.env",
-		"build:b": "react-app-rewired build",
+		"build": "yarn build:react && yarn build:bundle",
+		"build:react": "react-app-rewired build",
+		"build:bundle": "webpack --config webpack.config.js",
+		"upload": "aws s3 cp ./dist/resvModule.min.js s3://stayjanda.modules.public/resvModule/1.0.0/resvMoudle.js",
 		"test": "react-app-rewired test --env=jsdom",
 		"eject": "react-scripts eject",
 		"precodegen": "apollo schema:download --endpoint=https://temp-booking.stayjanda.cloud/graphql",
