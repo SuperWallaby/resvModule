@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { ApolloProvider } from "react-apollo";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import client from "./apollo/apolloClient";
-import { Toast, toast } from "@janda-com/front";
+import { Toast } from "@janda-com/front";
 import ReservationWrap from "./pages/ReservationWrap";
 import kr from "./lang/kr";
 import "./App.scss";

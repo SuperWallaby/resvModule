@@ -9,7 +9,6 @@ import {
   JDbutton,
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
-import { PricingType } from "../../types/enum";
 import "./RoomType.scss";
 import { LANG } from "../../App";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
