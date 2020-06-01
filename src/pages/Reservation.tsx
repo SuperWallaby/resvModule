@@ -9,6 +9,7 @@ import {
   utills,
   JDbutton,
   toast,
+  JDdayPicker,
 } from "@janda-com/front";
 import SelectViewer from "../components/SelectViewer";
 import {
@@ -231,6 +232,7 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
                 );
               })}
             </div>
+            <JDdayPicker               {...dayPickerHook} mode="input" />
             <JDdayPickerModal
               autoClose
               modalHook={dayPickerModalHook}

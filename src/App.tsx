@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ApolloProvider } from "react-apollo";
 import client from "./apollo/apolloClient";
-import { Toast } from "@janda-com/front";
+import { Toast, JDtypho } from "@janda-com/front";
 import ReservationWrap from "./pages/ReservationWrap";
 import kr from "./lang/kr";
 import "./App.scss";
@@ -38,6 +38,9 @@ export interface APP_PROP {
   initOp?: RESV_INIT_OPTION;
 }
 
+const { version } = require('../package.json');
+
+
 function App({ publickey, initOp }: APP_PROP) {
   const langHook = useLang(initOp?.lang || "kr");
   sessionStorage.setItem("hpk", publickey);
@@ -48,6 +51,19 @@ function App({ publickey, initOp }: APP_PROP) {
         <ReservationWrap publickey={publickey} />
       </ApolloProvider>
       <Toast />
+      <div
+					style={{
+						display: 'block',
+						position: 'fixed',
+						left: '0%',
+						bottom: '0%',
+						zIndex: 999999
+					}}
+					id="JDversion"
+					className="JDtextColor--placeHolder"
+				>
+					<JDtypho size="superTiny">{version}</JDtypho>
+				</div>
     </div>
   );
 }
