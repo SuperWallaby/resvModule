@@ -1,9 +1,9 @@
 {
 	"name": "@janda-com/resv-module",
-	"version": "1.0.1",
-	"main": "dist/rc_index.js",
-	"module": "dist/rc_index.es.js",
-	"jsnext:main": "dist/rc_index.es.js",
+	"version": "1.0.2",
+	"main": "dist/index.js",
+	"module": "dist/index.es.js",
+	"jsnext:main": "dist/index.es.js",
 	"dependencies": {
 		"@babel/core": "7.8.4",
 		"@janda-com/front": "^2.0.21",
