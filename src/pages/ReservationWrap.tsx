@@ -10,23 +10,32 @@ import {
   MAKE_BOOKING_FOR_PUBLIC,
 } from "../apollo/queries";
 import client from "../apollo/apolloClient";
-import { utills, useModal, JDmodal, JDbutton, JDtypho } from "@janda-com/front";
+import {
+  utills,
+  useModal,
+  JDmodal,
+  JDbutton,
+  copytoClipboard,
+} from "@janda-com/front";
 import { LANG } from "../App";
 import Reservation from "./Reservation";
-import { Link } from "react-router-dom";
+import { removeAllSaveInfo, getOptionsObj } from "./helper";
+import { InputText } from "@janda-com/front";
 
 const { queryDataFormater, onCompletedMessage } = utills;
 
 interface IProps {
   publickey: string;
+  finishCallBack?: () => void;
 }
 
-const ReservationWrap: React.FC<IProps> = ({ publickey }) => {
+const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
   // 스타트부킹(게스트)
   const { data, loading } = useQuery<getHouseForPublic>(GET_HOUSE_FOR_PUBLIC, {
     client,
     skip: publickey === undefined,
   });
+
   const confirmModal = useModal();
 
   const houseData =
@@ -40,7 +49,14 @@ const ReservationWrap: React.FC<IProps> = ({ publickey }) => {
     client,
     onCompleted: ({ MakeBookingForPublic }) => {
       onCompletedMessage(MakeBookingForPublic, LANG("COMPLETE"), LANG("FAIL"));
-      if (MakeBookingForPublic.ok) confirmModal.openModal();
+      const bookingNum = MakeBookingForPublic.booking?.bookingNum || "";
+      removeAllSaveInfo();
+      localStorage.setItem("jdbn", bookingNum);
+      if (MakeBookingForPublic.ok) {
+        confirmModal.openModal({
+          bookingNum,
+        });
+      }
     },
   });
 
@@ -50,29 +66,39 @@ const ReservationWrap: React.FC<IProps> = ({ publickey }) => {
     });
   };
 
-  if (loading) return <div />;
+  if (loading) return <div>loading</div>;
   if (!houseData) return <div>err</div>;
+
+  const { houseConfig } = houseData;
+  const { options: optArray } = houseConfig;
+  const optObj = getOptionsObj(optArray);
+  const { bookingNum } = confirmModal.info || {
+    bookingNum: "",
+  };
 
   return (
     <Fragment>
       <JDmodal
+        head={{
+          title: LANG("resv_complete_modal_view_title"),
+        }}
         foot={
           <Fragment>
             <JDbutton
               onClick={() => {
                 sessionStorage.clear();
-                window.location.reload();
+                finishCallBack && finishCallBack();
               }}
               thema="primary"
               mode="flat"
-              label="확인"
+              label={LANG("confirm")}
             />
             <JDbutton
               onClick={() => {
                 confirmModal.closeModal();
               }}
               mode="flat"
-              label="닫기"
+              label={LANG("close")}
             />
           </Fragment>
         }
@@ -81,14 +107,38 @@ const ReservationWrap: React.FC<IProps> = ({ publickey }) => {
       >
         {
           <span>
-            <JDtypho mb="small" size="h6" weight={600}>
-              예약이 완료되었습니다.
-            </JDtypho>
-            예약 확인 페이지에서 확인 가능합니다.
+            <InputText
+              mb="largest"
+              label={LANG("bookingNumber")}
+              iconProps={{
+                size: "large",
+              }}
+              Size="big"
+              value={bookingNum}
+              iconHover
+              iconOnClick={() => {
+                copytoClipboard(bookingNum);
+              }}
+              icon="file"
+            />
+            {LANG("move_to_confirm_page")}
+
+            {optObj.ResvCompeleteMsg && (
+              <InputText
+                label={LANG("complete_msg")}
+                textarea
+                readOnly
+                value={optObj.ResvCompeleteMsg}
+              />
+            )}
           </span>
         }
       </JDmodal>
-      <Reservation houseData={houseData} makeBookingFn={makeBookingFn} />
+      <Reservation
+        customMsgs={optObj}
+        houseData={houseData}
+        makeBookingFn={makeBookingFn}
+      />
     </Fragment>
   );
 };

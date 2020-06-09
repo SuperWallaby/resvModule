@@ -1,0 +1,10 @@
+
+.dateSelecter {
+  border-radius: $standard-border-radius;
+  border: $standard-small-space solid $grey-level2;
+  padding: $standard-small-space;
+  margin-bottom: $standard-largest-space;
+  &__inner {
+    padding: $standard-small-space;
+  }
+}

@@ -4,8 +4,9 @@ import client from "./apollo/apolloClient";
 import { Toast, JDtypho } from "@janda-com/front";
 import ReservationWrap from "./pages/ReservationWrap";
 import kr from "./lang/kr";
-import "./App.scss";
+import "./scss/App.scss";
 import { RESV_INIT_OPTION } from ".";
+import ReservationFind from "./pages/ReservationFind";
 
 export const JDlangsSet: any = {
   kr,
@@ -21,7 +22,7 @@ export const JDlang = (lang: "kr" | "en", key: string, key2?: string) => {
   return JDlangsSet[lang][key];
 };
 
-export let LANG: (key: string, key2?: string) => any = (key) => {
+export let LANG: (key: string, key2?: string) => any = () => {
   return;
 };
 
@@ -33,37 +34,52 @@ const useLang = (defaultLang: "kr" | "en") => {
   return { currentLang, setCurrentLang };
 };
 
-export interface APP_PROP {
+export interface APP_PROP extends RESV_INIT_OPTION {
   publickey: string;
-  initOp?: RESV_INIT_OPTION;
 }
 
-const { version } = require('../package.json');
+const { version } = require("../package.json");
 
-
-function App({ publickey, initOp }: APP_PROP) {
-  const langHook = useLang(initOp?.lang || "kr");
+function App({ publickey, lang, route }: APP_PROP) {
+  const langHook = useLang(lang || "kr");
+  const [step, setStep] = useState<"book" | "search">(route || "book");
   sessionStorage.setItem("hpk", publickey);
+
+  const finishCallBack = () => {
+    setStep("search");
+  };
 
   return (
     <div className="App themeProvider">
       <ApolloProvider client={client}>
-        <ReservationWrap publickey={publickey} />
+        {step === "book" && (
+          <ReservationWrap
+            finishCallBack={finishCallBack}
+            publickey={publickey}
+          />
+        )}
+        {step === "search" && (
+          <ReservationFind
+            callBackGoToBook={() => {
+              setStep("book");
+            }}
+          />
+        )}
       </ApolloProvider>
       <Toast />
       <div
-					style={{
-						display: 'block',
-						position: 'fixed',
-						left: '0%',
-						bottom: '0%',
-						zIndex: 999999
-					}}
-					id="JDversion"
-					className="JDtextColor--placeHolder"
-				>
-					<JDtypho size="superTiny">{version}</JDtypho>
-				</div>
+        style={{
+          display: "block",
+          position: "fixed",
+          left: "0%",
+          bottom: "0%",
+          zIndex: 999999,
+        }}
+        id="JDversion"
+        className="JDtextColor--placeHolder"
+      >
+        <JDtypho size="superTiny">{version}</JDtypho>
+      </div>
     </div>
   );
 }

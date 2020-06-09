@@ -1,13 +1,17 @@
 import React from 'react';
 import { InputText, JDalign, JDselect, JDtypho, hooks, WindowSizeNumber } from '@janda-com/front';
 import { LANG } from '../../../App';
-import './BookerForm.scss';
 import { IResvContext, IBookerInfo } from '../../../pages/declare';
+import { NGO_NUMS } from '../../nationalcode';
 const { useWindowSize } = hooks;
 
 interface IProps {
 	resvContext: IResvContext;
 }
+const ngoSelectOp = NGO_NUMS.map((num) => ({
+	label: "+" + num,
+	value: num,
+}));
 
 const BookerForm: React.FC<IProps> = ({ resvContext }) => {
 	const { width } = useWindowSize();
@@ -32,7 +36,7 @@ const BookerForm: React.FC<IProps> = ({ resvContext }) => {
 				<JDtypho className="bookerForm__label">{LANG('name')}*</JDtypho>
 				<InputText
 					id="nameInput"
-					onChange={(v: any) => {
+					OnChange={(v: any) => {
 						set('name', v);
 					}}
 					value={name}
@@ -51,7 +55,8 @@ const BookerForm: React.FC<IProps> = ({ resvContext }) => {
 				<JDselect
 					// @ts-ignore
 					autoSize
-					selectedOption={{ label: '+81', value: 81 }}
+					option={ngoSelectOp}
+					selectedOption={{ label: '+82', value: 82 }}
 					textOverflow="visible"
 					mr="normal"
 					mb="no"
@@ -60,7 +65,7 @@ const BookerForm: React.FC<IProps> = ({ resvContext }) => {
 					id="phoneInput"
 					hyphen
 					autoComplete="off"
-					onChange={(op: any) => {
+					OnChange={(op: any) => {
 						set('phoneNumber', op);
 					}}
 					value={phoneNumber}
@@ -79,7 +84,7 @@ const BookerForm: React.FC<IProps> = ({ resvContext }) => {
 				<InputText
 					autoComplete="off"
 					id="passwordInput"
-					onChange={(v: any) => {
+					OnChange={(v: any) => {
 						set('password', v);
 					}}
 					value={password}
@@ -96,7 +101,7 @@ const BookerForm: React.FC<IProps> = ({ resvContext }) => {
 			>
 				<JDtypho className="bookerForm__label">{LANG('memo')}</JDtypho>
 				<InputText
-					onChange={(v: any) => {
+					OnChange={(v: any) => {
 						set('memo', v);
 					}}
 					value={memo}

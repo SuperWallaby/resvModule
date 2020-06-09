@@ -37,6 +37,41 @@ export const F_PAYMENT = gql`
   }
 `;
 
+// 룸타입 관련된 최소 프레임
+export const F_HOUSE_CONFIG = gql`
+  fragment FhouseConfig on HouseConfig {
+    assigTimeline {
+      roomTypeTabEnable
+      itemBlockOp {
+        itemBlockOpEnable
+        useColor
+      }
+    }
+    pollingPeriod {
+      enable
+      period
+    }
+    options {
+      key
+      value
+    }
+    bookingConfig {
+      bookOnlySingleDay 
+      newBookingMark {
+        enable
+        newGuestTime
+      }
+      collectingInfoFromGuest {
+        email
+        country
+      }
+    }
+    baseConfig {
+      pricingTypes
+    }
+  }
+`;
+
 export const F_BANK_ACOUNT_INFO = gql`
   fragment FbankAccountInfo on BankAccountInfo {
     bankName
@@ -176,6 +211,20 @@ export const GET_HOUSE_FOR_PUBLIC = gql`
         _id
         phoneNumber
         name
+        houseConfig {
+          bookingConfig {
+            maxStayDate
+            collectingInfoFromGuest {
+              email
+              country
+            }
+            bookOnlySingleDay
+          }
+          options {
+            key
+            value
+          }
+        }
         location {
           address
           addressDetail
@@ -290,3 +339,26 @@ export const GET_BOOKING_FOR_PUBLIC = gql`
   ${F_GUEST}
   ${F_BOOKING}
 `;
+
+export const SEARCH_BOOKING = gql`
+  query searchBooking($bookingNum: String!) {
+    SearchBooking(bookingNum:$bookingNum) {
+    ok
+    error
+    data {
+      ...Fbooking
+      guests {
+        ...Fguest
+        roomType {
+          _id
+          name
+          index
+          description
+        }
+      }
+    }
+  }
+}
+  ${F_GUEST}
+  ${F_BOOKING}
+`

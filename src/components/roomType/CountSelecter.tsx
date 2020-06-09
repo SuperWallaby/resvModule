@@ -2,11 +2,11 @@ import React, { Fragment, useState, useEffect } from "react";
 import { JDtypho, JDalign, JDbutton } from "@janda-com/front";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
-import "./CountSelecter.scss";
 import { LANG } from "../../App";
 import { IRoomTypeContext, Gender } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 import { utills } from "@janda-com/front";
+import { ISet } from "@janda-com/front/build/types/interface";
 const { queryDataFormater } = utills;
 
 
@@ -42,6 +42,11 @@ interface IProps {
     targetSelectInfo: IRoomSelectInfo;
     isDomitory: boolean;
     roomTypeContext: IRoomTypeContext;
+    availableCount: {
+        maleCount: number;
+        femaleCount: number;
+        roomCount: number;
+    }
 }
 
 const CountSelecter: React.FC<IProps> = ({
@@ -49,12 +54,12 @@ const CountSelecter: React.FC<IProps> = ({
     targetSelectInfo,
     fullDatePrice,
     isDomitory,
-    roomTypeContext
+    roomTypeContext,
+    availableCount
 }) => {
 
     const [loading, setLoading] = useState(false);
     const { refetchCapacity, capacityData, sharedQueryVariable } = roomTypeContext;
-    const availableCount = getAvailableCountFromQuery(capacityData!);
     const { femaleCount: availableCountFemale, maleCount: availableCountMale, roomCount: availableCountRoom } = availableCount;
     const { roomSelectInfo, setRoomSelectInfo } = resvContext;
     const [maxCount, setMaxCount] = useState({
@@ -132,6 +137,10 @@ const CountSelecter: React.FC<IProps> = ({
     const { count } = targetSelectInfo
     const { male, female, roomCount } = count;
 
+    console.log("maxCount.maxMale + maxCount.maxFemale + availableCountRoom");
+    console.log(maxCount.maxMale + maxCount.maxFemale + availableCountRoom);
+
+
     return <JDalign flex={{
         around: true
     }} className="countSelecter">
@@ -140,7 +149,7 @@ const CountSelecter: React.FC<IProps> = ({
             <Counter maxCount={maxCount.maxFemale} label={LANG("female")} handleCount={handleCount} target={"female"} count={female} />
         </Fragment>
             :
-            <Counter maxCount={availableCountRoom + roomCount} label={LANG("room_count")} handleCount={handleCount} target={"room"} count={roomCount} />
+            <Counter maxCount={availableCountRoom} label={LANG("room_count")} handleCount={handleCount} target={"room"} count={roomCount} />
         }
     </JDalign>
 }

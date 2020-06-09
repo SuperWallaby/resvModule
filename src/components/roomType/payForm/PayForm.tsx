@@ -9,23 +9,15 @@ import {
   useWindowSize,
 } from "@janda-com/front";
 import { LANG } from "../../../App";
-import "./PayForm.scss";
 import { IResvContext, IPayInfo } from "../../../pages/declare";
 import { PayMethod } from "../../../types/enum";
-
-enum SelectBoxSize {
-  TWO = "4rem",
-  FOUR = "6rem",
-  SIX = "9rem",
-  FIVE = "11rem",
-}
 
 interface IProps {
   resvContext: IResvContext;
 }
 
 const PayForm: React.FC<IProps> = ({ resvContext }) => {
-  const { payInfo, setPayInfo, houseData } = resvContext;
+  const { payInfo, setPayInfo, houseData, customMsgs } = resvContext;
   const { bookingPayInfo } = houseData;
   const { width } = useWindowSize();
   const { bankAccountInfo, payMethods } = bookingPayInfo;
@@ -61,7 +53,7 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
             (so) => so.value === payInfo.paymethod
           )}
           placeholder={" "}
-          size={SelectBoxSize.SIX}
+          autoSize
           onChange={(op: any) => {
             set("paymethod", op.value);
           }}
@@ -131,7 +123,7 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
             <InputText
               value={cardNum}
               card
-              onChange={(v: any) => {
+              OnChange={(v: any) => {
                 set("cardNum", v);
               }}
               id="cardNumInput"
@@ -149,7 +141,7 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
             <JDtypho className="payForm__label">{LANG("password")}*</JDtypho>
             <InputText
               id="cardPasswordInput"
-              onChange={(v: any) => {
+              OnChange={(v: any) => {
                 set("password", v);
               }}
               maxLength={2}
@@ -181,7 +173,7 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
                 width: "52px",
               }}
               id="cardExpireInput"
-              onChange={(v: any) => {
+              OnChange={(v: any) => {
                 set("expireM", v);
               }}
               maxLength={2}
@@ -195,7 +187,7 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
                 width: "52px",
               }}
               maxLength={2}
-              onChange={(v: any) => {
+              OnChange={(v: any) => {
                 set("expireY", v);
               }}
               value={expireY}
@@ -213,7 +205,7 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
             <JDtypho className="payForm__label">{LANG("id_num")}*</JDtypho>
             <InputText
               id="idNumInput"
-              onChange={(v: any) => {
+              OnChange={(v) => {
                 set("idNum", v);
               }}
               value={idNum}
@@ -223,6 +215,9 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
             />
           </JDalign>
         </JDalign>
+        {customMsgs.PayPrecaution && (
+          <JDtypho size="small">{"*" + customMsgs.PayPrecaution}</JDtypho>
+        )}
       </JDalign>
     </div>
   );

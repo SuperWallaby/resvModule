@@ -1,0 +1,38 @@
+
+.resvFind {
+    &__tableWrap {
+        margin-bottom: space(2);
+    }
+    &__bnFrom {
+        border-radius: $standard-border-radius;
+        border: $standard-small-space solid $grey-level2;
+        padding: $standard-small-space;
+        margin-bottom: $standard-largest-space;
+    }
+}
+
+
+.searchResult {
+    border: 1px solid $grey-level1;
+    border-radius: $standard-border-radius;
+
+    &__header{
+        padding: space(2);
+        background-color: $grey-level1;
+        border-bottom:  1px solid $grey-level2;
+    }
+
+    &__body {
+        padding: space(2);
+    }
+    &__cell {
+        border-bottom: 1px solid $grey-level1;
+		padding-bottom: $standard-small-space;
+		margin-bottom: space(1);
+		&:last-child {
+			border-bottom: none;
+			padding-bottom: 0;
+			margin-bottom: 0;
+		}   
+    }
+}

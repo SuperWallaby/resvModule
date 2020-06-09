@@ -3,6 +3,17 @@ export enum PricingType {
     ROOM = "ROOM"
 }
 
+export enum Gender {
+    FEMALE = "FEMALE",
+    MALE = "MALE",
+}
+export enum RoomGender {
+    ANY = "ANY",
+    FEMALE = "FEMALE",
+    MALE = "MALE",
+    SEPARATELY = "SEPARATELY",
+}
+
 export enum PayMethod {
     BILL = "BILL",
     VBANK = "VBANK",
@@ -25,5 +36,10 @@ export enum Funnels {
     WALK_IN = "WALK_IN",
     YANOLJA = "YANOLJA",
     YEOGIEOTTAE = "YEOGIEOTTAE",
-  }
+}
 
+export enum HouseOptionsKey {
+    ResvCautionMsg = "ResvCautionMsg",
+    ResvCompeleteMsg = "ResvCompeleteMsg",
+    PayPrecaution = "PayPrecaution",
+}

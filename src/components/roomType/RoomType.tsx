@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   JDphotoFrame,
   JDslider,
@@ -7,14 +7,15 @@ import {
   JDtypho,
   utills,
   JDbutton,
+  JDpreloader,
+  JDbadge,
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
-import "./RoomType.scss";
 import { LANG } from "../../App";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
-import moment from "moment";
 import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
+import { getAvailableCountFromQuery } from "./helper";
 
 const { autoComma } = utills;
 
@@ -23,6 +24,7 @@ interface IProps {
   roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
   dailyPrice: number;
   roomTypeContext: IRoomTypeContext;
+  countLoading: boolean;
 }
 
 const RoomType: React.FC<IProps> = ({
@@ -30,15 +32,24 @@ const RoomType: React.FC<IProps> = ({
   dailyPrice,
   resvContext,
   roomTypeContext,
+  countLoading,
 }) => {
   const { name, img } = roomType;
-  const { setRoomSelectInfo, roomSelectInfo } = resvContext;
+  const { setRoomSelectInfo, roomSelectInfo, from, to } = resvContext;
   const {
     fullDatePrice,
     isDomitory,
     isSelected,
     targetSelectInfo,
+    capacityData,
   } = roomTypeContext;
+  const availableCount = getAvailableCountFromQuery(capacityData!);
+  const totalCan =
+    availableCount.femaleCount +
+    availableCount.maleCount +
+    availableCount.roomCount;
+  const isSoldOut = !totalCan && !countLoading && from && to;
+  const loading = countLoading && from && to;
 
   let classes = "roomType";
   classes += isSelected ? " roomType--selected" : "";
@@ -64,7 +75,7 @@ const RoomType: React.FC<IProps> = ({
   return (
     <div className={classes}>
       <JDalign
-        className="roomType__up"
+        className="roomType__wrap"
         flex={{
           grow: true,
         }}
@@ -83,6 +94,7 @@ const RoomType: React.FC<IProps> = ({
                 isBgImg
                 unStyle
                 style={{
+                  borderRadius: "0px",
                   height: "6rem",
                 }}
               />
@@ -92,6 +104,7 @@ const RoomType: React.FC<IProps> = ({
                 isBgImg
                 unStyle
                 style={{
+                  borderRadius: "0px",
                   height: "6rem",
                 }}
               />
@@ -102,18 +115,27 @@ const RoomType: React.FC<IProps> = ({
           flex={{
             between: true,
           }}
-          className="roomType__img"
+          className="roomType__right"
         >
           <div>
             <div className="roomType__title">
-              <JDtypho mb="small" weight={600}>
-                {name}
-              </JDtypho>
+              <JDalign flex>
+                <JDtypho mb="small" weight={600}>
+                  {name}
+                </JDtypho>
+                <div>
+                  {isSoldOut && (
+                    <JDbadge size="noraml" thema="error">
+                      SOLD OUT
+                    </JDbadge>
+                  )}
+                </div>
+              </JDalign>
             </div>
             <div className="roomType__title">
               {1 + LANG("sleep_unit")}
               {` - `}
-              {autoComma(dailyPrice)}
+              {loading ? "..." : autoComma(dailyPrice || 0)}
             </div>
           </div>
           <JDalign
@@ -137,12 +159,25 @@ const RoomType: React.FC<IProps> = ({
             >
               {LANG(isSelected ? "cancel" : "choice")}
             </JDbutton>
-            <JDtypho size="h6">{autoComma(fullDatePrice)}</JDtypho>
+            {countLoading ? (
+              <JDpreloader
+                style={{
+                  margin: "-10px",
+                }}
+                size="tiny"
+                loading={true}
+              />
+            ) : (
+              <JDtypho mb="no" size="h6">
+                {autoComma(fullDatePrice)}
+              </JDtypho>
+            )}
           </JDalign>
         </JDalign>
       </JDalign>
       {targetSelectInfo && (
         <CountSelecter
+          availableCount={availableCount}
           roomTypeContext={roomTypeContext}
           isDomitory={isDomitory}
           targetSelectInfo={targetSelectInfo}

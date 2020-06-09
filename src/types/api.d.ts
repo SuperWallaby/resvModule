@@ -24,6 +24,9 @@ export interface makeBookingForPublic_MakeBookingForPublic {
 }
 
 export interface makeBookingForPublic {
+  /**
+   * madeByHost: false
+   */
   MakeBookingForPublic: makeBookingForPublic_MakeBookingForPublic;
 }
 
@@ -394,6 +397,146 @@ export interface getBookingForPublic {
 export interface getBookingForPublicVariables {
   param: GetBookingForPublicInput;
   skip: boolean;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: searchBooking
+// ====================================================
+
+export interface searchBooking_SearchBooking_data_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface searchBooking_SearchBooking_data_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: searchBooking_SearchBooking_data_roomTypes_img_tags[] | null;
+}
+
+export interface searchBooking_SearchBooking_data_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  index: number;
+  roomCount: number;
+  roomGender: RoomGender;
+  img: searchBooking_SearchBooking_data_roomTypes_img | null;
+  description: string | null;
+  /**
+   * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+   */
+  defaultPrice: number | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface searchBooking_SearchBooking_data_checkInInfo {
+  __typename: "CheckInInfo";
+  isIn: boolean;
+  checkInDateTime: any | null;
+}
+
+export interface searchBooking_SearchBooking_data_payment_cardInfo {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  card: Card | null;
+  cardCode: number;
+  cardNoHashed: string | null;
+  isLive: boolean;
+}
+
+export interface searchBooking_SearchBooking_data_payment {
+  __typename: "Payment";
+  /**
+   * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
+   */
+  type: PaymentType;
+  payMethod: PayMethod;
+  totalPrice: number;
+  goodsVat: number | null;
+  supplyAmt: number | null;
+  status: PaymentStatus;
+  paymentResultParam: any | null;
+  refundedPrice: number | null;
+  tid: string | null;
+  cardInfo: searchBooking_SearchBooking_data_payment_cardInfo | null;
+}
+
+export interface searchBooking_SearchBooking_data_guests_roomType {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  index: number;
+  description: string | null;
+}
+
+export interface searchBooking_SearchBooking_data_guests {
+  __typename: "GuestDomitory" | "GuestRoom";
+  _id: string;
+  pricingType: PricingType;
+  checkIn: any;
+  checkOut: any;
+  /**
+   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+   */
+  roomType: searchBooking_SearchBooking_data_guests_roomType;
+}
+
+export interface searchBooking_SearchBooking_data {
+  __typename: "Booking";
+  _id: string;
+  roomTypes: searchBooking_SearchBooking_data_roomTypes[] | null;
+  paidByNice: boolean | null;
+  isNew: boolean;
+  name: any;
+  bookingNum: string;
+  password: string | null;
+  breakfast: boolean | null;
+  phoneNumber: any;
+  email: any | null;
+  checkInInfo: searchBooking_SearchBooking_data_checkInInfo;
+  memo: string | null;
+  agreePrivacyPolicy: boolean;
+  checkIn: any;
+  checkOut: any;
+  payment: searchBooking_SearchBooking_data_payment;
+  funnels: Funnels | null;
+  status: BookingStatus;
+  createdAt: any;
+  updatedAt: any | null;
+  isConfirm: boolean;
+  guests: searchBooking_SearchBooking_data_guests[] | null;
+}
+
+export interface searchBooking_SearchBooking {
+  __typename: "SearchBookingResponse";
+  ok: boolean;
+  error: string | null;
+  data: searchBooking_SearchBooking_data | null;
+}
+
+export interface searchBooking {
+  SearchBooking: searchBooking_SearchBooking;
+}
+
+export interface searchBookingVariables {
+  bookingNum: string;
 }
 
 /* tslint:disable */

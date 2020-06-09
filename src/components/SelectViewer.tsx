@@ -1,7 +1,5 @@
 import React from "react";
-import "./SelectViewer.scss";
 import { JDbutton, JDtypho, JDalign, utills, toast } from "@janda-com/front";
-import "./SelectViewer.scss";
 import { LANG } from "../App";
 import { IResvContext } from "../pages/declare";
 import { PricingType } from "../types/enum";

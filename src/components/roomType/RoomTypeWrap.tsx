@@ -162,6 +162,7 @@ const RoomTypeWrap: React.FC<IProps> = ({
   return (
     <Fragment>
       <RoomType
+        countLoading={countLoading}
         roomTypeContext={roomTypeContext}
         resvContext={resvContext}
         dailyPrice={formattedDailyPrice}

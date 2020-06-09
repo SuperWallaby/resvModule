@@ -2,6 +2,7 @@ import {
   PricingType,
   getHouseForPublic_GetHouseForPublic_house,
 } from "../types/api";
+import { TOptionsObj } from "../types/type";
 
 export interface IRoomSelectInfo {
   roomTypeId: string;
@@ -38,6 +39,7 @@ export interface IPayInfo {
 
 export interface IResvContext {
   payInfo: IPayInfo;
+  customMsgs: TOptionsObj;
   setPayInfo: React.Dispatch<React.SetStateAction<IPayInfo>>;
   bookerInfo: IBookerInfo;
   setBookerInfo: React.Dispatch<React.SetStateAction<IBookerInfo>>;

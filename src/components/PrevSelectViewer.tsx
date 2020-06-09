@@ -2,7 +2,6 @@ import React from "react";
 import { JDphotoFrame, JDslider, JDslide, JDbutton } from "@janda-com/front";
 import { JDtypho, JDalign, utills } from "@janda-com/front";
 import { LANG } from "../App";
-import "./PrevSelectViewer.scss";
 import { IResvContext } from "../pages/declare";
 const { fromToRender, autoComma } = utills;
 

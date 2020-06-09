@@ -3,7 +3,6 @@ import CheckBoxMini from "../atom/CheckBox";
 import { IResvContext } from "../pages/declare";
 import { JDtypho, JDalign } from "@janda-com/front";
 import { LANG } from "../App";
-import "./AgreeBlock.scss";
 
 interface IProps {
   type: "use" | "personal";
@@ -50,13 +49,13 @@ const AgreeBlock: React.FC<IProps> = ({ type, resvContext }) => {
             <JDtypho>{LANG("use_policy")}</JDtypho>
           </JDalign>
         ) : (
-          <JDalign flex>
-            <JDtypho color="error" mr="tiny">
-              {LANG("must")}
-            </JDtypho>
-            {LANG("personal_use_agree")}
-          </JDalign>
-        )}
+            <JDalign flex>
+              <JDtypho color="error" mr="tiny">
+                {LANG("must")}
+              </JDtypho>
+              {LANG("personal_use_agree")}
+            </JDalign>
+          )}
       </JDtypho>
     </JDalign>
   );

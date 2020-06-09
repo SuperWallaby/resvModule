@@ -1,0 +1,19 @@
+.prevSelectViewer {
+	&__line {
+		border-bottom: 1px solid $grey-level2;
+		padding: $standard-small-space;
+		&:last-child {
+			margin-bottom: $standard-small-space;
+		}
+	}
+
+	&__totalPrice {
+		color: $error-color;
+		border: 1px solid $grey-level2;
+		padding: $standard-small-space;
+	}
+
+	&__selectBtn {
+		margin-top: space(2);
+	}
+}

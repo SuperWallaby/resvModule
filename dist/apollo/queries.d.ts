@@ -1,0 +1,17 @@
+export declare const F_GUEST: import("graphql").DocumentNode;
+export declare const F_CARD_INFO: import("graphql").DocumentNode;
+export declare const F_PAYMENT: import("graphql").DocumentNode;
+export declare const F_HOUSE_CONFIG: import("graphql").DocumentNode;
+export declare const F_BANK_ACOUNT_INFO: import("graphql").DocumentNode;
+export declare const F_IMG: import("graphql").DocumentNode;
+export declare const F_ROOMTYPE: import("graphql").DocumentNode;
+export declare const F_ROOM_TYPE_DATE_PRICE_RESULT: import("graphql").DocumentNode;
+export declare const F_ROOM: import("graphql").DocumentNode;
+export declare const F_CAPACITY_ROOM: import("graphql").DocumentNode;
+export declare const F_CAPACITY_DOMITORY: import("graphql").DocumentNode;
+export declare const MAKE_BOOKING_FOR_PUBLIC: import("graphql").DocumentNode;
+export declare const GET_HOUSE_FOR_PUBLIC: import("graphql").DocumentNode;
+export declare const GET_ROOM_TYPE_INFO: import("graphql").DocumentNode;
+export declare const F_BOOKING: import("graphql").DocumentNode;
+export declare const GET_BOOKING_FOR_PUBLIC: import("graphql").DocumentNode;
+export declare const SEARCH_BOOKING: import("graphql").DocumentNode;

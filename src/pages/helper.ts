@@ -4,10 +4,19 @@ import {
 } from '../types/api';
 import { utills } from '@janda-com/front';
 import { IPayInfo, IBookerInfo, IRoomSelectInfo } from './declare';
-import { Tstep } from '../types/type';
+import { Tstep, IHouseOptions, TOptionsObj } from '../types/type';
 import moment from 'moment';
 import { DEFAULT_PAY_INFO, DEFAULT_ROOM_SELET_INFO, DEFAULT_STEP, DEFAULT_BOOKER_INFO } from '../types/deafult';
+import { HouseOptionsKey } from '../types/enum';
 const { arraySum } = utills;
+
+export const getOptionsObj = (options: IHouseOptions[]): TOptionsObj => {
+	const returnObj: any = {};
+	Object.keys(HouseOptionsKey).forEach(key => {
+		returnObj[key] = options.find(op => op.key === key);
+	})
+	return returnObj;
+}
 
 //  "방타입들"의 평균 가격을 가져옴
 export const totalPriceGetAveragePrice = (
@@ -74,23 +83,27 @@ const getParsedDate = (key: 'from' | 'to') => {
 	}
 };
 
-const obj = {
+export const store = {
 	isAsked: false
 };
 
+export const removeAllSaveInfo = () => {
+	sessionStorage.removeItem('from');
+	sessionStorage.removeItem('to');
+	sessionStorage.removeItem('payInfo');
+	sessionStorage.removeItem('bookerInfo');
+	sessionStorage.removeItem('step');
+	sessionStorage.removeItem('roomSelectInfo');
+}
+
 export const loadMemo = (getKey: 'from' | 'to' | 'payInfo' | 'bookerInfo' | 'step' | 'roomSelectInfo') => {
 	if (sessionStorage.getItem('from'))
-		if (!obj.isAsked) {
+		if (!store.isAsked) {
 			const reuslt = window.confirm('이전 예약을 진행하던 기록이 있습니다. 해당 예약을 이어서 진행 하시겠습니까?');
-			obj.isAsked = true;
+			store.isAsked = true;
 
 			if (!reuslt) {
-				sessionStorage.removeItem('from');
-				sessionStorage.removeItem('to');
-				sessionStorage.removeItem('payInfo');
-				sessionStorage.removeItem('bookerInfo');
-				sessionStorage.removeItem('step');
-				sessionStorage.removeItem('roomSelectInfo');
+				removeAllSaveInfo();
 			}
 		}
 

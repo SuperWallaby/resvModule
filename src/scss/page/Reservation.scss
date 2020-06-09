@@ -1,0 +1,13 @@
+
+
+//이거는 임시용임 안좋은 코드임
+#JD_RESV_PAGE {
+    .Reservation__roomFilterBtn {
+        .JDbtn:nth-child(2) {
+            border-radius: 0px !important;
+        }
+        .JDbtn:nth-child(1) {
+            border-radius: 5px 0px 0px 5px !important;
+        }
+    }
+}

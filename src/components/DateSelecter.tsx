@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 import { IUseDayPicker, JDicon, JDtypho } from '@janda-com/front';
-import './DateSelecter.scss';
 import { JDalign } from '@janda-com/front';
 import { LANG } from '../App';
+import { IResvContext } from '../pages/declare';
 
 interface Iprops {
 	dayPickerHook: IUseDayPicker;
@@ -11,6 +11,7 @@ interface Iprops {
 }
 
 const DateSelecter: React.FC<Iprops> = ({ dayPickerHook, handleDateClick, ...props }) => {
+
 	const dateRender = (date: Date = new Date()) => {
 		return (
 			<JDalign
@@ -48,6 +49,7 @@ const DateSelecter: React.FC<Iprops> = ({ dayPickerHook, handleDateClick, ...pro
 						<JDtypho mr="normal">~</JDtypho>
 						{dateRender(to || undefined)}
 					</JDalign>
+					{from && to && !dateDiff && <span>{LANG("same_date")}</span>}
 					{dateDiff ? (
 						<JDtypho weight={300}>
 							{dateDiff}
@@ -56,8 +58,8 @@ const DateSelecter: React.FC<Iprops> = ({ dayPickerHook, handleDateClick, ...pro
 							{LANG('day_unit')}
 						</JDtypho>
 					) : (
-						<span />
-					)}
+							<span />
+						)}
 				</JDalign>
 			</div>
 		</JDtypho>

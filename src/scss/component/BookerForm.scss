@@ -1,0 +1,11 @@
+
+.bookerForm {
+  margin-bottom: $standard-huge-space;
+  border: 1px solid $grey-level2;
+  padding: $standard-space;
+  &__label {
+    font-weight: 600;
+    max-width: 120px;
+    min-width: 120px;
+  }
+}

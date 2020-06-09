@@ -1,0 +1,20 @@
+.themeProvider {
+	--primary-color: #8b8378;
+	--primary-color-light: #8b8378;
+	--primary-color-dark: #8b8378;
+	--primary-color-on: #fff;
+}
+
+@import "./variables.scss";
+@import "../../node_modules/@janda-com/front/build/scss/all.scss";
+@import "./component/AgreeBlock.scss";
+@import "./component/BookerForm.scss";
+@import "./component/CountSelecter.scss";
+@import "./component/DateSelecter.scss";
+@import "./component/PayForm.scss";
+@import "./component/PrevSelectViewer.scss";
+@import "./component/RoomType.scss";
+@import "./component/SelectViewer.scss";
+
+@import "./page/Reservation.scss";
+@import "./page/ReservationFind.scss";

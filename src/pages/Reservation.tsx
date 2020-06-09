@@ -3,6 +3,7 @@ import DateSelecter from "../components/DateSelecter";
 import {
   useDayPicker,
   useModal,
+  JDradioButton,
   JDalign,
   JDdayPickerModal,
   JDtypho,
@@ -10,11 +11,13 @@ import {
   JDbutton,
   toast,
   JDdayPicker,
+  useRadioButton,
 } from "@janda-com/front";
 import SelectViewer from "../components/SelectViewer";
 import {
   makeBookingForPublicVariables,
   getHouseForPublic_GetHouseForPublic_house,
+  getHouseForPublic_GetHouseForPublic_house_houseConfig_options,
 } from "../types/api";
 import RoomTypeWrap from "../components/roomType/RoomTypeWrap";
 import { LANG } from "../App";
@@ -31,25 +34,57 @@ import PrevSelectViewer from "../components/PrevSelectViewer";
 import AgreeBlock from "../components/AgreeBlock";
 import { PayMethod, PricingType, Funnels } from "../types/enum";
 import $ from "jquery";
-import { Tstep } from "../types/type";
+import { Tstep, TOptionsObj } from "../types/type";
 import { loadMemo, memoRizeSelectInfo } from "./helper";
+import { isPhone } from "@janda-com/front";
+import { getAllFromUrl } from "@janda-com/front";
+import moment from "moment";
+import { store } from "./helper";
 
 const { arraySum } = utills;
-
-const ngoSelectOp = NGO_NUMS.map((num) => ({
-  label: "+" + num,
-  value: num,
-}));
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
   houseData: getHouseForPublic_GetHouseForPublic_house;
+  customMsgs: TOptionsObj;
+}
+const { from: urlFrom, to: urlTo } = getAllFromUrl() as any;
+const urlDateFrom = urlFrom ? moment(urlFrom).toDate() : undefined;
+const urlDateTo = urlTo ? moment(urlTo).toDate() : undefined;
+
+if (urlDateFrom) {
+  store.isAsked = true;
 }
 
-const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
+const Reservation: React.FC<IProps> = ({
+  houseData,
+  makeBookingFn,
+  customMsgs,
+}) => {
   const dayPickerModalHook = useModal(false);
-  const dayPickerHook = useDayPicker(loadMemo("from"), loadMemo("to"));
+  // TODO 여기서 sameDate일경우에
+  const dayPickerHook = useDayPicker(
+    urlDateFrom || loadMemo("from"),
+    urlDateTo || loadMemo("to")
+  );
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
+  const radioButtonHook = useRadioButton(
+    [],
+    [
+      {
+        label: "오션뷰",
+        value: "OSV",
+      },
+      {
+        label: "마운틴뷰",
+        value: "MTV",
+      },
+      {
+        label: "할인",
+        value: "SALE",
+      },
+    ]
+  );
 
   const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(
     loadMemo("bookerInfo")
@@ -66,7 +101,7 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
       $("#nameInput").focus();
       return false;
     }
-    if (!bookerInfo.phoneNumber) {
+    if (!isPhone(bookerInfo.phoneNumber)) {
       toast.warn("전화번호를 입력해주세요.");
       $("#phoneInput").focus();
       return false;
@@ -99,9 +134,6 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
         return false;
       }
 
-      console.log("payInfo.password");
-      console.log(payInfo.password);
-
       if (payInfo.password.length !== 2) {
         toast.warn("카드 비밀번호를 입력 해주세요.");
         $("idNumInput").focus();
@@ -112,8 +144,6 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
     return true;
   };
 
-  console.log("payInfo");
-  console.log(payInfo);
   const handleDoResvBtn = () => {
     if (validater()) {
       const { memo, name, password, phoneNumber } = bookerInfo;
@@ -168,7 +198,9 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
   };
 
   const { from, to } = dayPickerHook;
-  const { roomTypes } = houseData;
+  const { roomTypes, houseConfig } = houseData;
+  const { bookingConfig } = houseConfig;
+  const { maxStayDate } = bookingConfig;
 
   const resvContext: IResvContext = {
     roomSelectInfo,
@@ -182,6 +214,7 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
     setStep,
     payInfo,
     setPayInfo,
+    customMsgs,
     totalPrice: selectedPrice,
   };
 
@@ -192,7 +225,7 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
 
   useEffect(() => {
     memoRizeSelectInfo(from, to, payInfo, bookerInfo, step, roomSelectInfo);
-  });
+  }, [from, to, payInfo, bookerInfo, roomSelectInfo]);
 
   if (step === "select")
     return (
@@ -214,9 +247,26 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
                 }}
                 dayPickerHook={dayPickerHook}
               />
-              <JDtypho {...sharedSectionTitleProp}>
-                {LANG("product_select")}
-              </JDtypho>
+              <JDalign
+                flex={{
+                  between: true,
+                }}
+              >
+                <JDtypho {...sharedSectionTitleProp}>
+                  {LANG("product_select")}
+                </JDtypho>
+                <JDradioButton
+                  className="Reservation__roomFilterBtn"
+                  btnProps={{
+                    size: "small",
+                    mode: "border",
+                  }}
+                  mode="gather"
+                  withAllTooglerLabel="All"
+                  withAllToogler
+                  {...radioButtonHook}
+                />
+              </JDalign>
               {roomTypes?.map((RT) => {
                 return (
                   <RoomTypeWrap
@@ -232,9 +282,9 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
                 );
               })}
             </div>
-            <JDdayPicker               {...dayPickerHook} mode="input" />
             <JDdayPickerModal
               autoClose
+              callBackChangeDate={() => {}}
               modalHook={dayPickerModalHook}
               {...dayPickerHook}
             />
@@ -301,10 +351,16 @@ const Reservation: React.FC<IProps> = ({ houseData, makeBookingFn }) => {
             label={LANG("do_resv")}
           />
         </JDalign>
+        {customMsgs.ResvCautionMsg && (
+          <JDtypho size="small" weight={600}>
+            {"*" + customMsgs.ResvCautionMsg}
+          </JDtypho>
+        )}
       </JDalign>
     );
   }
-  return <div />;
+
+  throw Error("step is not Right");
 };
 
 export default Reservation;

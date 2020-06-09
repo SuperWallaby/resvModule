@@ -1,6 +1,5 @@
 import React from "react";
 import classNames from "classnames";
-import "./CheckBox.scss";
 import { IDiv } from "@janda-com/front/src/types/interface";
 
 interface IProps extends IDiv {
