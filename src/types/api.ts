@@ -68,7 +68,13 @@ export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingCo
 
 export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_options {
   __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
   key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
   value: string;
 }
 
@@ -664,7 +670,13 @@ export interface FhouseConfig_pollingPeriod {
 
 export interface FhouseConfig_options {
   __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
   key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
   value: string;
 }
 
