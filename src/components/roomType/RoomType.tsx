@@ -5,10 +5,12 @@ import {
   JDslide,
   JDalign,
   JDtypho,
-  utills,
+  utils,
   JDbutton,
   JDpreloader,
   JDbadge,
+  JDphotoModal,
+  useModal,
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
@@ -34,7 +36,9 @@ const RoomType: React.FC<IProps> = ({
   roomTypeContext,
   countLoading,
 }) => {
-  const { name, img } = roomType;
+  const { _id, name, pricingType, img, images } = roomType;
+
+  const photoModalHook = useModal();
   const { setRoomSelectInfo, roomSelectInfo, from, to } = resvContext;
   const {
     fullDatePrice,
@@ -63,10 +67,10 @@ const RoomType: React.FC<IProps> = ({
         roomCount: 0,
       },
       price: 0,
-      pricingType: roomType.pricingType,
-      roomTypeId: roomType._id,
-      roomTypeName: roomType.name,
-      img: roomType.img?.url,
+      pricingType: pricingType,
+      roomTypeId: _id,
+      roomTypeName: name,
+      img: img?.url,
     };
     const added = [...roomSelectInfo, addInfo];
     setRoomSelectInfo(isSelected ? filted : added);
@@ -82,6 +86,11 @@ const RoomType: React.FC<IProps> = ({
       >
         <JDalign className="roomType__slider">
           <JDslider
+            onClick={() => {
+              photoModalHook.openModal({
+                images,
+              });
+            }}
             autoplay
             dots={false}
             mr="small"
@@ -175,6 +184,7 @@ const RoomType: React.FC<IProps> = ({
           </JDalign>
         </JDalign>
       </JDalign>
+      <JDphotoModal modalHook={photoModalHook} />
       {targetSelectInfo && (
         <CountSelecter
           availableCount={availableCount}

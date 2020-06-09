@@ -36,7 +36,7 @@ import AgreeBlock from "../components/AgreeBlock";
 import { PayMethod, PricingType, Funnels } from "../types/enum";
 import $ from "jquery";
 import { Tstep, TOptionsObj } from "../types/type";
-import { loadMemo, memoRizeSelectInfo } from "./helper";
+import { loadMemo, memoRizeSelectInfo, getUniqTag } from "./helper";
 import { isPhone } from "@janda-com/front";
 import { getAllFromUrl } from "@janda-com/front";
 import moment from "moment";
@@ -58,27 +58,6 @@ if (urlDateFrom) {
   store.isAsked = true;
 }
 
-const getUniqTag = (
-  roomTypes: getHouseForPublic_GetHouseForPublic_house_roomTypes[]
-) => {
-  let uniqHashTag: IRadiosOps[] = [];
-  const tagValues = uniqHashTag.map((tag) => tag.value);
-
-  roomTypes?.forEach((roomType) => {
-    const uniqTags = roomType.hashTags
-      .filter((ht) => !tagValues.includes(ht))
-      .map((ht) => {
-        return {
-          label: ht,
-          value: roomType._id,
-        };
-      });
-    uniqHashTag = [...uniqHashTag, ...uniqTags];
-  });
-
-  return uniqHashTag;
-};
-
 const Reservation: React.FC<IProps> = ({
   houseData,
   makeBookingFn,
@@ -94,6 +73,10 @@ const Reservation: React.FC<IProps> = ({
 
   const uniqTags = getUniqTag(houseData?.roomTypes || []);
   const radioButtonHook = useRadioButton([], uniqTags);
+  const noTags = uniqTags.length === 0;
+
+  console.log("uniqTags");
+  console.log(uniqTags);
 
   const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(
     loadMemo("bookerInfo")
@@ -236,6 +219,15 @@ const Reservation: React.FC<IProps> = ({
     memoRizeSelectInfo(from, to, payInfo, bookerInfo, step, roomSelectInfo);
   }, [from, to, payInfo, bookerInfo, roomSelectInfo]);
 
+  const visibleRoomTypes = (roomTypes || []).filter((RT) => {
+    let hasActivedTag = noTags ? true : false;
+    RT.hashTags.forEach((tag) => {
+      if (!hasActivedTag)
+        hasActivedTag = radioButtonHook.selectedValues.includes(tag);
+    });
+    return hasActivedTag;
+  });
+
   if (step === "select")
     return (
       <div>
@@ -264,40 +256,33 @@ const Reservation: React.FC<IProps> = ({
                 <JDtypho {...sharedSectionTitleProp}>
                   {LANG("product_select")}
                 </JDtypho>
-                <JDradioButton
-                  className="Reservation__roomFilterBtn"
-                  btnProps={{
-                    size: "small",
-                    mode: "border",
-                  }}
-                  mode="gather"
-                  withAllTooglerLabel="All"
-                  withAllToogler
-                  {...radioButtonHook}
-                />
+                {!noTags && (
+                  <JDradioButton
+                    className="Reservation__roomFilterBtn"
+                    btnProps={{
+                      size: "small",
+                      mode: "border",
+                    }}
+                    mode="gather"
+                    withAllTooglerLabel="All"
+                    withAllToogler
+                    {...radioButtonHook}
+                  />
+                )}
               </JDalign>
-              {roomTypes?.map((RT) => {
-                let isIncluded = false;
-                RT.hashTags.forEach(
-                  (t) =>
-                    (isIncluded = radioButtonHook.selectedValues.includes(t))
+              {visibleRoomTypes?.map((RT) => {
+                return (
+                  <RoomTypeWrap
+                    resvContext={resvContext}
+                    dateInfo={{
+                      checkIn: from || new Date(),
+                      checkOut: to || new Date(),
+                    }}
+                    houseData={houseData}
+                    roomType={RT}
+                    key={RT._id}
+                  />
                 );
-
-                if (isIncluded)
-                  return (
-                    <RoomTypeWrap
-                      resvContext={resvContext}
-                      dateInfo={{
-                        checkIn: from || new Date(),
-                        checkOut: to || new Date(),
-                      }}
-                      houseData={houseData}
-                      roomType={RT}
-                      key={RT._id}
-                    />
-                  );
-
-                return <span />;
               })}
             </div>
             <JDdayPickerModal

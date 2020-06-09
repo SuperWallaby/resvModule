@@ -1188,10 +1188,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@janda-com/front@^2.0.21":
-  version "2.0.21"
-  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.0.21.tgz#dda98cb13f306a8f50dc4149fd713cfa0f3fbc1e"
-  integrity sha512-IZ31UasNnYqP1LqHgOX1rkLxC1R3YIp7iMhYBy9p6SC6Hclj6jSwN8m2KevJIwAxAOE5G1FzitVexFXVFvTg6g==
+"@janda-com/front@^2.0.24":
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.0.24.tgz#01440156c636652f179d12d966fb05d722afc76e"
+  integrity sha512-6Xfqu4CxxPSb9MmcVgXcF50OxwMI6P9yjR8+hF9TSXShmApSihE0p+SOPx8lNBI8gwEtXeaK+1KmSUsgCwlQwQ==
   dependencies:
     "@apollo/react-common" "^3.1.3"
     "@types/react-dom" "^16.9.4"
