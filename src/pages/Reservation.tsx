@@ -18,6 +18,7 @@ import {
   makeBookingForPublicVariables,
   getHouseForPublic_GetHouseForPublic_house,
   getHouseForPublic_GetHouseForPublic_house_houseConfig_options,
+  getHouseForPublic_GetHouseForPublic_house_roomTypes,
 } from "../types/api";
 import RoomTypeWrap from "../components/roomType/RoomTypeWrap";
 import { LANG } from "../App";
@@ -40,6 +41,7 @@ import { isPhone } from "@janda-com/front";
 import { getAllFromUrl } from "@janda-com/front";
 import moment from "moment";
 import { store } from "./helper";
+import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
 
 const { arraySum } = utills;
 
@@ -56,6 +58,27 @@ if (urlDateFrom) {
   store.isAsked = true;
 }
 
+const getUniqTag = (
+  roomTypes: getHouseForPublic_GetHouseForPublic_house_roomTypes[]
+) => {
+  let uniqHashTag: IRadiosOps[] = [];
+  const tagValues = uniqHashTag.map((tag) => tag.value);
+
+  roomTypes?.forEach((roomType) => {
+    const uniqTags = roomType.hashTags
+      .filter((ht) => !tagValues.includes(ht))
+      .map((ht) => {
+        return {
+          label: ht,
+          value: roomType._id,
+        };
+      });
+    uniqHashTag = [...uniqHashTag, ...uniqTags];
+  });
+
+  return uniqHashTag;
+};
+
 const Reservation: React.FC<IProps> = ({
   houseData,
   makeBookingFn,
@@ -68,23 +91,9 @@ const Reservation: React.FC<IProps> = ({
     urlDateTo || loadMemo("to")
   );
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
-  const radioButtonHook = useRadioButton(
-    [],
-    [
-      {
-        label: "오션뷰",
-        value: "OSV",
-      },
-      {
-        label: "마운틴뷰",
-        value: "MTV",
-      },
-      {
-        label: "할인",
-        value: "SALE",
-      },
-    ]
-  );
+
+  const uniqTags = getUniqTag(houseData?.roomTypes || []);
+  const radioButtonHook = useRadioButton([], uniqTags);
 
   const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(
     loadMemo("bookerInfo")
@@ -268,18 +277,27 @@ const Reservation: React.FC<IProps> = ({
                 />
               </JDalign>
               {roomTypes?.map((RT) => {
-                return (
-                  <RoomTypeWrap
-                    resvContext={resvContext}
-                    dateInfo={{
-                      checkIn: from || new Date(),
-                      checkOut: to || new Date(),
-                    }}
-                    houseData={houseData}
-                    roomType={RT}
-                    key={RT._id}
-                  />
+                let isIncluded = false;
+                RT.hashTags.forEach(
+                  (t) =>
+                    (isIncluded = radioButtonHook.selectedValues.includes(t))
                 );
+
+                if (isIncluded)
+                  return (
+                    <RoomTypeWrap
+                      resvContext={resvContext}
+                      dateInfo={{
+                        checkIn: from || new Date(),
+                        checkOut: to || new Date(),
+                      }}
+                      houseData={houseData}
+                      roomType={RT}
+                      key={RT._id}
+                    />
+                  );
+
+                return <span />;
               })}
             </div>
             <JDdayPickerModal

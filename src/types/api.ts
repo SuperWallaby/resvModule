@@ -115,6 +115,11 @@ export interface getHouseForPublic_GetHouseForPublic_house_roomTypes {
   roomCount: number;
   roomGender: RoomGender;
   img: getHouseForPublic_GetHouseForPublic_house_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  hashTags: string[];
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -260,6 +265,11 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   roomCount: number;
   roomGender: RoomGender;
   img: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  hashTags: string[];
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -333,6 +343,11 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   roomCount: number;
   roomGender: RoomGender;
   img: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  hashTags: string[];
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -471,6 +486,11 @@ export interface searchBooking_SearchBooking_data_roomTypes {
   roomCount: number;
   roomGender: RoomGender;
   img: searchBooking_SearchBooking_data_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  hashTags: string[];
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -789,6 +809,11 @@ export interface FroomType {
   roomCount: number;
   roomGender: RoomGender;
   img: FroomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  hashTags: string[];
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -832,6 +857,11 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   roomCount: number;
   roomGender: RoomGender;
   img: FroomTypePriceResult_roomTypeDatePrices_roomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  hashTags: string[];
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -976,6 +1006,11 @@ export interface Fbooking_roomTypes {
   roomCount: number;
   roomGender: RoomGender;
   img: Fbooking_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  hashTags: string[];
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.

@@ -56,7 +56,7 @@ export const F_HOUSE_CONFIG = gql`
       value
     }
     bookingConfig {
-      bookOnlySingleDay 
+      bookOnlySingleDay
       newBookingMark {
         enable
         newGuestTime
@@ -106,6 +106,8 @@ export const F_ROOMTYPE = gql`
     img {
       ...Fimg
     }
+    images
+    hashTags
     description
     defaultPrice
     createdAt
@@ -342,23 +344,23 @@ export const GET_BOOKING_FOR_PUBLIC = gql`
 
 export const SEARCH_BOOKING = gql`
   query searchBooking($bookingNum: String!) {
-    SearchBooking(bookingNum:$bookingNum) {
-    ok
-    error
-    data {
-      ...Fbooking
-      guests {
-        ...Fguest
-        roomType {
-          _id
-          name
-          index
-          description
+    SearchBooking(bookingNum: $bookingNum) {
+      ok
+      error
+      data {
+        ...Fbooking
+        guests {
+          ...Fguest
+          roomType {
+            _id
+            name
+            index
+            description
+          }
         }
       }
     }
   }
-}
   ${F_GUEST}
   ${F_BOOKING}
-`
+`;
