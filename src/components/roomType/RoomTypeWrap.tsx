@@ -10,15 +10,13 @@ import {
 } from "../../types/api";
 import client from "../../apollo/apolloClient";
 import { useQuery } from "react-apollo";
-import { utills, JDpreloader } from "@janda-com/front";
+import { queryDataFormater, JDpreloader } from "@janda-com/front";
 import RoomType from "./RoomType";
 import { getAveragePrice } from "../../pages/helper";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import { PricingType } from "../../types/enum";
 import moment from "moment";
 import { ApolloQueryResult } from "apollo-client";
-
-const { queryDataFormater } = utills;
 
 export enum Gender {
   FEMALE = "FEMALE",

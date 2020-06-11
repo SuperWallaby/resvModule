@@ -1,157 +1,218 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import { JDtypho, JDalign, JDbutton } from "@janda-com/front";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
 import { IRoomTypeContext, Gender } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
-import { utills } from "@janda-com/front";
-import { ISet } from "@janda-com/front/build/types/interface";
-const { queryDataFormater } = utills;
-
+import { queryDataFormater } from "@janda-com/front";
 
 interface CounterProp {
-    count: number;
-    handleCount: (flag: boolean, target: any) => any;
-    target: "male" | "female" | "room",
-    label: string;
-    maxCount: number;
+  count: number;
+  handleCount: (flag: boolean, target: any) => any;
+  target: "male" | "female" | "room";
+  label: string;
+  maxCount: number;
 }
 
-const Counter: React.FC<CounterProp> = ({ handleCount, target, count, label, maxCount }) => {
-    return <JDalign className="counter" flex={{
-        vCenter: true
-    }}>
-        <JDtypho weight={600} mr="large">{label}</JDtypho>
-        <JDalign className="counter__inner">
-            <JDbutton disabled={count === 0} thema="grey1" mode="flat" className="counter__btn" onClick={() => { handleCount(false, target) }}>-</JDbutton>
-            <JDbutton thema="grey1" mode="flat" className="counter__count">
-                {count}
-                <JDtypho size="superTiny">/{maxCount}</JDtypho>
-            </JDbutton>
-            <JDbutton disabled={maxCount <= count} thema="grey1" mode="flat" className="counter__btn" onClick={() => { handleCount(true, target) }}>+</JDbutton>
-        </JDalign>
+const Counter: React.FC<CounterProp> = ({
+  handleCount,
+  target,
+  count,
+  label,
+  maxCount,
+}) => {
+  return (
+    <JDalign
+      className="counter"
+      flex={{
+        vCenter: true,
+      }}
+    >
+      <JDtypho weight={600} mr="large">
+        {label}
+      </JDtypho>
+      <JDalign className="counter__inner">
+        <JDbutton
+          disabled={count === 0}
+          thema="grey1"
+          mode="flat"
+          className="counter__btn"
+          onClick={() => {
+            handleCount(false, target);
+          }}
+        >
+          -
+        </JDbutton>
+        <JDbutton thema="grey1" mode="flat" className="counter__count">
+          {count}
+          <JDtypho size="superTiny">/{maxCount}</JDtypho>
+        </JDbutton>
+        <JDbutton
+          disabled={maxCount <= count}
+          thema="grey1"
+          mode="flat"
+          className="counter__btn"
+          onClick={() => {
+            handleCount(true, target);
+          }}
+        >
+          +
+        </JDbutton>
+      </JDalign>
     </JDalign>
-}
-
+  );
+};
 
 interface IProps {
-    resvContext: IResvContext;
-    roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
-    fullDatePrice: number;
-    targetSelectInfo: IRoomSelectInfo;
-    isDomitory: boolean;
-    roomTypeContext: IRoomTypeContext;
-    availableCount: {
-        maleCount: number;
-        femaleCount: number;
-        roomCount: number;
-    }
+  resvContext: IResvContext;
+  roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
+  fullDatePrice: number;
+  targetSelectInfo: IRoomSelectInfo;
+  isDomitory: boolean;
+  roomTypeContext: IRoomTypeContext;
+  availableCount: {
+    maleCount: number;
+    femaleCount: number;
+    roomCount: number;
+  };
 }
 
 const CountSelecter: React.FC<IProps> = ({
-    resvContext,
-    targetSelectInfo,
-    fullDatePrice,
-    isDomitory,
-    roomTypeContext,
-    availableCount
+  resvContext,
+  targetSelectInfo,
+  fullDatePrice,
+  isDomitory,
+  roomTypeContext,
+  availableCount,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const {
+    refetchCapacity,
+    capacityData,
+    sharedQueryVariable,
+  } = roomTypeContext;
+  const {
+    femaleCount: availableCountFemale,
+    maleCount: availableCountMale,
+    roomCount: availableCountRoom,
+  } = availableCount;
+  const { roomSelectInfo, setRoomSelectInfo } = resvContext;
+  const [maxCount, setMaxCount] = useState({
+    maxFemale: availableCountFemale,
+    maxMale: availableCountMale,
+  });
 
-    const [loading, setLoading] = useState(false);
-    const { refetchCapacity, capacityData, sharedQueryVariable } = roomTypeContext;
-    const { femaleCount: availableCountFemale, maleCount: availableCountMale, roomCount: availableCountRoom } = availableCount;
-    const { roomSelectInfo, setRoomSelectInfo } = resvContext;
-    const [maxCount, setMaxCount] = useState({
-        maxFemale: availableCountFemale,
-        maxMale: availableCountMale
-    })
+  const handleCount = async (
+    positive: boolean,
+    target: "male" | "female" | "room"
+  ) => {
+    if (loading) return;
+    setLoading(true);
+    let sum = positive ? 1 : -1;
+    if (!targetSelectInfo)
+      throw Error("This must not happend by UI :: RoomType");
 
+    const isFemaleCall = target === "female";
+    const { roomCount, female, male } = targetSelectInfo.count;
 
-    const handleCount = async (positive: boolean, target: "male" | "female" | "room") => {
-        if (loading) return;
-        setLoading(true);
-        let sum = positive ? 1 : -1;
-        if (!targetSelectInfo) throw Error("This must not happend by UI :: RoomType");
+    if (target === "room") targetSelectInfo.count.roomCount += sum;
 
-        const isFemaleCall = target === "female";
-        const { roomCount, female, male } = targetSelectInfo.count;
+    if (target !== "room") {
+      sharedQueryVariable.RoomTypeCapacityInput.initValue = {
+        count: isFemaleCall ? female + sum : male + sum,
+        gender: isFemaleCall ? Gender.FEMALE : Gender.MALE,
+      };
+      const { data } = await refetchCapacity({
+        ...sharedQueryVariable,
+      });
 
-        if (target === "room")
-            targetSelectInfo.count.roomCount += sum
+      const queryData =
+        queryDataFormater(data, "GetRoomTypeById", "roomType", undefined) ||
+        undefined;
 
+      if (!queryData) return;
 
-        if (target !== "room") {
-            sharedQueryVariable.RoomTypeCapacityInput.initValue = {
-                count: isFemaleCall ? female + sum : male + sum,
-                gender: isFemaleCall ? Gender.FEMALE : Gender.MALE
-            }
-            const { data } = await refetchCapacity({
-                ...sharedQueryVariable
-            });
+      if (target === "female") targetSelectInfo.count.female += sum;
+      if (target === "male") targetSelectInfo.count.male += sum;
 
+      const capcityData = getAvailableCountFromQuery(queryData);
+      const { femaleCount, maleCount } = capcityData;
 
-            const queryData = queryDataFormater(data, "GetRoomTypeById", "roomType", undefined) || undefined
+      if (isFemaleCall && targetSelectInfo.count.male > maleCount) {
+        targetSelectInfo.count.male = 0;
+      }
 
-            if (!queryData) return;
+      if (!isFemaleCall && targetSelectInfo.count.female > femaleCount) {
+        targetSelectInfo.count.female = 0;
+      }
 
-            if (target === "female")
-                targetSelectInfo.count.female += sum
-            if (target === "male")
-                targetSelectInfo.count.male += sum
+      if (targetSelectInfo.count.female < 0) {
+        targetSelectInfo.count.female = 0;
+      }
 
+      if (targetSelectInfo.count.male < 0) {
+        targetSelectInfo.count.male = 0;
+      }
 
-            const capcityData = getAvailableCountFromQuery(queryData);
-            const { femaleCount, maleCount } = capcityData;
-
-            if (isFemaleCall && targetSelectInfo.count.male > maleCount) {
-                targetSelectInfo.count.male = 0;
-            }
-
-            if (!isFemaleCall && targetSelectInfo.count.female > femaleCount) {
-                targetSelectInfo.count.female = 0;
-            }
-
-            if (targetSelectInfo.count.female < 0) {
-                targetSelectInfo.count.female = 0
-            }
-
-            if (targetSelectInfo.count.male < 0) {
-                targetSelectInfo.count.male = 0
-            }
-
-            setMaxCount({
-                maxFemale: isFemaleCall ? maxCount.maxFemale : femaleCount,
-                maxMale: isFemaleCall ? maleCount : maxCount.maxMale,
-            })
-        }
-
-        targetSelectInfo.price = fullDatePrice * (targetSelectInfo.count.male + targetSelectInfo.count.female + targetSelectInfo.count.roomCount);;
-
-        setRoomSelectInfo([...roomSelectInfo])
-
-        setLoading(false);
-
+      setMaxCount({
+        maxFemale: isFemaleCall ? maxCount.maxFemale : femaleCount,
+        maxMale: isFemaleCall ? maleCount : maxCount.maxMale,
+      });
     }
 
-    const { count } = targetSelectInfo
-    const { male, female, roomCount } = count;
+    targetSelectInfo.price =
+      fullDatePrice *
+      (targetSelectInfo.count.male +
+        targetSelectInfo.count.female +
+        targetSelectInfo.count.roomCount);
 
-    console.log("maxCount.maxMale + maxCount.maxFemale + availableCountRoom");
-    console.log(maxCount.maxMale + maxCount.maxFemale + availableCountRoom);
+    setRoomSelectInfo([...roomSelectInfo]);
 
+    setLoading(false);
+  };
 
-    return <JDalign flex={{
-        around: true
-    }} className="countSelecter">
-        {isDomitory ? <Fragment>
-            <Counter maxCount={maxCount.maxMale} label={LANG("male")} handleCount={handleCount} target={"male"} count={male} />
-            <Counter maxCount={maxCount.maxFemale} label={LANG("female")} handleCount={handleCount} target={"female"} count={female} />
+  const { count } = targetSelectInfo;
+  const { male, female, roomCount } = count;
+
+  console.log("maxCount.maxMale + maxCount.maxFemale + availableCountRoom");
+  console.log(maxCount.maxMale + maxCount.maxFemale + availableCountRoom);
+
+  return (
+    <JDalign
+      flex={{
+        around: true,
+      }}
+      className="countSelecter"
+    >
+      {isDomitory ? (
+        <Fragment>
+          <Counter
+            maxCount={maxCount.maxMale}
+            label={LANG("male")}
+            handleCount={handleCount}
+            target={"male"}
+            count={male}
+          />
+          <Counter
+            maxCount={maxCount.maxFemale}
+            label={LANG("female")}
+            handleCount={handleCount}
+            target={"female"}
+            count={female}
+          />
         </Fragment>
-            :
-            <Counter maxCount={availableCountRoom} label={LANG("room_count")} handleCount={handleCount} target={"room"} count={roomCount} />
-        }
+      ) : (
+        <Counter
+          maxCount={availableCountRoom}
+          label={LANG("room_count")}
+          handleCount={handleCount}
+          target={"room"}
+          count={roomCount}
+        />
+      )}
     </JDalign>
-}
+  );
+};
 
 export default CountSelecter;

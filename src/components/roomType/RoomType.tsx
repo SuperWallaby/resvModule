@@ -19,7 +19,7 @@ import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 
-const { autoComma } = utills;
+const { autoComma } = utils;
 
 interface IProps {
   resvContext: IResvContext;

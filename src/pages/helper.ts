@@ -3,7 +3,7 @@ import {
   getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices,
   getHouseForPublic_GetHouseForPublic_house_roomTypes,
 } from "../types/api";
-import { utills } from "@janda-com/front";
+import { arraySum } from "@janda-com/front";
 import { IPayInfo, IBookerInfo, IRoomSelectInfo } from "./declare";
 import { Tstep, IHouseOptions, TOptionsObj } from "../types/type";
 import moment from "moment";
@@ -15,7 +15,6 @@ import {
 } from "../types/deafult";
 import { HouseOptionsKey } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
-const { arraySum } = utills;
 
 export const getUniqTag = (
   roomTypes: getHouseForPublic_GetHouseForPublic_house_roomTypes[]
@@ -29,7 +28,7 @@ export const getUniqTag = (
       .map((ht) => {
         return {
           label: ht,
-          value: roomType._id,
+          value: ht,
         };
       });
     uniqHashTag = [...uniqHashTag, ...uniqTags];

@@ -7,9 +7,10 @@ import {
   JDalign,
   JDdayPickerModal,
   JDtypho,
-  utills,
+  utils,
   JDbutton,
   toast,
+  arraySum,
   JDdayPicker,
   useRadioButton,
 } from "@janda-com/front";
@@ -17,8 +18,6 @@ import SelectViewer from "../components/SelectViewer";
 import {
   makeBookingForPublicVariables,
   getHouseForPublic_GetHouseForPublic_house,
-  getHouseForPublic_GetHouseForPublic_house_houseConfig_options,
-  getHouseForPublic_GetHouseForPublic_house_roomTypes,
 } from "../types/api";
 import RoomTypeWrap from "../components/roomType/RoomTypeWrap";
 import { LANG } from "../App";
@@ -42,8 +41,6 @@ import { getAllFromUrl } from "@janda-com/front";
 import moment from "moment";
 import { store } from "./helper";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
-
-const { arraySum } = utills;
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
@@ -72,11 +69,11 @@ const Reservation: React.FC<IProps> = ({
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
 
   const uniqTags = getUniqTag(houseData?.roomTypes || []);
-  const radioButtonHook = useRadioButton([], uniqTags);
+  const radioButtonHook = useRadioButton(
+    uniqTags.map((t) => t.value),
+    uniqTags
+  );
   const noTags = uniqTags.length === 0;
-
-  console.log("uniqTags");
-  console.log(uniqTags);
 
   const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(
     loadMemo("bookerInfo")
@@ -220,12 +217,14 @@ const Reservation: React.FC<IProps> = ({
   }, [from, to, payInfo, bookerInfo, roomSelectInfo]);
 
   const visibleRoomTypes = (roomTypes || []).filter((RT) => {
-    let hasActivedTag = noTags ? true : false;
+    const allVisible =
+      radioButtonHook.selectedValues.length === uniqTags.length;
+    let visible = allVisible || noTags;
     RT.hashTags.forEach((tag) => {
-      if (!hasActivedTag)
-        hasActivedTag = radioButtonHook.selectedValues.includes(tag);
+      if (!visible) visible = radioButtonHook.selectedValues.includes(tag);
     });
-    return hasActivedTag;
+
+    return visible;
   });
 
   if (step === "select")
@@ -263,9 +262,10 @@ const Reservation: React.FC<IProps> = ({
                       size: "small",
                       mode: "border",
                     }}
-                    mode="gather"
-                    withAllTooglerLabel="All"
                     withAllToogler
+                    withAllTooglerLabel="전체"
+                    mode="gather"
+                    only
                     {...radioButtonHook}
                   />
                 )}

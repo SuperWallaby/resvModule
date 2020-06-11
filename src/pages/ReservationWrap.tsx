@@ -11,7 +11,8 @@ import {
 } from "../apollo/queries";
 import client from "../apollo/apolloClient";
 import {
-  utills,
+  queryDataFormater,
+  onCompletedMessage,
   useModal,
   JDmodal,
   JDbutton,
@@ -21,8 +22,6 @@ import { LANG } from "../App";
 import Reservation from "./Reservation";
 import { removeAllSaveInfo, getOptionsObj } from "./helper";
 import { InputText } from "@janda-com/front";
-
-const { queryDataFormater, onCompletedMessage } = utills;
 
 interface IProps {
   publickey: string;

@@ -6,7 +6,7 @@
   "jsnext:main": "dist/RC.es.js",
   "dependencies": {
     "@babel/core": "7.8.4",
-    "@janda-com/front": "^2.0.24",
+    "@janda-com/front": "^2.0.25",
     "@svgr/webpack": "4.3.3",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",

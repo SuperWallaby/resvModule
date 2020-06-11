@@ -1,9 +1,15 @@
 import React from "react";
-import { JDphotoFrame, JDslider, JDslide, JDbutton } from "@janda-com/front";
-import { JDtypho, JDalign, utills } from "@janda-com/front";
+import {
+  JDphotoFrame,
+  JDslider,
+  JDslide,
+  JDtypho,
+  JDalign,
+  fromToRender,
+  autoComma,
+} from "@janda-com/front";
 import { LANG } from "../App";
 import { IResvContext } from "../pages/declare";
-const { fromToRender, autoComma } = utills;
 
 interface IProps {
   resvContext: IResvContext;
