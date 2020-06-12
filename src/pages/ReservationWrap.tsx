@@ -17,7 +17,11 @@ import {
   JDmodal,
   JDbutton,
   copytoClipboard,
+<<<<<<< HEAD
+  JDalign,
+=======
   getFromUrl,
+>>>>>>> feature/urlQueryString
 } from "@janda-com/front";
 import { LANG } from "../App";
 import Reservation from "./Reservation";
@@ -114,6 +118,7 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
               iconProps={{
                 size: "large",
               }}
+              mr="no"
               Size="big"
               value={bookingNum}
               iconHover
@@ -122,8 +127,7 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
               }}
               icon="file"
             />
-            {LANG("move_to_confirm_page")}
-
+            <JDalign mb="small">{LANG("move_to_confirm_page")}</JDalign>
             {optObj.ResvCompeleteMsg && (
               <InputText
                 label={LANG("complete_msg")}

@@ -65,10 +65,11 @@ const RoomTypeWrap: React.FC<IProps> = ({
   urlSearched,
 }) => {
   const { roomSelectInfo, from, to } = resvContext;
-  const { checkIn, checkOut } = dateInfo;
+  const { checkIn } = dateInfo;
   const { _id: houseId } = houseData;
   const { _id: roomTypeId } = roomType;
 
+  const checkOut = moment(checkIn).add(1, "d").toDate();
   const shouldSkip = () =>
     checkIn && checkOut && checkIn != checkOut ? false : true;
 
@@ -141,7 +142,7 @@ const RoomTypeWrap: React.FC<IProps> = ({
   const targetSelectInfo = roomSelectInfo.find(
     (r) => r.roomTypeId === roomType._id
   );
-  const fullDatePrice = diff * formattedDailyPrice;
+  const fullDatePrice = (diff || 1) * formattedDailyPrice;
 
   if (!capacityData) {
     console.error(`can not load roomType with this id ${roomTypeId}`);
@@ -161,6 +162,7 @@ const RoomTypeWrap: React.FC<IProps> = ({
   return (
     <Fragment>
       <RoomType
+        priceLoading={networkStatus === 1}
         popUpDetailPage={urlSearched}
         countLoading={countLoading}
         roomTypeContext={roomTypeContext}

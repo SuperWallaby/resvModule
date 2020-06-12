@@ -99,29 +99,24 @@ export const bookingValidater = (
 
 export const getUniqTag = (
   roomTypes: getHouseForPublic_GetHouseForPublic_house_roomTypes[]
-) => {
-  let uniqHashTag: IRadiosOps[] = [];
-  const tagValues = uniqHashTag.map((tag) => tag.value);
+): IRadiosOps[] => {
+  let uniqHashTagValues: string[] = [];
 
   roomTypes?.forEach((roomType) => {
-    const uniqTags = roomType.hashTags
-      .filter((ht) => !tagValues.includes(ht))
-      .map((ht) => {
-        return {
-          label: ht,
-          value: ht,
-        };
-      });
-    uniqHashTag = [...uniqHashTag, ...uniqTags];
+    const uniqTags = roomType.hashTags.filter(
+      (ht) => !uniqHashTagValues.includes(ht)
+    );
+
+    uniqHashTagValues = [...uniqHashTagValues, ...uniqTags];
   });
 
-  return uniqHashTag;
+  return uniqHashTagValues.map((t) => ({ value: t, label: t }));
 };
 
-export const getOptionsObj = (options: IHouseOptions[]): TOptionsObj => {
+export const getOptionsObj = (options: IHouseOptions[] = []): TOptionsObj => {
   const returnObj: any = {};
   Object.keys(HouseOptionsKey).forEach((key) => {
-    returnObj[key] = options.find((op) => op.key === key);
+    returnObj[key] = options.find((op) => op.key === key)?.value || "";
   });
   return returnObj;
 };
@@ -179,7 +174,7 @@ const getParsedData = (key: string, DEFAULT: any) => {
 };
 
 const getParsedDate = (key: "from" | "to") => {
-  const defualtTo = moment().add(1, "day").toDate();
+  const defualtTo = moment().toDate();
   try {
     const date = sessionStorage.getItem(key);
     if (key === "to" && !date) {

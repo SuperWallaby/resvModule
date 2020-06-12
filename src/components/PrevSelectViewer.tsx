@@ -30,10 +30,11 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
   return (
     <div className="prevSelectViewer">
       <div>
-        <JDslider dots={false} mr="small" mb="no" displayArrow={false}>
+        <JDslider dots={false} mr="no" mb="no" displayArrow={false}>
           {imgs.map((img) => (
             <JDslide>
               <JDphotoFrame
+                mr="no"
                 src={img}
                 isBgImg
                 unStyle

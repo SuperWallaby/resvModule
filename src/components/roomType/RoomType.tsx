@@ -19,6 +19,11 @@ import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
+import { ExtraRoomTypeConfig } from "../../types/enum";
+import { isMobile } from "is-mobile";
+import { isEmpty } from "@janda-com/front";
+
+const IS_MOBILE = isMobile();
 
 const { autoComma } = utils;
 
@@ -39,7 +44,7 @@ const RoomType: React.FC<IProps> = ({
   countLoading,
   popUpDetailPage,
 }) => {
-  const { _id, name, pricingType, img, images } = roomType;
+  const { _id, name, pricingType, img, images, description } = roomType;
   const productVeiwerModal = useModal(true);
   const photoModalHook = useModal();
   const { setRoomSelectInfo, roomSelectInfo, from, to } = resvContext;
@@ -50,6 +55,7 @@ const RoomType: React.FC<IProps> = ({
     targetSelectInfo,
     capacityData,
   } = roomTypeContext;
+
   const availableCount = getAvailableCountFromQuery(capacityData!);
   const totalCan =
     availableCount.femaleCount +
@@ -57,6 +63,10 @@ const RoomType: React.FC<IProps> = ({
     availableCount.roomCount;
   const isSoldOut = !totalCan && !countLoading && from && to;
   const loading = countLoading && from && to;
+
+  if (images?.length === 0) {
+    images.push(img?.url);
+  }
 
   let classes = "roomType";
   classes += isSelected ? " roomType--selected" : "";
@@ -124,10 +134,16 @@ const RoomType: React.FC<IProps> = ({
           </JDslider>
         </JDalign>
         <JDalign
+          className="roomType__wrap"
           flex={{
-            between: true,
+            center: IS_MOBILE ? true : false,
+            column: IS_MOBILE ? true : false,
+            grow: IS_MOBILE ? false : true,
           }}
-          className="roomType__right"
+          style={{
+            padding: IS_MOBILE ? "0.4rem" : 0,
+            paddingTop: IS_MOBILE ? "0.8rem" : 0,
+          }}
         >
           <div>
             <div className="roomType__title">
@@ -155,39 +171,126 @@ const RoomType: React.FC<IProps> = ({
             </div>
           </div>
           <JDalign
+            onClick={() => {
+              photoModalHook.openModal({
+                images,
+              });
+            }}
             style={{
-              alignItems: "flex-end",
+              height: IS_MOBILE ? "11rem" : "6rem",
+              width: IS_MOBILE ? "19rem" : undefined,
+              maxWidth: IS_MOBILE ? undefined : "10.7rem",
             }}
-            flex={{
-              column: true,
-              between: true,
-              end: true,
-            }}
+            className="roomType__slider"
           >
-            <JDbutton
-              size="small"
-              onClick={handleRoomSelectTooggler}
-              mr="no"
-              mb="normal"
-              br="no"
-              mode="flat"
-              thema={isSelected ? "white" : "primary"}
+            <JDslider
+              autoplay
+              dots={false}
+              mr="small"
+              mb="no"
+              style={{
+                overflow: "hidden",
+              }}
+              displayArrow={false}
             >
-              {LANG(isSelected ? "cancel" : "choice")}
-            </JDbutton>
-            {countLoading ? (
-              <JDpreloader
-                style={{
-                  margin: "-10px",
+              {images?.map((img, i) => (
+                <JDslide key={i + "imgSlider"}>
+                  <JDphotoFrame src={img} isBgImg unStyle />
+                </JDslide>
+              ))}
+            </JDslider>
+          </JDalign>
+          <JDalign
+            flex={{
+              between: true,
+            }}
+            className="roomType__right"
+          >
+            <JDalign
+              style={{
+                flexGrow: 1,
+              }}
+              grid
+            >
+              <JDalign
+                col={{
+                  md: 12,
+                  full: 6,
                 }}
-                size="tiny"
-                loading={true}
-              />
-            ) : (
-              <JDtypho mb="no" size="h6">
-                {autoComma(fullDatePrice)}
-              </JDtypho>
-            )}
+                mb="tiny"
+              >
+                <div className="roomType__title">
+                  <JDalign flex>
+                    <JDtypho mb="small" weight={600}>
+                      {name}
+                    </JDtypho>
+                    <div>
+                      {isSoldOut && (
+                        <JDbadge size="noraml" thema="error">
+                          SOLD OUT
+                        </JDbadge>
+                      )}
+                    </div>
+                  </JDalign>
+                </div>
+                <div className="roomType__title">
+                  {1 + "명"}
+                  {` - `}
+                  {loading ? "..." : autoComma(dailyPrice || 0)}
+                </div>
+              </JDalign>
+              <JDalign
+                col={{
+                  md: 12,
+                  full: 6,
+                }}
+                style={{
+                  whiteSpace: "pre-line",
+                }}
+                mr="large"
+              >
+                {description && (
+                  <JDtypho size="small" className="roomType__describ">
+                    {description}
+                  </JDtypho>
+                )}
+              </JDalign>
+            </JDalign>
+            <JDalign
+              style={{
+                alignItems: "flex-end",
+              }}
+              flex={{
+                column: true,
+                between: true,
+                end: true,
+              }}
+            >
+              <JDbutton
+                size="small"
+                onClick={handleRoomSelectTooggler}
+                mr="no"
+                mb="normal"
+                br="no"
+                mode="flat"
+                thema={isSelected ? "white" : "primary"}
+              >
+                {LANG(isSelected ? "cancel" : "choice")}
+              </JDbutton>
+              {priceLoading ? (
+                <JDpreloader
+                  style={{
+                    margin: "-10px",
+                  }}
+                  size="tiny"
+                  loading={true}
+                />
+              ) : (
+                <JDtypho mb="no" size="h6">
+                  {autoComma(fullDatePrice)}
+                </JDtypho>
+              )}
+            </JDalign>
           </JDalign>
         </JDalign>
       </JDalign>

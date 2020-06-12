@@ -132,7 +132,7 @@ const Reservation: React.FC<IProps> = ({
         },
         checkInOut: {
           checkIn: from,
-          checkOut: to,
+          checkOut: moment(from!).add(1, "d"),
         },
         paymentParams: {
           payMethod: paymethod as PayMethod,
@@ -202,6 +202,7 @@ const Reservation: React.FC<IProps> = ({
   if (step === "select")
     return (
       <div>
+        <h1>광안리</h1>
         <JDalign grid>
           <JDalign
             col={{
@@ -222,6 +223,9 @@ const Reservation: React.FC<IProps> = ({
               <JDalign
                 flex={{
                   between: true,
+                }}
+                style={{
+                  flexWrap: "wrap",
                 }}
               >
                 <JDtypho {...sharedSectionTitleProp}>
@@ -261,6 +265,7 @@ const Reservation: React.FC<IProps> = ({
             </div>
             <JDdayPickerModal
               autoClose
+              isRange={false}
               callBackChangeDate={() => {}}
               modalHook={dayPickerModalHook}
               {...dayPickerHook}
@@ -314,6 +319,11 @@ const Reservation: React.FC<IProps> = ({
         >
           <JDtypho {...sharedSectionTitleProp}>{LANG("check_select")}</JDtypho>
           <PrevSelectViewer resvContext={resvContext} />
+          {customMsgs.ResvCautionMsg && (
+            <JDtypho mb="small" size="small" weight={600}>
+              {"*" + customMsgs.ResvCautionMsg}
+            </JDtypho>
+          )}
         </JDalign>
         <JDalign
           col={{
@@ -328,11 +338,6 @@ const Reservation: React.FC<IProps> = ({
             label={LANG("do_resv")}
           />
         </JDalign>
-        {customMsgs.ResvCautionMsg && (
-          <JDtypho size="small" weight={600}>
-            {"*" + customMsgs.ResvCautionMsg}
-          </JDtypho>
-        )}
       </JDalign>
     );
   }
