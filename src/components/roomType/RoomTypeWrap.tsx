@@ -54,6 +54,7 @@ interface IProps {
   houseData: getHouseForPublic_GetHouseForPublic_house;
   roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
   dateInfo: ICheckInOutInfo;
+  urlSearched: boolean;
 }
 
 const RoomTypeWrap: React.FC<IProps> = ({
@@ -61,6 +62,7 @@ const RoomTypeWrap: React.FC<IProps> = ({
   resvContext,
   houseData,
   dateInfo,
+  urlSearched,
 }) => {
   const { roomSelectInfo, from, to } = resvContext;
   const { checkIn, checkOut } = dateInfo;
@@ -133,10 +135,9 @@ const RoomTypeWrap: React.FC<IProps> = ({
   const formattedDailyPrice = Math.floor(dailyPrice / 10) * 10;
   const isSelected =
     roomSelectInfo.find((r) => r.roomTypeId === roomType._id) !== undefined;
-  console.log("roomType.pricingType");
-  console.log(roomType.pricingType);
   const isDomitory = roomType.pricingType === PricingType.DOMITORY;
   const diff = moment(to || new Date()).diff(from || new Date(), "d");
+
   const targetSelectInfo = roomSelectInfo.find(
     (r) => r.roomTypeId === roomType._id
   );
@@ -160,6 +161,7 @@ const RoomTypeWrap: React.FC<IProps> = ({
   return (
     <Fragment>
       <RoomType
+        popUpDetailPage={urlSearched}
         countLoading={countLoading}
         roomTypeContext={roomTypeContext}
         resvContext={resvContext}

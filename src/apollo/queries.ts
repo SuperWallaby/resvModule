@@ -100,7 +100,6 @@ export const F_ROOMTYPE = gql`
     pricingType
     peopleCount
     peopleCountMax
-    index
     roomCount
     roomGender
     img {
@@ -354,7 +353,6 @@ export const SEARCH_BOOKING = gql`
           roomType {
             _id
             name
-            index
             description
           }
         }

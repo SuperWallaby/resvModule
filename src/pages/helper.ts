@@ -3,7 +3,7 @@ import {
   getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices,
   getHouseForPublic_GetHouseForPublic_house_roomTypes,
 } from "../types/api";
-import { arraySum } from "@janda-com/front";
+import { arraySum, toast, isPhone, getAllFromUrl } from "@janda-com/front";
 import { IPayInfo, IBookerInfo, IRoomSelectInfo } from "./declare";
 import { Tstep, IHouseOptions, TOptionsObj } from "../types/type";
 import moment from "moment";
@@ -13,8 +13,89 @@ import {
   DEFAULT_STEP,
   DEFAULT_BOOKER_INFO,
 } from "../types/deafult";
-import { HouseOptionsKey } from "../types/enum";
+import { HouseOptionsKey, PayMethod } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
+
+interface IUrlParamInformation {
+  haveUrlProductName: boolean;
+  urlTagNames: string[] | null;
+  urlDateFrom: Date | undefined;
+  urlDateTo: Date | undefined;
+  urlRoomTypeName: string | null;
+}
+
+export const getUrlInformation = (): IUrlParamInformation => {
+  const {
+    from: urlFrom,
+    to: urlTo,
+    tags: urlTags,
+    productTypes: urlRoomTypeName,
+  } = getAllFromUrl();
+  const haveUrlProductName = !!urlRoomTypeName;
+  const urlTagNames = urlTags?.split(" ") || null;
+  const urlDateFrom = urlFrom ? moment(urlFrom).toDate() : undefined;
+  const urlDateTo = urlTo ? moment(urlTo).toDate() : undefined;
+
+  return {
+    haveUrlProductName,
+    urlTagNames,
+    urlDateFrom,
+    urlDateTo,
+    urlRoomTypeName,
+  };
+};
+
+export const bookingValidater = (
+  bookerInfo: IBookerInfo,
+  payInfo: IPayInfo
+): boolean => {
+  if (!bookerInfo.name) {
+    toast.warn("예약자명을 입력 해주세요.");
+    $("#nameInput").focus();
+    return false;
+  }
+  if (!isPhone(bookerInfo.phoneNumber)) {
+    toast.warn("전화번호를 입력해주세요.");
+    $("#phoneInput").focus();
+    return false;
+  }
+  if (!bookerInfo.password) {
+    toast.warn("비밀번호를 입력해주세요.");
+    $("#passwordInput").focus();
+    return false;
+  }
+
+  if (!bookerInfo.agreePersonal || !bookerInfo.agreePersonal) {
+    toast.warn("약관에 동의바랍니다.");
+    return false;
+  }
+
+  if (payInfo.paymethod === PayMethod.CARD) {
+    if (!payInfo.cardNum) {
+      toast.warn("카드번호를 입력해주세요.");
+      $("cardInput").focus();
+      return false;
+    }
+    if (payInfo.expireM.length !== 2 || payInfo.expireY.length !== 2) {
+      toast.warn("카드 만료기간을 입력 해주세요.");
+      $("cardExpireInput").focus();
+      return false;
+    }
+    if (payInfo.idNum.length !== 6) {
+      toast.warn("주민번호 앞자리를 채워주세요.");
+      $("idNumInput").focus();
+      return false;
+    }
+
+    if (payInfo.password.length !== 2) {
+      toast.warn("카드 비밀번호를 입력 해주세요.");
+      $("idNumInput").focus();
+      return false;
+    }
+  }
+
+  return true;
+};
 
 export const getUniqTag = (
   roomTypes: getHouseForPublic_GetHouseForPublic_house_roomTypes[]

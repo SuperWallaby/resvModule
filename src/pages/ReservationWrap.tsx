@@ -17,11 +17,13 @@ import {
   JDmodal,
   JDbutton,
   copytoClipboard,
+  getFromUrl,
 } from "@janda-com/front";
 import { LANG } from "../App";
 import Reservation from "./Reservation";
 import { removeAllSaveInfo, getOptionsObj } from "./helper";
 import { InputText } from "@janda-com/front";
+import { getAllFromUrl } from "@janda-com/front/build/utils/utils";
 
 interface IProps {
   publickey: string;

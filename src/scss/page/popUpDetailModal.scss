@@ -1,0 +1,18 @@
+$flex-grid--column-margin: 4%;
+.popUpDetailModal {
+  &__soldOut {
+    position: absolute;
+    left: $modal-padding;
+    top: $modal-padding;
+    margin-top: 1rem;
+    margin-left: 1rem;
+  }
+  .flex-grid {
+    @include grid-system-all();
+  }
+  .countSelecter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: space(1);
+  }
+}

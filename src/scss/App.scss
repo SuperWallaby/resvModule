@@ -1,8 +1,15 @@
+html:root {
+  --primary-color: #8b8378;
+  --primary-color-light: #8b8378;
+  --primary-color-dark: #8b8378;
+  --primary-color-on: #fff;
+}
+
 .themeProvider {
-	--primary-color: #8b8378;
-	--primary-color-light: #8b8378;
-	--primary-color-dark: #8b8378;
-	--primary-color-on: #fff;
+  --primary-color: #8b8378;
+  --primary-color-light: #8b8378;
+  --primary-color-dark: #8b8378;
+  --primary-color-on: #fff;
 }
 
 @import "./variables.scss";
@@ -18,3 +25,4 @@
 
 @import "./page/Reservation.scss";
 @import "./page/ReservationFind.scss";
+@import "./page/popUpDetailModal.scss";

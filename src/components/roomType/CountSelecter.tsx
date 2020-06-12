@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { JDtypho, JDalign, JDbutton } from "@janda-com/front";
+import { JDtypho, JDalign, JDbutton, IJDalignProp } from "@janda-com/front";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
@@ -76,6 +76,7 @@ interface IProps {
     femaleCount: number;
     roomCount: number;
   };
+  alignProp?: IJDalignProp;
 }
 
 const CountSelecter: React.FC<IProps> = ({
@@ -85,6 +86,7 @@ const CountSelecter: React.FC<IProps> = ({
   isDomitory,
   roomTypeContext,
   availableCount,
+  alignProp,
 }) => {
   const [loading, setLoading] = useState(false);
   const {
@@ -175,15 +177,14 @@ const CountSelecter: React.FC<IProps> = ({
   const { count } = targetSelectInfo;
   const { male, female, roomCount } = count;
 
-  console.log("maxCount.maxMale + maxCount.maxFemale + availableCountRoom");
-  console.log(maxCount.maxMale + maxCount.maxFemale + availableCountRoom);
-
   return (
     <JDalign
       flex={{
         around: true,
+        grow: true,
       }}
       className="countSelecter"
+      {...alignProp}
     >
       {isDomitory ? (
         <Fragment>

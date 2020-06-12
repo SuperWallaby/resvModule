@@ -7,11 +7,8 @@ import {
   JDalign,
   JDdayPickerModal,
   JDtypho,
-  utils,
   JDbutton,
-  toast,
   arraySum,
-  JDdayPicker,
   useRadioButton,
 } from "@janda-com/front";
 import SelectViewer from "../components/SelectViewer";
@@ -28,28 +25,33 @@ import {
   IPayInfo,
 } from "./declare";
 import BookerForm from "../components/roomType/bookerForm/BookerForm";
-import { NGO_NUMS } from "../components/nationalcode";
 import PayForm from "../components/roomType/payForm/PayForm";
 import PrevSelectViewer from "../components/PrevSelectViewer";
 import AgreeBlock from "../components/AgreeBlock";
 import { PayMethod, PricingType, Funnels } from "../types/enum";
-import $ from "jquery";
 import { Tstep, TOptionsObj } from "../types/type";
-import { loadMemo, memoRizeSelectInfo, getUniqTag } from "./helper";
-import { isPhone } from "@janda-com/front";
-import { getAllFromUrl } from "@janda-com/front";
-import moment from "moment";
+import {
+  loadMemo,
+  memoRizeSelectInfo,
+  getUniqTag,
+  bookingValidater,
+  getUrlInformation,
+} from "./helper";
 import { store } from "./helper";
-import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
   houseData: getHouseForPublic_GetHouseForPublic_house;
   customMsgs: TOptionsObj;
 }
-const { from: urlFrom, to: urlTo } = getAllFromUrl() as any;
-const urlDateFrom = urlFrom ? moment(urlFrom).toDate() : undefined;
-const urlDateTo = urlTo ? moment(urlTo).toDate() : undefined;
+
+const {
+  urlDateFrom,
+  haveUrlProductName,
+  urlDateTo,
+  urlTagNames,
+  urlRoomTypeName,
+} = getUrlInformation();
 
 if (urlDateFrom) {
   store.isAsked = true;
@@ -60,6 +62,10 @@ const Reservation: React.FC<IProps> = ({
   makeBookingFn,
   customMsgs,
 }) => {
+  if (!houseData) throw Error("House date is not exsist");
+  const { roomTypes, houseConfig } = houseData;
+  const { bookingConfig } = houseConfig;
+  const { maxStayDate } = bookingConfig;
   const dayPickerModalHook = useModal(false);
   // TODO 여기서 sameDate일경우에
   const dayPickerHook = useDayPicker(
@@ -67,74 +73,44 @@ const Reservation: React.FC<IProps> = ({
     urlDateTo || loadMemo("to")
   );
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
+  const uniqTags = getUniqTag(roomTypes || []);
+  const allTags = uniqTags.map((t) => t.value);
 
-  const uniqTags = getUniqTag(houseData?.roomTypes || []);
-  const radioButtonHook = useRadioButton(
-    uniqTags.map((t) => t.value),
-    uniqTags
-  );
+  const radioButtonHook = useRadioButton(urlTagNames || allTags, uniqTags);
+
   const noTags = uniqTags.length === 0;
+  const targetProductModal = haveUrlProductName;
+
+  const urlSearchedRoomType = roomTypes?.find(
+    (r) => r.name === urlRoomTypeName
+  );
+
+  const urlRoomSelectInfo: IRoomSelectInfo[] = [
+    {
+      count: {
+        female: 0,
+        male: 0,
+        roomCount: 0,
+      },
+      price: 0,
+      pricingType: urlSearchedRoomType?.pricingType || PricingType.DOMITORY,
+      roomTypeId: urlSearchedRoomType?._id || "",
+      img: urlSearchedRoomType?.images?.[0] || "",
+      roomTypeName: urlSearchedRoomType?.name || "",
+    },
+  ];
 
   const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(
     loadMemo("bookerInfo")
   );
   const [step, setStep] = useState<Tstep>(loadMemo("step"));
   const [roomSelectInfo, setRoomSelectInfo] = useState<IRoomSelectInfo[]>(
-    loadMemo("roomSelectInfo")
+    urlRoomSelectInfo || loadMemo("roomSelectInfo")
   );
   const selectedPrice = arraySum(roomSelectInfo.map((rs) => rs.price));
 
-  const validater = (): boolean => {
-    if (!bookerInfo.name) {
-      toast.warn("예약자명을 입력 해주세요.");
-      $("#nameInput").focus();
-      return false;
-    }
-    if (!isPhone(bookerInfo.phoneNumber)) {
-      toast.warn("전화번호를 입력해주세요.");
-      $("#phoneInput").focus();
-      return false;
-    }
-    if (!bookerInfo.password) {
-      toast.warn("비밀번호를 입력해주세요.");
-      $("#passwordInput").focus();
-      return false;
-    }
-
-    if (!bookerInfo.agreePersonal || !bookerInfo.agreePersonal) {
-      toast.warn("약관에 동의바랍니다.");
-      return false;
-    }
-
-    if (payInfo.paymethod === PayMethod.CARD) {
-      if (!payInfo.cardNum) {
-        toast.warn("카드번호를 입력해주세요.");
-        $("cardInput").focus();
-        return false;
-      }
-      if (payInfo.expireM.length !== 2 || payInfo.expireY.length !== 2) {
-        toast.warn("카드 만료기간을 입력 해주세요.");
-        $("cardExpireInput").focus();
-        return false;
-      }
-      if (payInfo.idNum.length !== 6) {
-        toast.warn("주민번호 앞자리를 채워주세요.");
-        $("idNumInput").focus();
-        return false;
-      }
-
-      if (payInfo.password.length !== 2) {
-        toast.warn("카드 비밀번호를 입력 해주세요.");
-        $("idNumInput").focus();
-        return false;
-      }
-    }
-
-    return true;
-  };
-
   const handleDoResvBtn = () => {
-    if (validater()) {
+    if (bookingValidater(bookerInfo, payInfo)) {
       const { memo, name, password, phoneNumber } = bookerInfo;
       const {
         cardNum,
@@ -187,10 +163,6 @@ const Reservation: React.FC<IProps> = ({
   };
 
   const { from, to } = dayPickerHook;
-  const { roomTypes, houseConfig } = houseData;
-  const { bookingConfig } = houseConfig;
-  const { maxStayDate } = bookingConfig;
-
   const resvContext: IResvContext = {
     roomSelectInfo,
     houseData,
@@ -271,8 +243,10 @@ const Reservation: React.FC<IProps> = ({
                 )}
               </JDalign>
               {visibleRoomTypes?.map((RT) => {
+                const { name, _id } = RT;
                 return (
                   <RoomTypeWrap
+                    urlSearched={name === urlRoomTypeName}
                     resvContext={resvContext}
                     dateInfo={{
                       checkIn: from || new Date(),
@@ -280,7 +254,7 @@ const Reservation: React.FC<IProps> = ({
                     }}
                     houseData={houseData}
                     roomType={RT}
-                    key={RT._id}
+                    key={_id}
                   />
                 );
               })}

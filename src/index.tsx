@@ -33,8 +33,9 @@ class JD_RESV implements APP_PROP {
 }
 
 if (process.env.NODE_ENV === "development") {
-  const TEST_PUBLICK_KEY = "163105a1-6104-36d5-8383-7d3a0320bd39";
-  const jdmoudle = new JD_RESV(TEST_PUBLICK_KEY);
+  const TEST_GANG_KEY = "1764b1ab-8ea3-13a8-b4dd-a233681b8575";
+  const TEST_MY_KEY = "163105a1-6104-36d5-8383-7d3a0320bd39";
+  const jdmoudle = new JD_RESV(TEST_GANG_KEY);
 
   jdmoudle.start();
 }
