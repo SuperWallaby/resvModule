@@ -12,6 +12,8 @@ import {
   JDphotoModal,
   useModal,
   JDmodal,
+  JDicon,
+  JDdayPicker,
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
@@ -22,6 +24,7 @@ import { getAvailableCountFromQuery } from "./helper";
 import { ExtraRoomTypeConfig } from "../../types/enum";
 import { isMobile } from "is-mobile";
 import { isEmpty } from "@janda-com/front";
+import moment from "moment";
 
 const IS_MOBILE = isMobile();
 
@@ -34,6 +37,8 @@ interface IProps {
   roomTypeContext: IRoomTypeContext;
   countLoading: boolean;
   popUpDetailPage?: boolean;
+  priceLoading: boolean;
+  handleDoResvBtn: () => void;
 }
 
 const RoomType: React.FC<IProps> = ({
@@ -42,12 +47,20 @@ const RoomType: React.FC<IProps> = ({
   resvContext,
   roomTypeContext,
   countLoading,
+  priceLoading,
   popUpDetailPage,
+  handleDoResvBtn,
 }) => {
   const { _id, name, pricingType, img, images, description } = roomType;
   const productVeiwerModal = useModal(true);
   const photoModalHook = useModal();
-  const { setRoomSelectInfo, roomSelectInfo, from, to } = resvContext;
+  const {
+    setRoomSelectInfo,
+    roomSelectInfo,
+    from,
+    to,
+    dayPickerHook,
+  } = resvContext;
   const {
     fullDatePrice,
     isDomitory,
@@ -91,48 +104,7 @@ const RoomType: React.FC<IProps> = ({
 
   return (
     <div className={classes}>
-      <JDalign
-        className="roomType__wrap"
-        flex={{
-          grow: true,
-        }}
-      >
-        <JDalign className="roomType__slider">
-          <JDslider
-            onClick={() => {
-              photoModalHook.openModal({
-                images,
-              });
-            }}
-            autoplay
-            dots={false}
-            mr="no"
-            mb="no"
-            displayArrow={false}
-          >
-            <JDslide>
-              <JDphotoFrame
-                src={img?.url}
-                isBgImg
-                unStyle
-                style={{
-                  borderRadius: "0px",
-                  height: "6rem",
-                }}
-              />
-            </JDslide>
-            <JDslide>
-              <JDphotoFrame
-                isBgImg
-                unStyle
-                style={{
-                  borderRadius: "0px",
-                  height: "6rem",
-                }}
-              />
-            </JDslide>
-          </JDslider>
-        </JDalign>
+      <div className="roomType__inner">
         <JDalign
           className="roomType__wrap"
           flex={{
@@ -145,31 +117,6 @@ const RoomType: React.FC<IProps> = ({
             paddingTop: IS_MOBILE ? "0.8rem" : 0,
           }}
         >
-          <div>
-            <div className="roomType__title">
-              <JDalign
-                flex={{
-                  between: true,
-                }}
-              >
-                <JDtypho size="small" mb="small" weight={600}>
-                  {name}
-                </JDtypho>
-                <div>
-                  {isSoldOut && (
-                    <JDbadge size="noraml" thema="error">
-                      SOLD OUT
-                    </JDbadge>
-                  )}
-                </div>
-              </JDalign>
-            </div>
-            <div className="roomType__title">
-              {1 + LANG("sleep_unit")}
-              {` - `}
-              {loading ? "..." : autoComma(dailyPrice || 0)}
-            </div>
-          </div>
           <JDalign
             onClick={() => {
               photoModalHook.openModal({
@@ -177,7 +124,7 @@ const RoomType: React.FC<IProps> = ({
               });
             }}
             style={{
-              height: IS_MOBILE ? "11rem" : "6rem",
+              height: IS_MOBILE ? "24rem" : "11rem",
               width: IS_MOBILE ? "19rem" : undefined,
               maxWidth: IS_MOBILE ? undefined : "10.7rem",
             }}
@@ -199,6 +146,17 @@ const RoomType: React.FC<IProps> = ({
                 </JDslide>
               ))}
             </JDslider>
+            <div>
+              {isSoldOut && (
+                <JDbadge
+                  className="roomType__soldOut"
+                  size="noraml"
+                  thema="error"
+                >
+                  SOLD OUT
+                </JDbadge>
+              )}
+            </div>
           </JDalign>
           <JDalign
             flex={{
@@ -224,13 +182,6 @@ const RoomType: React.FC<IProps> = ({
                     <JDtypho mb="small" weight={600}>
                       {name}
                     </JDtypho>
-                    <div>
-                      {isSoldOut && (
-                        <JDbadge size="noraml" thema="error">
-                          SOLD OUT
-                        </JDbadge>
-                      )}
-                    </div>
                   </JDalign>
                 </div>
                 <div className="roomType__title">
@@ -273,6 +224,7 @@ const RoomType: React.FC<IProps> = ({
                 mb="normal"
                 br="no"
                 mode="flat"
+                disabled={!!isSoldOut}
                 thema={isSelected ? "white" : "primary"}
               >
                 {LANG(isSelected ? "cancel" : "choice")}
@@ -293,7 +245,7 @@ const RoomType: React.FC<IProps> = ({
             </JDalign>
           </JDalign>
         </JDalign>
-      </JDalign>
+      </div>
       <JDphotoModal modalHook={photoModalHook} />
       {targetSelectInfo && (
         <CountSelecter
@@ -331,7 +283,7 @@ const RoomType: React.FC<IProps> = ({
               {isSoldOut && (
                 <JDbadge
                   className="popUpDetailModal__soldOut"
-                  size="noraml"
+                  size="large"
                   thema="error"
                 >
                   SOLD OUT
@@ -358,6 +310,24 @@ const RoomType: React.FC<IProps> = ({
               }}
             >
               <JDalign mb="large" grid>
+                <JDtypho mb="large">
+                  <JDtypho weight={600} mb="normal">
+                    날짜
+                  </JDtypho>
+                  {dayPickerHook && from && (
+                    <JDdayPicker
+                      isRange={false}
+                      displayIcon={true}
+                      mode="input"
+                      {...dayPickerHook}
+                      inputComponent={(prop: any) => (
+                        <JDbutton mode="border" {...prop}>
+                          {moment(from!).format("YYYY-MM-DD")}
+                        </JDbutton>
+                      )}
+                    />
+                  )}
+                </JDtypho>
                 <JDalign
                   col={{
                     full: 6,
@@ -368,11 +338,15 @@ const RoomType: React.FC<IProps> = ({
                     {name}
                   </JDtypho>
                   <JDtypho mb="large">
+                    <JDtypho weight={600} mb="small">
+                      가격
+                    </JDtypho>
                     {1 + LANG("sleep_unit")}
                     {` - `}
                     {loading ? "..." : autoComma(dailyPrice || 0)}
                   </JDtypho>
                 </JDalign>
+
                 <JDalign
                   col={{
                     full: 6,
@@ -381,7 +355,7 @@ const RoomType: React.FC<IProps> = ({
                 >
                   {roomType.description && (
                     <div>
-                      <JDtypho weight={600} mb="normal">
+                      <JDtypho weight={600} mb="small">
                         상품설명
                       </JDtypho>
                       {roomType.description}
@@ -390,24 +364,25 @@ const RoomType: React.FC<IProps> = ({
                 </JDalign>
               </JDalign>
 
-              <CountSelecter
-                alignProp={{
-                  flex: {
-                    around: true,
-                  },
-                  style: {
-                    justifyContent: "around",
-                  },
-                }}
-                availableCount={availableCount}
-                roomTypeContext={roomTypeContext}
-                isDomitory={isDomitory}
-                targetSelectInfo={targetSelectInfo}
-                fullDatePrice={fullDatePrice}
-                roomType={roomType}
-                resvContext={resvContext}
-              />
-
+              <JDalign mb="large">
+                <CountSelecter
+                  alignProp={{
+                    flex: {
+                      around: true,
+                    },
+                    style: {
+                      justifyContent: "around",
+                    },
+                  }}
+                  availableCount={availableCount}
+                  roomTypeContext={roomTypeContext}
+                  isDomitory={isDomitory}
+                  targetSelectInfo={targetSelectInfo}
+                  fullDatePrice={fullDatePrice}
+                  roomType={roomType}
+                  resvContext={resvContext}
+                />
+              </JDalign>
               <JDtypho mb="large" color="error" size="large">
                 <JDalign
                   flex={{
@@ -424,6 +399,7 @@ const RoomType: React.FC<IProps> = ({
               </JDtypho>
 
               <JDbutton
+                onClick={handleDoResvBtn}
                 mb="no"
                 thema="primary"
                 size="longLarge"

@@ -7,6 +7,8 @@ import kr from "./lang/kr";
 import "./scss/App.scss";
 import { RESV_INIT_OPTION } from ".";
 import ReservationFind from "./pages/ReservationFind";
+// @ts-ignore
+import ErrorBound from "./ErrorBound";
 
 export const JDlangsSet: any = {
   kr,
@@ -51,35 +53,37 @@ function App({ publickey, lang, route }: APP_PROP) {
 
   return (
     <div className="App themeProvider">
-      <ApolloProvider client={client}>
-        {step === "book" && (
-          <ReservationWrap
-            finishCallBack={finishCallBack}
-            publickey={publickey}
-          />
-        )}
-        {step === "search" && (
-          <ReservationFind
-            callBackGoToBook={() => {
-              setStep("book");
-            }}
-          />
-        )}
-      </ApolloProvider>
-      <Toast />
-      <div
-        style={{
-          display: "block",
-          position: "fixed",
-          left: "0%",
-          bottom: "0%",
-          zIndex: 999999,
-        }}
-        id="JDversion"
-        className="JDtextColor--placeHolder"
-      >
-        <JDtypho size="superTiny">{version}</JDtypho>
-      </div>
+      <ErrorBound>
+        <ApolloProvider client={client}>
+          {step === "book" && (
+            <ReservationWrap
+              finishCallBack={finishCallBack}
+              publickey={publickey}
+            />
+          )}
+          {step === "search" && (
+            <ReservationFind
+              callBackGoToBook={() => {
+                setStep("book");
+              }}
+            />
+          )}
+        </ApolloProvider>
+        <Toast />
+        <div
+          style={{
+            display: "block",
+            position: "fixed",
+            left: "0%",
+            bottom: "0%",
+            zIndex: 999999,
+          }}
+          id="JDversion"
+          className="JDtextColor--placeHolder"
+        >
+          <JDtypho size="superTiny">{version}</JDtypho>
+        </div>
+      </ErrorBound>
     </div>
   );
 }

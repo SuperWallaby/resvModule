@@ -12,6 +12,7 @@ import {
 import { LANG } from "../App";
 import { IResvContext } from "../pages/declare";
 import { PricingType } from "../types/enum";
+import { validation } from "./helper";
 
 interface IProps {
   resvContext: IResvContext;
@@ -20,30 +21,9 @@ interface IProps {
 const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
   const { roomSelectInfo, from, to, totalPrice, setStep } = resvContext;
 
-  const validation = (): boolean => {
-    if (!to || !from) {
-      toast.warn(LANG("date_un_selected"));
-      return false;
-    }
-    if (isEmpty(roomSelectInfo)) {
-      toast.warn(LANG("no_room_select"));
-      return false;
-    }
-    const countCapcity = arraySum(
-      roomSelectInfo.map(
-        (rsi) => rsi.count.female + rsi.count.male + rsi.count.roomCount
-      )
-    );
-    if (countCapcity === 0) {
-      toast.warn(LANG("there_is_no_select_person"));
-      return false;
-    }
-    return true;
-  };
-
   const sharedBtnProp: any = {
     onClick: () => {
-      if (validation()) {
+      if (validation(roomSelectInfo, from, to)) {
         setStep("input");
       }
     },

@@ -10,7 +10,7 @@ import {
 } from "../../types/api";
 import client from "../../apollo/apolloClient";
 import { useQuery } from "react-apollo";
-import { queryDataFormater, JDpreloader } from "@janda-com/front";
+import { queryDataFormater, JDpreloader, IUseModal } from "@janda-com/front";
 import RoomType from "./RoomType";
 import { getAveragePrice } from "../../pages/helper";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
@@ -55,6 +55,7 @@ interface IProps {
   roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
   dateInfo: ICheckInOutInfo;
   urlSearched: boolean;
+  handleDoResvBtn: () => void;
 }
 
 const RoomTypeWrap: React.FC<IProps> = ({
@@ -63,6 +64,7 @@ const RoomTypeWrap: React.FC<IProps> = ({
   houseData,
   dateInfo,
   urlSearched,
+  handleDoResvBtn,
 }) => {
   const { roomSelectInfo, from, to } = resvContext;
   const { checkIn } = dateInfo;
@@ -162,6 +164,7 @@ const RoomTypeWrap: React.FC<IProps> = ({
   return (
     <Fragment>
       <RoomType
+        handleDoResvBtn={handleDoResvBtn}
         priceLoading={networkStatus === 1}
         popUpDetailPage={urlSearched}
         countLoading={countLoading}

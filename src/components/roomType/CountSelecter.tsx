@@ -46,7 +46,6 @@ const Counter: React.FC<CounterProp> = ({
         </JDbutton>
         <JDbutton thema="grey1" mode="flat" className="counter__count">
           {count}
-          <JDtypho size="superTiny">/{maxCount}</JDtypho>
         </JDbutton>
         <JDbutton
           disabled={maxCount <= count}
@@ -190,18 +189,18 @@ const CountSelecter: React.FC<IProps> = ({
         <Fragment>
           <Counter
             maxCount={maxCount.maxMale}
-            label={LANG("male")}
+            label={LANG("people")}
             handleCount={handleCount}
             target={"male"}
             count={male}
           />
-          <Counter
+          {/* <Counter
             maxCount={maxCount.maxFemale}
             label={LANG("female")}
             handleCount={handleCount}
             target={"female"}
             count={female}
-          />
+          /> */}
         </Fragment>
       ) : (
         <Counter

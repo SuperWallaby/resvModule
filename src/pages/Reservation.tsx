@@ -10,6 +10,7 @@ import {
   JDbutton,
   arraySum,
   useRadioButton,
+  useDropDown,
 } from "@janda-com/front";
 import SelectViewer from "../components/SelectViewer";
 import {
@@ -24,6 +25,7 @@ import {
   IBookerInfo,
   IPayInfo,
 } from "./declare";
+import isMobile from "is-mobile";
 import BookerForm from "../components/roomType/bookerForm/BookerForm";
 import PayForm from "../components/roomType/payForm/PayForm";
 import PrevSelectViewer from "../components/PrevSelectViewer";
@@ -38,6 +40,9 @@ import {
   getUrlInformation,
 } from "./helper";
 import { store } from "./helper";
+import moment from "moment";
+import { validation } from "../components/helper";
+import { JDdropDown } from "@janda-com/front";
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
@@ -63,6 +68,7 @@ const Reservation: React.FC<IProps> = ({
   customMsgs,
 }) => {
   if (!houseData) throw Error("House date is not exsist");
+  const dropDownHook = useDropDown(true);
   const { roomTypes, houseConfig } = houseData;
   const { bookingConfig } = houseConfig;
   const { maxStayDate } = bookingConfig;
@@ -105,7 +111,7 @@ const Reservation: React.FC<IProps> = ({
   );
   const [step, setStep] = useState<Tstep>(loadMemo("step"));
   const [roomSelectInfo, setRoomSelectInfo] = useState<IRoomSelectInfo[]>(
-    urlRoomSelectInfo || loadMemo("roomSelectInfo")
+    urlSearchedRoomType ? urlRoomSelectInfo : loadMemo("roomSelectInfo")
   );
   const selectedPrice = arraySum(roomSelectInfo.map((rs) => rs.price));
 
@@ -162,6 +168,12 @@ const Reservation: React.FC<IProps> = ({
     }
   };
 
+  const handleStepChange = () => {
+    if (validation(roomSelectInfo, from, to)) {
+      setStep("input");
+    }
+  };
+
   const { from, to } = dayPickerHook;
   const resvContext: IResvContext = {
     roomSelectInfo,
@@ -177,6 +189,7 @@ const Reservation: React.FC<IProps> = ({
     setPayInfo,
     customMsgs,
     totalPrice: selectedPrice,
+    dayPickerHook,
   };
 
   const sharedSectionTitleProp: any = {
@@ -185,8 +198,9 @@ const Reservation: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    memoRizeSelectInfo(from, to, payInfo, bookerInfo, step, roomSelectInfo);
-  }, [from, to, payInfo, bookerInfo, roomSelectInfo]);
+    if (bookerInfo.name)
+      memoRizeSelectInfo(from, to, payInfo, bookerInfo, step, roomSelectInfo);
+  }, [bookerInfo.name, roomSelectInfo.length]);
 
   const visibleRoomTypes = (roomTypes || []).filter((RT) => {
     const allVisible =
@@ -250,6 +264,7 @@ const Reservation: React.FC<IProps> = ({
                 const { name, _id } = RT;
                 return (
                   <RoomTypeWrap
+                    handleDoResvBtn={handleStepChange}
                     urlSearched={name === urlRoomTypeName}
                     resvContext={resvContext}
                     dateInfo={{
@@ -283,6 +298,24 @@ const Reservation: React.FC<IProps> = ({
             <SelectViewer resvContext={resvContext} />
           </JDalign>
         </JDalign>
+        {isMobile() && (
+          <JDdropDown
+            mode={"floatBottom"}
+            {...dropDownHook}
+            isOpen={true}
+            Buttons={() => {
+              return [
+                <JDbutton
+                  onClick={handleStepChange}
+                  thema="primary"
+                  size="large"
+                  key={"Asd"}
+                  label="예약하기"
+                />,
+              ];
+            }}
+          />
+        )}
       </div>
     );
 

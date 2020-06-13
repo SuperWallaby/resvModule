@@ -39,7 +39,7 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
                 isBgImg
                 unStyle
                 style={{
-                  height: "6rem",
+                  height: "30rem",
                 }}
               />
             </JDslide>

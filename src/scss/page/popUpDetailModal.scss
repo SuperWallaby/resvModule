@@ -3,10 +3,13 @@ $flex-grid--column-margin: 4%;
   &__soldOut {
     position: absolute;
     left: $modal-padding;
-    top: $modal-padding;
     margin-top: 1rem;
     margin-left: 1rem;
   }
+  .counter {
+    white-space: nowrap;
+  }
+
   .flex-grid {
     @include grid-system-all();
   }

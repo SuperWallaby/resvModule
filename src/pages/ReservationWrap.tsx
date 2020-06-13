@@ -17,17 +17,15 @@ import {
   JDmodal,
   JDbutton,
   copytoClipboard,
-<<<<<<< HEAD
   JDalign,
-=======
   getFromUrl,
->>>>>>> feature/urlQueryString
+  JDlabel,
+  toast,
 } from "@janda-com/front";
 import { LANG } from "../App";
 import Reservation from "./Reservation";
 import { removeAllSaveInfo, getOptionsObj } from "./helper";
 import { InputText } from "@janda-com/front";
-import { getAllFromUrl } from "@janda-com/front/build/utils/utils";
 
 interface IProps {
   publickey: string;
@@ -112,9 +110,9 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
       >
         {
           <span>
+            <JDlabel txt={LANG("bookingNumber")} />
             <InputText
               mb="largest"
-              label={LANG("bookingNumber")}
               iconProps={{
                 size: "large",
               }}
@@ -124,6 +122,7 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
               iconHover
               iconOnClick={() => {
                 copytoClipboard(bookingNum);
+                toast("클립보드에 복사 되었습니다.");
               }}
               icon="file"
             />

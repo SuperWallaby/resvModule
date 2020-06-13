@@ -4,6 +4,8 @@ export default {
     NOT_YET: "미결제",
     COMPLETED: "결제완료",
   },
+  COMPLETE: "예약이 완료 되었습니다.",
+  FAIL: "예약이 실패 하였습니다.",
   PayMethod: {
     BILL: "잔다페이",
     VBANK: "가상계좌",
@@ -14,7 +16,7 @@ export default {
   },
   createdAt: "생성일자",
   paymentStatus: "결제상태",
-  sleep_unit: "박",
+  sleep_unit: "명",
   day_unit: "일",
   choice: "선택하기",
   cancel: "취소하기",
@@ -26,8 +28,8 @@ export default {
   date: "날짜",
   people: "인원",
   room_count: "개수",
-  female: "소아",
-  male: "성인",
+  female: "기타",
+  male: "인원",
   count: "개",
   select_product: "선택상품",
   option: "옵션",
@@ -69,10 +71,10 @@ export default {
     let result = "";
 
     if (male) {
-      result += male + "남 ";
+      result += male + "성인 ";
     }
     if (female) {
-      result += female + "여 ";
+      result += female + "소인 ";
     }
     if (roomCount) {
       result += roomCount + "개 ";

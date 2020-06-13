@@ -29,19 +29,20 @@ export const getUrlInformation = (): IUrlParamInformation => {
     from: urlFrom,
     to: urlTo,
     tags: urlTags,
-    productTypes: urlRoomTypeName,
+    productName: urlRoomTypeName,
   } = getAllFromUrl();
   const haveUrlProductName = !!urlRoomTypeName;
+  const replacedProductName = urlRoomTypeName?.replace(/\+/g, "") || null;
   const urlTagNames = urlTags?.split(" ") || null;
   const urlDateFrom = urlFrom ? moment(urlFrom).toDate() : undefined;
-  const urlDateTo = urlTo ? moment(urlTo).toDate() : undefined;
+  const urlDateTo = urlTo ? moment(urlFrom).add(1, "d").toDate() : undefined;
 
   return {
     haveUrlProductName,
     urlTagNames,
     urlDateFrom,
     urlDateTo,
-    urlRoomTypeName,
+    urlRoomTypeName: replacedProductName,
   };
 };
 
@@ -215,6 +216,8 @@ export const loadMemo = (
       if (!reuslt) {
         removeAllSaveInfo();
       }
+    } else {
+      store.isAsked = true;
     }
 
   switch (getKey) {
