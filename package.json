@@ -1,6 +1,6 @@
 {
   "name": "@janda-com/resv-module",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/RC.js",
   "module": "dist/RC.es.js",
   "jsnext:main": "dist/RC.es.js",
