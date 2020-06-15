@@ -75,5 +75,7 @@ declare const _default: {
     close: string;
     move_to_confirm_page: string;
     out_range_msg: (N: number) => string;
+    complete_msg: string;
+    same_date: string;
 };
 export default _default;
