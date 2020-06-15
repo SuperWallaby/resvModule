@@ -89,7 +89,7 @@
     "preprod": "cp ./envs/env.pro ./.env",
     "prod": "node scripts/build.js",
     "build:bundle": "webpack --config webpack.config.js",
-    "upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.0.5--gang/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.0.0--gang/resvModule.css ",
+    "upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.0.6--gang/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.0.0--gang/resvModule.css ",
     "test": "react-app-rewired test --env=jsdom",
     "cjs": "yarn prod && yarn build:bundle && yarn upload",
     "precodegen": "apollo schema:download --endpoint=https://temp-booking.stayjanda.cloud/graphql",

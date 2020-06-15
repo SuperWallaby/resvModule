@@ -161,6 +161,9 @@ const RoomTypeWrap: React.FC<IProps> = ({
     sharedQueryVariable: sharedVariable,
   };
 
+  console.log("urlSearched");
+  console.log(urlSearched);
+
   return (
     <Fragment>
       <RoomType

@@ -26,7 +26,7 @@ import { isMobile } from "is-mobile";
 import { isEmpty } from "@janda-com/front";
 import moment from "moment";
 
-const IS_MOBILE = isMobile();
+const IS_MOBILE = false;
 
 const { autoComma } = utils;
 
@@ -133,6 +133,11 @@ const RoomType: React.FC<IProps> = ({
     ) : (
       <span>{currentPrice}</span>
     );
+
+    const popUpProductClose = ()=>{
+      console.log("????");
+      window.history.go(-1);
+    }
 
   return (
     <div className={classes}>
@@ -301,8 +306,9 @@ const RoomType: React.FC<IProps> = ({
         <JDmodal
           className="popUpDetailModal"
           fullInMobile
+          onRequestClose={popUpProductClose}
           {...productVeiwerModal}
-          head={{ title: `${name}` }}
+          head={{ title: `${name}`,closeFn:popUpProductClose }}
         >
           <JDalign
             style={{

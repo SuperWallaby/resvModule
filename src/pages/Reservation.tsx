@@ -52,9 +52,10 @@ interface IProps {
 
 export const {
   urlDateFrom,
-  haveUrlProductName,
+  haveUrlProduct,
   urlDateTo,
   urlTagNames,
+  urlProductIndex,
   urlRoomTypeName,
 } = getUrlInformation();
 
@@ -85,12 +86,14 @@ const Reservation: React.FC<IProps> = ({
   const radioButtonHook = useRadioButton(urlTagNames || allTags, uniqTags);
 
   const noTags = uniqTags.length === 0;
-  const targetProductModal = haveUrlProductName;
 
-  const urlSearchedRoomType = roomTypes?.find(
+  let urlSearchedRoomType = roomTypes?.find(
     (r) => r.name === urlRoomTypeName
   );
-
+  
+  if(!urlSearchedRoomType)
+  urlSearchedRoomType = roomTypes?.find((r,i) => i+1 === urlProductIndex);
+  
   const urlRoomSelectInfo: IRoomSelectInfo[] = [
     {
       count: {
@@ -264,7 +267,7 @@ const Reservation: React.FC<IProps> = ({
                 return (
                   <RoomTypeWrap
                     handleDoResvBtn={handleStepChange}
-                    urlSearched={name === urlRoomTypeName}
+                    urlSearched={_id == urlSearchedRoomType?._id}
                     resvContext={resvContext}
                     dateInfo={{
                       checkIn: from || new Date(),

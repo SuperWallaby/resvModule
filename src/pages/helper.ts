@@ -15,14 +15,15 @@ import {
 } from "../types/deafult";
 import { HouseOptionsKey, PayMethod } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
-import { haveUrlProductName } from "./Reservation";
+import {haveUrlProduct} from "./Reservation";
 
 interface IUrlParamInformation {
-  haveUrlProductName: boolean;
   urlTagNames: string[] | null;
   urlDateFrom: Date | undefined;
   urlDateTo: Date | undefined;
   urlRoomTypeName: string | null;
+  urlProductIndex: number | null;
+  haveUrlProduct: boolean
 }
 
 export const getUrlInformation = (): IUrlParamInformation => {
@@ -31,15 +32,18 @@ export const getUrlInformation = (): IUrlParamInformation => {
     to: urlTo,
     tags: urlTags,
     productName: urlRoomTypeName,
+    productIndex: urlProductIndex,
   } = getAllFromUrl();
-  const haveUrlProductName = !!urlRoomTypeName;
+  const haveUrlProduct = !!urlRoomTypeName || !!urlProductIndex; 
   const replacedProductName = urlRoomTypeName?.replace(/\+/g, "") || null;
   const urlTagNames = urlTags?.split(" ") || null;
   const urlDateFrom = urlFrom ? moment(urlFrom).toDate() : undefined;
   const urlDateTo = urlTo ? moment(urlFrom).add(1, "d").toDate() : undefined;
+  const urlDataProductIndex = parseInt(urlProductIndex)
 
   return {
-    haveUrlProductName,
+    haveUrlProduct,
+    urlProductIndex: urlDataProductIndex,
     urlTagNames,
     urlDateFrom,
     urlDateTo,
@@ -208,7 +212,7 @@ export const loadMemo = (
   getKey: "from" | "to" | "payInfo" | "bookerInfo" | "step" | "roomSelectInfo"
 ) => {
   if (sessionStorage.getItem("from")) {
-    if (!store.isAsked && !haveUrlProductName) {
+    if (!store.isAsked && !haveUrlProduct) {
       const reuslt = window.confirm(
         "이전 예약을 진행하던 기록이 있습니다. 해당 예약을 이어서 진행 하시겠습니까?"
       );
