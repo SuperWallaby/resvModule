@@ -39,6 +39,7 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
                 isBgImg
                 unStyle
                 style={{
+                  borderRadius: 0,
                   height: "30rem",
                 }}
               />

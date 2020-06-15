@@ -15,6 +15,7 @@ import {
 } from "../types/deafult";
 import { HouseOptionsKey, PayMethod } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
+import { haveUrlProductName } from "./Reservation";
 
 interface IUrlParamInformation {
   haveUrlProductName: boolean;
@@ -206,19 +207,19 @@ export const removeAllSaveInfo = () => {
 export const loadMemo = (
   getKey: "from" | "to" | "payInfo" | "bookerInfo" | "step" | "roomSelectInfo"
 ) => {
-  if (sessionStorage.getItem("from"))
-    if (!store.isAsked) {
+  if (sessionStorage.getItem("from")) {
+    if (!store.isAsked && !haveUrlProductName) {
       const reuslt = window.confirm(
         "이전 예약을 진행하던 기록이 있습니다. 해당 예약을 이어서 진행 하시겠습니까?"
       );
-      store.isAsked = true;
 
       if (!reuslt) {
         removeAllSaveInfo();
       }
-    } else {
-      store.isAsked = true;
     }
+  }
+
+  store.isAsked = true;
 
   switch (getKey) {
     case "from":

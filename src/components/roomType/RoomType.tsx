@@ -51,7 +51,15 @@ const RoomType: React.FC<IProps> = ({
   popUpDetailPage,
   handleDoResvBtn,
 }) => {
-  const { _id, name, pricingType, img, images, description } = roomType;
+  const {
+    _id,
+    name,
+    pricingType,
+    img,
+    images,
+    description,
+    defaultPrice,
+  } = roomType;
   const productVeiwerModal = useModal(true);
   const photoModalHook = useModal();
   const {
@@ -102,6 +110,30 @@ const RoomType: React.FC<IProps> = ({
     setRoomSelectInfo(isSelected ? filted : added);
   };
 
+  const currentPrice = autoComma(dailyPrice || 0);
+  const isSale = defaultPrice ? defaultPrice > dailyPrice : false;
+  const DailyPrice = () =>
+    priceLoading ? (
+      <span>...</span>
+    ) : isSale ? (
+      <span>
+        <JDtypho
+          size="small"
+          component={"span"}
+          style={{
+            textDecoration: "line-through",
+          }}
+        >
+          {defaultPrice}
+        </JDtypho>
+        <JDtypho size="small" color="error">
+          {currentPrice}
+        </JDtypho>
+      </span>
+    ) : (
+      <span>{currentPrice}</span>
+    );
+
   return (
     <div className={classes}>
       <div className="roomType__inner">
@@ -142,7 +174,14 @@ const RoomType: React.FC<IProps> = ({
             >
               {images?.map((img, i) => (
                 <JDslide key={i + "imgSlider"}>
-                  <JDphotoFrame src={img} isBgImg unStyle />
+                  <JDphotoFrame
+                    style={{
+                      borderRadius: 0,
+                    }}
+                    src={img}
+                    isBgImg
+                    unStyle
+                  />
                 </JDslide>
               ))}
             </JDslider>
@@ -187,7 +226,7 @@ const RoomType: React.FC<IProps> = ({
                 <div className="roomType__title">
                   {1 + "명"}
                   {` - `}
-                  {loading ? "..." : autoComma(dailyPrice || 0)}
+                  <DailyPrice />
                 </div>
               </JDalign>
               <JDalign
@@ -343,7 +382,7 @@ const RoomType: React.FC<IProps> = ({
                     </JDtypho>
                     {1 + LANG("sleep_unit")}
                     {` - `}
-                    {loading ? "..." : autoComma(dailyPrice || 0)}
+                    <DailyPrice />
                   </JDtypho>
                 </JDalign>
 

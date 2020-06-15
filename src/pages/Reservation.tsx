@@ -50,7 +50,7 @@ interface IProps {
   customMsgs: TOptionsObj;
 }
 
-const {
+export const {
   urlDateFrom,
   haveUrlProductName,
   urlDateTo,
@@ -198,9 +198,8 @@ const Reservation: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    if (bookerInfo.name)
-      memoRizeSelectInfo(from, to, payInfo, bookerInfo, step, roomSelectInfo);
-  }, [bookerInfo.name, roomSelectInfo.length]);
+    memoRizeSelectInfo(from, to, payInfo, bookerInfo, step, roomSelectInfo);
+  }, [payInfo, bookerInfo, roomSelectInfo, step, from, to]);
 
   const visibleRoomTypes = (roomTypes || []).filter((RT) => {
     const allVisible =
@@ -353,7 +352,7 @@ const Reservation: React.FC<IProps> = ({
           <JDtypho {...sharedSectionTitleProp}>{LANG("check_select")}</JDtypho>
           <PrevSelectViewer resvContext={resvContext} />
           {customMsgs.ResvCautionMsg && (
-            <JDtypho mb="small" size="small" weight={600}>
+            <JDtypho mb="small" size="small">
               {"*" + customMsgs.ResvCautionMsg}
             </JDtypho>
           )}
