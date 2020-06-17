@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { JDtypho, JDalign, JDbutton } from "@janda-com/front";
+import { JDtypho, JDalign, JDbutton, IJDalignProp } from "@janda-com/front";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
@@ -27,6 +27,7 @@ const Counter: React.FC<CounterProp> = ({
       className="counter"
       flex={{
         vCenter: true,
+        center: true
       }}
     >
       <JDtypho weight={600} mr="large">
@@ -34,6 +35,7 @@ const Counter: React.FC<CounterProp> = ({
       </JDtypho>
       <JDalign className="counter__inner">
         <JDbutton
+          mb="no"
           disabled={count === 0}
           thema="grey1"
           mode="flat"
@@ -44,11 +46,11 @@ const Counter: React.FC<CounterProp> = ({
         >
           -
         </JDbutton>
-        <JDbutton thema="grey1" mode="flat" className="counter__count">
+        <JDbutton mb="no" thema="grey1" mode="flat" className="counter__count">
           {count}
-          <JDtypho size="superTiny">/{maxCount}</JDtypho>
         </JDbutton>
         <JDbutton
+        mb="no"
           disabled={maxCount <= count}
           thema="grey1"
           mode="flat"
@@ -76,6 +78,7 @@ interface IProps {
     femaleCount: number;
     roomCount: number;
   };
+  alignProp?: IJDalignProp;
 }
 
 const CountSelecter: React.FC<IProps> = ({
@@ -85,6 +88,7 @@ const CountSelecter: React.FC<IProps> = ({
   isDomitory,
   roomTypeContext,
   availableCount,
+  alignProp,
 }) => {
   const [loading, setLoading] = useState(false);
   const {
@@ -175,15 +179,15 @@ const CountSelecter: React.FC<IProps> = ({
   const { count } = targetSelectInfo;
   const { male, female, roomCount } = count;
 
-  console.log("maxCount.maxMale + maxCount.maxFemale + availableCountRoom");
-  console.log(maxCount.maxMale + maxCount.maxFemale + availableCountRoom);
-
   return (
     <JDalign
       flex={{
         around: true,
+        grow: true,
+        center: true
       }}
       className="countSelecter"
+      {...alignProp}
     >
       {isDomitory ? (
         <Fragment>

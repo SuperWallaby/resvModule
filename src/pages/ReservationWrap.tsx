@@ -17,6 +17,10 @@ import {
   JDmodal,
   JDbutton,
   copytoClipboard,
+  JDalign,
+  getFromUrl,
+  JDlabel,
+  toast,
 } from "@janda-com/front";
 import { LANG } from "../App";
 import Reservation from "./Reservation";
@@ -106,22 +110,23 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
       >
         {
           <span>
+            <JDlabel txt={LANG("bookingNumber")} />
             <InputText
               mb="largest"
-              label={LANG("bookingNumber")}
               iconProps={{
                 size: "large",
               }}
+              mr="no"
               Size="big"
               value={bookingNum}
               iconHover
               iconOnClick={() => {
                 copytoClipboard(bookingNum);
+                toast("클립보드에 복사 되었습니다.");
               }}
               icon="file"
             />
-            {LANG("move_to_confirm_page")}
-
+            <JDalign mb="small">{LANG("move_to_confirm_page")}</JDalign>
             {optObj.ResvCompeleteMsg && (
               <InputText
                 label={LANG("complete_msg")}

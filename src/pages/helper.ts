@@ -3,7 +3,7 @@ import {
   getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices,
   getHouseForPublic_GetHouseForPublic_house_roomTypes,
 } from "../types/api";
-import { arraySum } from "@janda-com/front";
+import { arraySum, toast, isPhone, getAllFromUrl } from "@janda-com/front";
 import { IPayInfo, IBookerInfo, IRoomSelectInfo } from "./declare";
 import { Tstep, IHouseOptions, TOptionsObj } from "../types/type";
 import moment from "moment";
@@ -13,34 +13,116 @@ import {
   DEFAULT_STEP,
   DEFAULT_BOOKER_INFO,
 } from "../types/deafult";
-import { HouseOptionsKey } from "../types/enum";
+import { HouseOptionsKey, PayMethod } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
+import {haveUrlProduct} from "./Reservation";
+
+interface IUrlParamInformation {
+  urlTagNames: string[] | null;
+  urlDateFrom: Date | undefined;
+  urlDateTo: Date | undefined;
+  urlRoomTypeName: string | null;
+  urlProductIndex: number | null;
+  haveUrlProduct: boolean
+}
+
+export const getUrlInformation = (): IUrlParamInformation => {
+  const {
+    from: urlFrom,
+    to: urlTo,
+    tags: urlTags,
+    productName: urlRoomTypeName,
+    productIndex: urlProductIndex,
+  } = getAllFromUrl();
+  const haveUrlProduct = !!urlRoomTypeName || !!urlProductIndex; 
+  const replacedProductName = urlRoomTypeName?.replace(/\+/g, "") || null;
+  const urlTagNames = urlTags?.split(" ") || null;
+  const urlDateFrom = urlFrom ? moment(urlFrom).toDate() : undefined;
+  const urlDateTo = urlTo ? moment(urlFrom).add(1, "d").toDate() : undefined;
+  const urlDataProductIndex = parseInt(urlProductIndex)
+
+  return {
+    haveUrlProduct,
+    urlProductIndex: urlDataProductIndex,
+    urlTagNames,
+    urlDateFrom,
+    urlDateTo,
+    urlRoomTypeName: replacedProductName,
+  };
+};
+
+export const bookingValidater = (
+  bookerInfo: IBookerInfo,
+  payInfo: IPayInfo
+): boolean => {
+  if (!bookerInfo.name) {
+    toast.warn("예약자명을 입력 해주세요.");
+    $("#nameInput").focus();
+    return false;
+  }
+  if (!isPhone(bookerInfo.phoneNumber)) {
+    toast.warn("전화번호를 입력해주세요.");
+    $("#phoneInput").focus();
+    return false;
+  }
+  if (!bookerInfo.password) {
+    toast.warn("비밀번호를 입력해주세요.");
+    $("#passwordInput").focus();
+    return false;
+  }
+
+  if (!bookerInfo.agreePersonal || !bookerInfo.agreePersonal) {
+    toast.warn("약관에 동의바랍니다.");
+    return false;
+  }
+
+  if (payInfo.paymethod === PayMethod.CARD) {
+    if (!payInfo.cardNum) {
+      toast.warn("카드번호를 입력해주세요.");
+      $("cardInput").focus();
+      return false;
+    }
+    if (payInfo.expireM.length !== 2 || payInfo.expireY.length !== 2) {
+      toast.warn("카드 만료기간을 입력 해주세요.");
+      $("cardExpireInput").focus();
+      return false;
+    }
+    if (payInfo.idNum.length !== 6) {
+      toast.warn("주민번호 앞자리를 채워주세요.");
+      $("idNumInput").focus();
+      return false;
+    }
+
+    if (payInfo.password.length !== 2) {
+      toast.warn("카드 비밀번호를 입력 해주세요.");
+      $("idNumInput").focus();
+      return false;
+    }
+  }
+
+  return true;
+};
 
 export const getUniqTag = (
   roomTypes: getHouseForPublic_GetHouseForPublic_house_roomTypes[]
-) => {
-  let uniqHashTag: IRadiosOps[] = [];
-  const tagValues = uniqHashTag.map((tag) => tag.value);
+): IRadiosOps[] => {
+  let uniqHashTagValues: string[] = [];
 
   roomTypes?.forEach((roomType) => {
-    const uniqTags = roomType.hashTags
-      .filter((ht) => !tagValues.includes(ht))
-      .map((ht) => {
-        return {
-          label: ht,
-          value: ht,
-        };
-      });
-    uniqHashTag = [...uniqHashTag, ...uniqTags];
+    const uniqTags = roomType.hashTags.filter(
+      (ht) => !uniqHashTagValues.includes(ht)
+    );
+
+    uniqHashTagValues = [...uniqHashTagValues, ...uniqTags];
   });
 
-  return uniqHashTag;
+  return uniqHashTagValues.map((t) => ({ value: t, label: t }));
 };
 
-export const getOptionsObj = (options: IHouseOptions[]): TOptionsObj => {
+export const getOptionsObj = (options: IHouseOptions[] = []): TOptionsObj => {
   const returnObj: any = {};
   Object.keys(HouseOptionsKey).forEach((key) => {
-    returnObj[key] = options.find((op) => op.key === key);
+    returnObj[key] = options.find((op) => op.key === key)?.value || "";
   });
   return returnObj;
 };
@@ -98,7 +180,7 @@ const getParsedData = (key: string, DEFAULT: any) => {
 };
 
 const getParsedDate = (key: "from" | "to") => {
-  const defualtTo = moment().add(1, "day").toDate();
+  const defualtTo = moment().add(1,"d").toDate();
   try {
     const date = sessionStorage.getItem(key);
     if (key === "to" && !date) {
@@ -129,17 +211,19 @@ export const removeAllSaveInfo = () => {
 export const loadMemo = (
   getKey: "from" | "to" | "payInfo" | "bookerInfo" | "step" | "roomSelectInfo"
 ) => {
-  if (sessionStorage.getItem("from"))
-    if (!store.isAsked) {
-      const reuslt = window.confirm(
-        "이전 예약을 진행하던 기록이 있습니다. 해당 예약을 이어서 진행 하시겠습니까?"
-      );
-      store.isAsked = true;
 
-      if (!reuslt) {
-        removeAllSaveInfo();
-      }
+  const shouldAsk = sessionStorage.getItem("bookerInfo") && (!store.isAsked && !haveUrlProduct);
+  if (shouldAsk) {
+    const reuslt = window.confirm(
+      "이전 예약을 진행하던 기록이 있습니다. 해당 예약을 이어서 진행 하시겠습니까?"
+    );
+
+    if (!reuslt) {
+      removeAllSaveInfo();
     }
+  }
+
+  store.isAsked = true;
 
   switch (getKey) {
     case "from":

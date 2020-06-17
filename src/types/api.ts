@@ -104,6 +104,18 @@ export interface getHouseForPublic_GetHouseForPublic_house_roomTypes_img {
   tags: getHouseForPublic_GetHouseForPublic_house_roomTypes_img_tags[] | null;
 }
 
+export interface getHouseForPublic_GetHouseForPublic_house_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface getHouseForPublic_GetHouseForPublic_house_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -127,6 +139,7 @@ export interface getHouseForPublic_GetHouseForPublic_house_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getHouseForPublic_GetHouseForPublic_house_roomTypes_tags[];
 }
 
 export interface getHouseForPublic_GetHouseForPublic_house_bookingPayInfo_bankAccountInfo {
@@ -254,6 +267,18 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
 }
 
+export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -277,6 +302,7 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -332,6 +358,18 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img {
   tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[] | null;
 }
 
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -355,6 +393,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags[];
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_checkInInfo {
@@ -475,6 +514,18 @@ export interface searchBooking_SearchBooking_data_roomTypes_img {
   tags: searchBooking_SearchBooking_data_roomTypes_img_tags[] | null;
 }
 
+export interface searchBooking_SearchBooking_data_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface searchBooking_SearchBooking_data_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -498,6 +549,7 @@ export interface searchBooking_SearchBooking_data_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: searchBooking_SearchBooking_data_roomTypes_tags[];
 }
 
 export interface searchBooking_SearchBooking_data_checkInInfo {
@@ -798,6 +850,18 @@ export interface FroomType_img {
   tags: FroomType_img_tags[] | null;
 }
 
+export interface FroomType_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface FroomType {
   __typename: "RoomType";
   _id: string;
@@ -821,6 +885,7 @@ export interface FroomType {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: FroomType_tags[];
 }
 
 /* tslint:disable */
@@ -846,6 +911,18 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType_img {
   tags: FroomTypePriceResult_roomTypeDatePrices_roomType_img_tags[] | null;
 }
 
+export interface FroomTypePriceResult_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -869,6 +946,7 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: FroomTypePriceResult_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_datePrices {
@@ -995,6 +1073,18 @@ export interface Fbooking_roomTypes_img {
   tags: Fbooking_roomTypes_img_tags[] | null;
 }
 
+export interface Fbooking_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface Fbooking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1018,6 +1108,7 @@ export interface Fbooking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: Fbooking_roomTypes_tags[];
 }
 
 export interface Fbooking_checkInInfo {

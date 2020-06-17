@@ -1,12 +1,25 @@
-.themeProvider {
+html:root,.themeProvider {
 	--primary-color: #8b8378;
 	--primary-color-light: #8b8378;
 	--primary-color-dark: #8b8378;
 	--primary-color-on: #fff;
 }
 
+// 이부분 라이브러리로 ㄱ
+.radioBox__inner {
+  display: flex !important;
+  width: 100%;
+  flex-wrap: wrap !important;
+  width: 100% !important;
+}
+
+#root {
+  .JDslider {
+    margin-right: 0 !important;
+  }
+}
 @import "./variables.scss";
-@import "../../node_modules/@janda-com/front/build/scss/all.scss";
+@import "~@janda-com/front/build/scss/all.scss";
 @import "./component/AgreeBlock.scss";
 @import "./component/BookerForm.scss";
 @import "./component/CountSelecter.scss";
@@ -15,6 +28,8 @@
 @import "./component/PrevSelectViewer.scss";
 @import "./component/RoomType.scss";
 @import "./component/SelectViewer.scss";
+@import "./component/CheckBox.scss";
 
 @import "./page/Reservation.scss";
 @import "./page/ReservationFind.scss";
+@import "./page/popUpDetailModal.scss";

@@ -1,49 +1,58 @@
+$cardHeight: 11rem;
 
 .roomType {
-	margin-bottom: $standard-small-space;
-	border-radius: $standard-border-radius;
-	border: 1px solid $grey-level2;
-	overflow: hidden;
+  margin-bottom: $standard-small-space;
+  border-radius: $standard-border-radius;
+  overflow: hidden;
 
-	&__slider {
-		max-width: 15.25rem;
-		@include response($phablet) {
-			max-width: 10rem;
-		}
-	}
+  &__soldOut {
+    position: absolute;
+    left: space(0.5);
+    top: space(1);
+    @extend %z-depth-3;
+  }
+  &__inner {
+    border: 1px solid $grey-level2;
+  }
+  &__slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
-	&__right {
-		padding: $standard-space;
-	}
+  &__right {
+    padding: $standard-space;
+  }
 
-	&__wrap {
-		height: 6rem;
-	}
+  &__wrap {
+    min-height: $cardHeight;
+    line-height: 1 !important;
+  }
 
-	&--loadingCard {
-		height: 6.5625rem;
-		width: 100%;
-		background-color: $grey-level1;
-	}
+  &--loadingCard {
+    width: 100%;
+    background-color: $grey-level1;
+  }
 
-	&--selected {
-		.roomType__wrap {
-			height: auto;
-			margin-bottom: 0;
-			background-color: $primary-color;
-			color: white;
-			.JDbtn__contents {
-				color: $html-color;
-			}
-		}
-	}
+  &--selected {
+    .roomType__wrap {
+      height: auto;
+      margin-bottom: 0;
+      background-color: $primary-color;
+      color: white;
+      .JDbtn__contents {
+        color: $html-color;
+      }
+    }
+  }
 
-	&__slider {
-		height: 100%;
-	}
+  &__slider {
+    overflow: hidden;
+    height: 100%;
+  }
 
-	&__counter {
-		padding: $standard-space;
-		background-color: $grey-level2;
-	}
+  &__counter {
+    padding: $standard-space;
+    background-color: $grey-level2;
+  }
 }

@@ -1,34 +1,33 @@
-
 #root {
-.countSelecter {
+  .countSelecter {
     padding: $standard-space;
     background-color: $grey-level1;
     display: flex;
     justify-content: space-around;
-}
+  }
 
-
-.counter {
+  .counter {
     display: inline-block;
-    &__btn,.counter__count {
-        border-radius: 0px;
-        margin: 0px!important;
-        font-weight: 600;;
+    &__btn,
+    .counter__count {
+      border-radius: 0px;
+      margin: 0px !important;
+      font-weight: 600;
     }
-    
+
     &__count {
-        background-color: $grey-level2;
+      background-color: $grey-level2;
     }
     &__btn {
-        background-color: white;
-        color: $grey-level3!important;
-        border:none;
+      background-color: white;
+      color: $grey-level3 !important;
+      border: none;
     }
-    
+
     &__inner {
-        overflow: hidden;
-        border-radius: $standard-border-radius;
-        border: 1px solid $grey-level2;
+      overflow: hidden;
+      border-radius: $standard-border-radius;
+      border: 1px solid $grey-level2;
     }
-}
+  }
 }

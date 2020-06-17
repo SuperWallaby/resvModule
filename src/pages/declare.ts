@@ -3,6 +3,7 @@ import {
   getHouseForPublic_GetHouseForPublic_house,
 } from "../types/api";
 import { TOptionsObj } from "../types/type";
+import { IUseModal, IUseDayPicker } from "@janda-com/front";
 
 export interface IRoomSelectInfo {
   roomTypeId: string;
@@ -51,4 +52,5 @@ export interface IResvContext {
   from: Date | null;
   to: Date | null;
   houseData: getHouseForPublic_GetHouseForPublic_house;
+  dayPickerHook?: IUseDayPicker;
 }

@@ -112,6 +112,10 @@ export const F_ROOMTYPE = gql`
     createdAt
     updatedAt
     roomGender
+    tags {
+      key
+      value
+    }
   }
   ${F_IMG}
 `;
