@@ -123,10 +123,10 @@ const RoomType: React.FC<IProps> = ({
             textDecoration: "line-through",
           }}
         >
-          {defaultPrice}
+          {defaultPrice} KRW
         </JDtypho>
         <JDtypho size="small" color="error">
-          {currentPrice}
+          {currentPrice} KRW
         </JDtypho>
       </span>
     ) : (
@@ -281,7 +281,7 @@ const RoomType: React.FC<IProps> = ({
                 />
               ) : (
                 <JDtypho mb="no" size="h6">
-                  {autoComma(fullDatePrice)}
+                  {autoComma(fullDatePrice)} KRW
                 </JDtypho>
               )}
             </JDalign>
