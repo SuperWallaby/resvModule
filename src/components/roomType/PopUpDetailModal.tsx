@@ -64,7 +64,7 @@ export const PopUpDetailModal: React.FC<IProp> = ({
   );
   const { dayPickerHook, setBookerInfo, bookerInfo, from } = resvContext;
   const { isDomitory, targetSelectInfo, fullDatePrice } = roomTypeContext;
-
+  const name = roomType.name;
   if (!targetSelectInfo) throw Error("targetSelectInfo not exsist");
 
   return (
