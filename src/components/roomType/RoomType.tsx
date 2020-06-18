@@ -14,6 +14,10 @@ import {
   JDmodal,
   JDicon,
   JDdayPicker,
+  JDselect,
+  useSelect,
+  selectOpCreater,
+  toast,
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
@@ -60,6 +64,14 @@ const RoomType: React.FC<IProps> = ({
     description,
     defaultPrice,
   } = roomType;
+  const publicSelectHook = useSelect(
+    { label: "9시", value: 9 },
+    selectOpCreater({
+      count: 10,
+      labelAdd: "시",
+      start: 9,
+    })
+  );
   const productVeiwerModal = useModal(true);
   const photoModalHook = useModal();
   const {
@@ -68,6 +80,8 @@ const RoomType: React.FC<IProps> = ({
     from,
     to,
     dayPickerHook,
+    setBookerInfo,
+    bookerInfo,
   } = resvContext;
   const {
     fullDatePrice,
@@ -84,6 +98,7 @@ const RoomType: React.FC<IProps> = ({
     availableCount.roomCount;
   const isSoldOut = !totalCan && !countLoading && from && to;
   const loading = countLoading && from && to;
+  const exception = roomType.name == "요트퍼블릭 60분";
 
   if (images?.length === 0) {
     images.push(img?.url);
@@ -134,10 +149,9 @@ const RoomType: React.FC<IProps> = ({
       <span>{currentPrice}</span>
     );
 
-    const popUpProductClose = ()=>{
-      console.log("????");
-      window.history.go(-1);
-    }
+  const popUpProductClose = () => {
+    window.history.go(-1);
+  };
 
   return (
     <div className={classes}>
@@ -308,7 +322,7 @@ const RoomType: React.FC<IProps> = ({
           fullInMobile
           onRequestClose={popUpProductClose}
           {...productVeiwerModal}
-          head={{ title: `${name}`,closeFn:popUpProductClose }}
+          head={{ title: `${name}`, closeFn: popUpProductClose }}
         >
           <JDalign
             style={{
@@ -357,7 +371,7 @@ const RoomType: React.FC<IProps> = ({
               <JDalign mb="large" grid>
                 <JDtypho mb="large">
                   <JDtypho weight={600} mb="normal">
-                    날짜
+                    날짜선택
                   </JDtypho>
                   {dayPickerHook && from && (
                     <JDdayPicker
@@ -371,6 +385,11 @@ const RoomType: React.FC<IProps> = ({
                         </JDbutton>
                       )}
                     />
+                  )}
+                  {exception && (
+                    <div>
+                      <JDselect {...publicSelectHook} label="시간선택" />
+                    </div>
                   )}
                 </JDtypho>
                 <JDalign
@@ -444,7 +463,20 @@ const RoomType: React.FC<IProps> = ({
               </JDtypho>
 
               <JDbutton
-                onClick={handleDoResvBtn}
+                onClick={() => {
+                  const timeValue = publicSelectHook.selectedOption?.value;
+
+                  if (exception) {
+                    if (!timeValue) toast.warn("시간을 선택 해주세요.");
+
+                    setBookerInfo({
+                      ...bookerInfo,
+                      hiddenMemo: `시간:${timeValue}`,
+                    });
+                  }
+                  
+                  handleDoResvBtn();
+                }}
                 mb="no"
                 thema="primary"
                 size="longLarge"

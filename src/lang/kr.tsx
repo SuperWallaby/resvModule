@@ -92,4 +92,16 @@ export default {
   move_to_confirm_page: "확인을 누르시면 예약 확인 페이지로 이동합니다.",
   out_range_msg: (N: number) => `최대 연박일은 ${N}일 입니다.`,
   complete_msg: "완료 메세지",
+  we_collect_your_personal_information_to_provide_the_service:
+    "서비스 제공을 위해 귀하의 개인정보를 수집합니다.",
+  privacy_item: "개인정보 항목",
+  purpose_of_collection: "수집 목적",
+  retention_period: "보유 기간",
+  contact: "연락처",
+  smooth_reservation_management: "원활한 예약 관리",
+  six_months_after_stay: `예약후 6개월`,
+  the_minimum_personal_information_required_to_provide_the_service_is_required_to_use_the_service:
+    "서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다",
+  if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation:
+    "이용 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다.",
 };

@@ -25,11 +25,13 @@ export interface IBookerInfo {
   phoneNumber: string;
   password: string;
   memo: string;
+  hiddenMemo?: string;
   agreeUse: boolean;
   agreePersonal: boolean;
 }
 
 export interface IPayInfo {
+  sender?: string;
   paymethod: string;
   cardNum: string;
   password: string;
@@ -53,4 +55,5 @@ export interface IResvContext {
   to: Date | null;
   houseData: getHouseForPublic_GetHouseForPublic_house;
   dayPickerHook?: IUseDayPicker;
+  handleStepChange: () => void;
 }

@@ -19,13 +19,17 @@ interface IProps {
 }
 
 const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
-  const { roomSelectInfo, from, to, totalPrice, setStep } = resvContext;
+  const {
+    roomSelectInfo,
+    from,
+    to,
+    totalPrice,
+    handleStepChange,
+  } = resvContext;
 
   const sharedBtnProp: any = {
     onClick: () => {
-      if (validation(roomSelectInfo, from, to)) {
-        setStep("input");
-      }
+      handleStepChange();
     },
     mb: "no",
     size: "longLarge",

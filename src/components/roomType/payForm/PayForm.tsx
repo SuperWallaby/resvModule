@@ -17,11 +17,26 @@ interface IProps {
 }
 
 const PayForm: React.FC<IProps> = ({ resvContext }) => {
-  const { payInfo, setPayInfo, houseData, customMsgs } = resvContext;
+  const {
+    payInfo,
+    setPayInfo,
+    houseData,
+    customMsgs,
+    bookerInfo,
+    setBookerInfo,
+  } = resvContext;
   const { bookingPayInfo } = houseData;
   const { width } = useWindowSize();
   const { bankAccountInfo, payMethods } = bookingPayInfo;
-  const { password, expireM, expireY, idNum, cardNum, paymethod } = payInfo;
+  const {
+    password,
+    expireM,
+    expireY,
+    idNum,
+    cardNum,
+    paymethod,
+    sender,
+  } = payInfo;
 
   const isCardMode = paymethod === PayMethod.CARD;
   const isPhabletDown = width < WindowSizeNumber.PHABLET;
@@ -63,6 +78,22 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
       </JDalign>
       {bankAccountInfo && (
         <JDalign hide={isCardMode}>
+          <JDalign
+            mb="normal"
+            flex={{
+              vCenter: true,
+              grow: isPhabletDown,
+            }}
+          >
+            <JDtypho className="payForm__label">입금자명</JDtypho>
+            <InputText
+              mb="no"
+              OnChange={(v) => {
+                set("sender", v);
+              }}
+              value={sender}
+            />
+          </JDalign>
           <JDalign>
             <JDalign
               mb="normal"
@@ -72,7 +103,13 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
               }}
             >
               <JDtypho className="payForm__label">{LANG("accountNum")}</JDtypho>
-              <JDtypho weight={400} className="payForm__label">
+              <JDtypho
+                style={{
+                  whiteSpace: "nowrap",
+                }}
+                weight={400}
+                className="payForm__label"
+              >
                 {bankAccountInfo.accountNum}
               </JDtypho>
             </JDalign>
@@ -91,6 +128,7 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
               {bankAccountInfo.accountHolder}
             </JDtypho>
           </JDalign>
+
           <JDalign
             flex={{
               vCenter: true,

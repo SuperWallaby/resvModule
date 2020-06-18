@@ -43,6 +43,7 @@ import { store } from "./helper";
 import moment from "moment";
 import { validation } from "../components/helper";
 import { JDdropDown } from "@janda-com/front";
+import AgreePolicyModal from "../components/AgreePoilicyModal";
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
@@ -87,13 +88,11 @@ const Reservation: React.FC<IProps> = ({
 
   const noTags = uniqTags.length === 0;
 
-  let urlSearchedRoomType = roomTypes?.find(
-    (r) => r.name === urlRoomTypeName
-  );
-  
-  if(!urlSearchedRoomType)
-  urlSearchedRoomType = roomTypes?.find((r,i) => i+1 === urlProductIndex);
-  
+  let urlSearchedRoomType = roomTypes?.find((r) => r.name === urlRoomTypeName);
+
+  if (!urlSearchedRoomType)
+    urlSearchedRoomType = roomTypes?.find((r, i) => i + 1 === urlProductIndex);
+
   const urlRoomSelectInfo: IRoomSelectInfo[] = [
     {
       count: {
@@ -120,7 +119,7 @@ const Reservation: React.FC<IProps> = ({
 
   const handleDoResvBtn = () => {
     if (bookingValidater(bookerInfo, payInfo)) {
-      const { memo, name, password, phoneNumber } = bookerInfo;
+      const { memo, hiddenMemo, name, password, phoneNumber } = bookerInfo;
       const {
         cardNum,
         expireM,
@@ -128,11 +127,14 @@ const Reservation: React.FC<IProps> = ({
         idNum,
         password: cardPassword,
         paymethod,
+        sender,
       } = payInfo;
       makeBookingFn({
         bookerParams: {
           agreePrivacyPolicy: true,
-          memo,
+          memo: `${
+            hiddenMemo ? `[${hiddenMemo}]` : ""
+          } ["입금자:"${sender}] ${memo}`,
           email: "crawl1234@nave.com",
           name: name,
           password: password,
@@ -171,8 +173,16 @@ const Reservation: React.FC<IProps> = ({
     }
   };
 
+  useEffect(() => {
+    window.addEventListener("popstate", function (event) {
+      if (!event.state?.data) setStep("select");
+      if (event.state?.data === "input") setStep("input");
+    });
+  }, []);
+
   const handleStepChange = () => {
     if (validation(roomSelectInfo, from, to)) {
+      window.history.pushState({ data: "input" }, "예약자 정보입력");
       setStep("input");
     }
   };
@@ -193,6 +203,7 @@ const Reservation: React.FC<IProps> = ({
     customMsgs,
     totalPrice: selectedPrice,
     dayPickerHook,
+    handleStepChange,
   };
 
   const sharedSectionTitleProp: any = {
