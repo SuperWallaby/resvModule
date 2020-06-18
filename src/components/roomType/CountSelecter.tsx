@@ -27,7 +27,7 @@ const Counter: React.FC<CounterProp> = ({
       className="counter"
       flex={{
         vCenter: true,
-        center: true
+        center: true,
       }}
     >
       <JDtypho weight={600} mr="large">
@@ -50,7 +50,7 @@ const Counter: React.FC<CounterProp> = ({
           {count}
         </JDbutton>
         <JDbutton
-        mb="no"
+          mb="no"
           disabled={maxCount <= count}
           thema="grey1"
           mode="flat"
@@ -165,6 +165,9 @@ const CountSelecter: React.FC<IProps> = ({
       });
     }
 
+    console.log("fullDatePrice");
+    console.log(fullDatePrice);
+
     targetSelectInfo.price =
       fullDatePrice *
       (targetSelectInfo.count.male +
@@ -184,7 +187,7 @@ const CountSelecter: React.FC<IProps> = ({
       flex={{
         around: true,
         grow: true,
-        center: true
+        center: true,
       }}
       className="countSelecter"
       {...alignProp}
