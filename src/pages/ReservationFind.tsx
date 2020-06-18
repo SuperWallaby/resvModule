@@ -31,64 +31,96 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
   const bookingNumHook = useInput(localStorage.getItem("jdbn") || "");
   const [data, setData] = useState<IBooking>();
 
-
   const handleNumSearch = async (bn: string) => {
     const result = await client.query<searchBooking, searchBookingVariables>({
-      query: SEARCH_BOOKING, variables: {
-        bookingNum: bn
-      }
-    })
+      query: SEARCH_BOOKING,
+      variables: {
+        bookingNum: bn,
+      },
+    });
     const { SearchBooking } = result.data;
-    onCompletedMessage(SearchBooking,
+    onCompletedMessage(
+      SearchBooking,
       LANG("reference_success"),
-      LANG("reference_fail"));
+      LANG("reference_fail")
+    );
     const { data } = SearchBooking;
 
-    if (data)
-      setData(data)
-  }
+    if (data) setData(data);
+  };
 
   const InfoTable = () => {
     if (!data) return <span />;
-    const { name, checkIn, checkOut, roomTypes, memo, payment, createdAt, guests } = data;
-    if (!roomTypes) return <span />
+    const {
+      name,
+      checkIn,
+      checkOut,
+      roomTypes,
+      memo,
+      payment,
+      createdAt,
+      guests,
+    } = data;
+    if (!roomTypes) return <span />;
 
     const { totalPrice, status, payMethod } = payment;
 
     const roomSelectInfo = getRoomSelectInfo(guests, roomTypes);
 
-    return <div className="searchResult">
-      <div className="searchResult__header">
-        <JDtypho size="h6" >
-          {name}
-        </JDtypho>
-        <JDtypho weight={300}>
-          {LANG("date")} : {dateRangeFormat(checkIn, checkOut)}
-        </JDtypho>
+    return (
+      <div className="searchResult">
+        <div className="searchResult__header">
+          <JDtypho size="h6">{name}</JDtypho>
+          <JDtypho weight={300}>
+            {LANG("date")} : {dateRangeFormat(checkIn, checkOut)}
+          </JDtypho>
+        </div>
+        <div className="searchResult__body">
+          {roomSelectInfo.map((ri) => {
+            const { count } = ri;
+            const { female, male, roomCount } = count;
+            return (
+              <InfoRender
+                wrapProp={{
+                  className: "searchResult__cell",
+                }}
+                label={ri.roomTypeName || ""}
+                value={LANG("total_get")(male, female, roomCount)}
+              />
+            );
+          })}
+          <InfoRender
+            wrapProp={{
+              className: "searchResult__cell",
+            }}
+            label={LANG("createdAt")}
+            value={moment(createdAt).format("YYYY-MM-DD HH:mm")}
+          />
+          <InfoRender
+            wrapProp={{
+              className: "searchResult__cell",
+            }}
+            label={LANG("total_price")}
+            value={autoComma(totalPrice) + " KRW"}
+          />
+          <InfoRender
+            wrapProp={{
+              className: "searchResult__cell",
+            }}
+            label={LANG("paymentStatus")}
+            value={LANG("PaymentStatus", status)}
+          />
+          <InfoRender
+            wrapProp={{
+              className: "searchResult__cell",
+            }}
+            label={LANG("payMethod")}
+            value={LANG("PayMethod", payMethod)}
+          />
+        </div>
       </div>
-      <div className="searchResult__body">
-        {roomSelectInfo.map(ri => {
-          const { count } = ri;
-          const { female, male, roomCount } = count;
-          return <InfoRender wrapProp={{
-            className: "searchResult__cell"
-          }} label={ri.roomTypeName || ""} value={LANG("total_get")(male, female, roomCount)} />
-        })}
-        <InfoRender wrapProp={{
-          className: "searchResult__cell"
-        }} label={LANG("createdAt")} value={moment(createdAt).format("YYYY-MM-DD HH:mm")} />
-        <InfoRender wrapProp={{
-          className: "searchResult__cell"
-        }} label={LANG("total_price")} value={autoComma(totalPrice)} />
-        <InfoRender wrapProp={{
-          className: "searchResult__cell"
-        }} label={LANG("paymentStatus")} value={LANG("PaymentStatus", status)} />
-        <InfoRender wrapProp={{
-          className: "searchResult__cell"
-        }} label={LANG("payMethod")} value={LANG("PayMethod", payMethod)} />
-      </div>
-    </div>
-  }
+    );
+  };
 
   return (
     <JDcontainer className="resvFind" size={WindowSize.sm}>
@@ -104,16 +136,25 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
       </JDalign>
       <JDtypho></JDtypho>
       <div>
-        <JDbutton thema="primary" onClick={() => {
-          handleNumSearch(bookingNumHook.value);
-        }} size="longLarge" label={LANG("reservation_lookup")} />
+        <JDbutton
+          thema="primary"
+          onClick={() => {
+            handleNumSearch(bookingNumHook.value);
+          }}
+          size="longLarge"
+          label={LANG("reservation_lookup")}
+        />
       </div>
       <div className="resvFind__tableWrap">
         <InfoTable />
       </div>
-      <JDbutton iconProp={{
-        icon: "arrowBack"
-      }} label={LANG("goto_booking_page")} onClick={() => callBackGoToBook()} />
+      <JDbutton
+        iconProp={{
+          icon: "arrowBack",
+        }}
+        label={LANG("goto_booking_page")}
+        onClick={() => callBackGoToBook()}
+      />
     </JDcontainer>
   );
 };
