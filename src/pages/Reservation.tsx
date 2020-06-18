@@ -243,6 +243,15 @@ const Reservation: React.FC<IProps> = ({
               </JDtypho>
               <DateSelecter
                 handleDateClick={() => {
+                  if (roomSelectInfo.length > 0)
+                    if (
+                      !window.confirm(
+                        "날짜를 변경하시면 선택 정보가 초기화 됩니다."
+                      )
+                    )
+                      return;
+                    else setRoomSelectInfo([]);
+
                   dayPickerModalHook.openModal();
                 }}
                 dayPickerHook={dayPickerHook}
