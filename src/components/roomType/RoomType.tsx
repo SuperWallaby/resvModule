@@ -29,6 +29,7 @@ import { ExtraRoomTypeConfig } from "../../types/enum";
 import { isMobile } from "is-mobile";
 import { isEmpty } from "@janda-com/front";
 import moment from "moment";
+import { PopUpDetailModal } from "./PopUpDetailModal";
 
 const IS_MOBILE = false;
 
@@ -317,174 +318,18 @@ const RoomType: React.FC<IProps> = ({
         />
       )}
       {popUpDetailPage && targetSelectInfo && (
-        <JDmodal
-          className="popUpDetailModal"
-          fullInMobile
-          onRequestClose={popUpProductClose}
-          {...productVeiwerModal}
-          head={{ title: `${name}`, closeFn: popUpProductClose }}
-        >
-          <JDalign
-            style={{
-              maxWidth: "1000px",
-            }}
-            grid
-          >
-            <JDalign
-              style={{
-                position: "relative",
-              }}
-              col={{
-                full: 6,
-                wlg: 12,
-              }}
-            >
-              {isSoldOut && (
-                <JDbadge
-                  className="popUpDetailModal__soldOut"
-                  size="large"
-                  thema="error"
-                >
-                  SOLD OUT
-                </JDbadge>
-              )}
-              <JDslider
-                autoplay
-                dots={false}
-                mr="no"
-                mb="large"
-                displayArrow={false}
-              >
-                {(images || []).map((img, i) => (
-                  <JDslide key={i + "popUpDetailPageImg"}>
-                    <JDphotoFrame mr="no" src={img} unStyle />
-                  </JDslide>
-                ))}
-              </JDslider>
-            </JDalign>
-            <JDalign
-              col={{
-                full: 6,
-                wlg: 12,
-              }}
-            >
-              <JDalign mb="large" grid>
-                <JDtypho mb="large">
-                  <JDtypho weight={600} mb="normal">
-                    날짜선택
-                  </JDtypho>
-                  {dayPickerHook && from && (
-                    <JDdayPicker
-                      isRange={false}
-                      displayIcon={true}
-                      mode="input"
-                      {...dayPickerHook}
-                      inputComponent={(prop: any) => (
-                        <JDbutton mode="border" {...prop}>
-                          {moment(from!).format("YYYY-MM-DD")}
-                        </JDbutton>
-                      )}
-                    />
-                  )}
-                  {exception && (
-                    <div>
-                      <JDselect {...publicSelectHook} label="시간선택" />
-                    </div>
-                  )}
-                </JDtypho>
-                <JDalign
-                  col={{
-                    full: 6,
-                    wlg: 12,
-                  }}
-                >
-                  <JDtypho size="h6" mb="normal" weight={600}>
-                    {name}
-                  </JDtypho>
-                  <JDtypho mb="large">
-                    <JDtypho weight={600} mb="small">
-                      가격
-                    </JDtypho>
-                    {1 + LANG("sleep_unit")}
-                    {` - `}
-                    <DailyPrice />
-                  </JDtypho>
-                </JDalign>
-
-                <JDalign
-                  col={{
-                    full: 6,
-                    wlg: 12,
-                  }}
-                >
-                  {roomType.description && (
-                    <div>
-                      <JDtypho weight={600} mb="small">
-                        상품설명
-                      </JDtypho>
-                      {roomType.description}
-                    </div>
-                  )}
-                </JDalign>
-              </JDalign>
-
-              <JDalign mb="large">
-                <CountSelecter
-                  alignProp={{
-                    flex: {
-                      around: true,
-                    },
-                    style: {
-                      justifyContent: "around",
-                    },
-                  }}
-                  availableCount={availableCount}
-                  roomTypeContext={roomTypeContext}
-                  isDomitory={isDomitory}
-                  targetSelectInfo={targetSelectInfo}
-                  fullDatePrice={fullDatePrice}
-                  roomType={roomType}
-                  resvContext={resvContext}
-                />
-              </JDalign>
-              <JDtypho mb="large" color="error" size="large">
-                <JDalign
-                  flex={{
-                    between: true,
-                  }}
-                >
-                  <div>총금액:</div>
-                  <div>
-                    <JDtypho mb="no" size="h6">
-                      {autoComma(targetSelectInfo.price)}
-                    </JDtypho>
-                  </div>
-                </JDalign>
-              </JDtypho>
-
-              <JDbutton
-                onClick={() => {
-                  const timeValue = publicSelectHook.selectedOption?.value;
-
-                  if (exception) {
-                    if (!timeValue) toast.warn("시간을 선택 해주세요.");
-
-                    setBookerInfo({
-                      ...bookerInfo,
-                      hiddenMemo: `시간:${timeValue}`,
-                    });
-                  }
-                  
-                  handleDoResvBtn();
-                }}
-                mb="no"
-                thema="primary"
-                size="longLarge"
-                label="예약하기"
-              />
-            </JDalign>
-          </JDalign>
-        </JDmodal>
+        <PopUpDetailModal
+          roomTypeContext={roomTypeContext}
+          availableCount={availableCount}
+          roomType={roomType}
+          handleDoResvBtn={handleDoResvBtn}
+          resvContext={resvContext}
+          images={roomType.images || []}
+          isSoldOut={!!isSoldOut}
+          popUpProductClose={popUpProductClose}
+          productVeiwerModal={productVeiwerModal}
+          DailyPrice={DailyPrice}
+        />
       )}
     </div>
   );
