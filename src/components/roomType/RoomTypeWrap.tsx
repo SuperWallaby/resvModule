@@ -141,6 +141,9 @@ const RoomTypeWrap: React.FC<IProps> = ({
   const isDomitory = roomType.pricingType === PricingType.DOMITORY;
   const diff = moment(to || new Date()).diff(from || new Date(), "d");
 
+  console.log("diff");
+  console.log(diff);
+
   const targetSelectInfo = roomSelectInfo.find(
     (r) => r.roomTypeId === roomType._id
   );

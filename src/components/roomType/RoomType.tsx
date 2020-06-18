@@ -21,7 +21,7 @@ import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 
-import { PopUpDetailModal } from "./PopUpDetailModal";
+import PopUpDetailModal from "./PopUpDetailModal";
 
 const IS_MOBILE = false;
 
@@ -67,12 +67,7 @@ const RoomType: React.FC<IProps> = ({
   );
   const productVeiwerModal = useModal(true);
   const photoModalHook = useModal();
-  const {
-    setRoomSelectInfo,
-    roomSelectInfo,
-    from,
-    to,
-  } = resvContext;
+  const { setRoomSelectInfo, roomSelectInfo, from, to } = resvContext;
   const {
     fullDatePrice,
     isDomitory,
@@ -306,7 +301,18 @@ const RoomType: React.FC<IProps> = ({
         />
       )}
       {popUpDetailPage && targetSelectInfo && (
-        <PopUpDetailModal DailyPrice={DailyPrice} availableCount={availableCount} roomType={roomType} roomTypeContext={roomTypeContext}  resvContext={resvContext} isSoldOut={!!isSoldOut} handleDoResvBtn={handleDoResvBtn} productVeiwerModal={productVeiwerModal} images={roomType.images || []}  popUpProductClose={popUpProductClose} />
+        <PopUpDetailModal
+          DailyPrice={DailyPrice}
+          availableCount={availableCount}
+          roomType={roomType}
+          roomTypeContext={roomTypeContext}
+          resvContext={resvContext}
+          isSoldOut={!!isSoldOut}
+          handleDoResvBtn={handleDoResvBtn}
+          productVeiwerModal={productVeiwerModal}
+          images={roomType.images || []}
+          popUpProductClose={popUpProductClose}
+        />
       )}
     </div>
   );
