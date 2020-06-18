@@ -11,9 +11,8 @@ import {
   JDbadge,
   JDphotoModal,
   useModal,
-  JDmodal,
-  JDicon,
-  JDdayPicker,
+  useSelect,
+  selectOpCreater,
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
@@ -21,10 +20,8 @@ import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
-import { ExtraRoomTypeConfig } from "../../types/enum";
-import { isMobile } from "is-mobile";
-import { isEmpty } from "@janda-com/front";
-import moment from "moment";
+
+import { PopUpDetailModal } from "./PopUpDetailModal";
 
 const IS_MOBILE = false;
 
@@ -60,6 +57,14 @@ const RoomType: React.FC<IProps> = ({
     description,
     defaultPrice,
   } = roomType;
+  const publicSelectHook = useSelect(
+    { label: "9시", value: 9 },
+    selectOpCreater({
+      count: 10,
+      labelAdd: "시",
+      start: 9,
+    })
+  );
   const productVeiwerModal = useModal(true);
   const photoModalHook = useModal();
   const {
@@ -67,7 +72,6 @@ const RoomType: React.FC<IProps> = ({
     roomSelectInfo,
     from,
     to,
-    dayPickerHook,
   } = resvContext;
   const {
     fullDatePrice,
@@ -134,10 +138,9 @@ const RoomType: React.FC<IProps> = ({
       <span>{currentPrice}</span>
     );
 
-    const popUpProductClose = ()=>{
-      console.log("????");
-      window.history.go(-1);
-    }
+  const popUpProductClose = () => {
+    window.history.go(-1);
+  };
 
   return (
     <div className={classes}>
@@ -303,157 +306,7 @@ const RoomType: React.FC<IProps> = ({
         />
       )}
       {popUpDetailPage && targetSelectInfo && (
-        <JDmodal
-          className="popUpDetailModal"
-          fullInMobile
-          onRequestClose={popUpProductClose}
-          {...productVeiwerModal}
-          head={{ title: `${name}`,closeFn:popUpProductClose }}
-        >
-          <JDalign
-            style={{
-              maxWidth: "1000px",
-            }}
-            grid
-          >
-            <JDalign
-              style={{
-                position: "relative",
-              }}
-              col={{
-                full: 6,
-                wlg: 12,
-              }}
-            >
-              {isSoldOut && (
-                <JDbadge
-                  className="popUpDetailModal__soldOut"
-                  size="large"
-                  thema="error"
-                >
-                  SOLD OUT
-                </JDbadge>
-              )}
-              <JDslider
-                autoplay
-                dots={false}
-                mr="no"
-                mb="large"
-                displayArrow={false}
-              >
-                {(images || []).map((img, i) => (
-                  <JDslide key={i + "popUpDetailPageImg"}>
-                    <JDphotoFrame mr="no" src={img} unStyle />
-                  </JDslide>
-                ))}
-              </JDslider>
-            </JDalign>
-            <JDalign
-              col={{
-                full: 6,
-                wlg: 12,
-              }}
-            >
-              <JDalign mb="large" grid>
-                <JDtypho mb="large">
-                  <JDtypho weight={600} mb="normal">
-                    날짜
-                  </JDtypho>
-                  {dayPickerHook && from && (
-                    <JDdayPicker
-                      isRange={false}
-                      displayIcon={true}
-                      mode="input"
-                      {...dayPickerHook}
-                      inputComponent={(prop: any) => (
-                        <JDbutton mode="border" {...prop}>
-                          {moment(from!).format("YYYY-MM-DD")}
-                        </JDbutton>
-                      )}
-                    />
-                  )}
-                </JDtypho>
-                <JDalign
-                  col={{
-                    full: 6,
-                    wlg: 12,
-                  }}
-                >
-                  <JDtypho size="h6" mb="normal" weight={600}>
-                    {name}
-                  </JDtypho>
-                  <JDtypho mb="large">
-                    <JDtypho weight={600} mb="small">
-                      가격
-                    </JDtypho>
-                    {1 + LANG("sleep_unit")}
-                    {` - `}
-                    <DailyPrice />
-                  </JDtypho>
-                </JDalign>
-
-                <JDalign
-                  col={{
-                    full: 6,
-                    wlg: 12,
-                  }}
-                  mb="large"
-                >
-                  {roomType.description && (
-                    <div>
-                      <JDtypho weight={600} mb="small">
-                        상품설명
-                      </JDtypho>
-                      {roomType.description}
-                    </div>
-                  )}
-                </JDalign>
-              </JDalign>
-
-              <JDalign mb="largest">
-                <CountSelecter
-                  alignProp={{
-                    flex: {
-                      around: true,
-                    },
-                    style: {
-                      justifyContent: "around",
-                    },
-                  }}
-                  availableCount={availableCount}
-                  roomTypeContext={roomTypeContext}
-                  isDomitory={isDomitory}
-                  targetSelectInfo={targetSelectInfo}
-                  fullDatePrice={fullDatePrice}
-                  roomType={roomType}
-                  resvContext={resvContext}
-                />
-              </JDalign>
-              <JDtypho mb="large" color="error" size="large">
-                <JDalign
-                  flex={{
-                    between: true,
-                  }}
-                >
-                  <div>총금액:</div>
-                  <div>
-                    <JDtypho mb="no" size="h6">
-                      {autoComma(targetSelectInfo.price)}
-                    </JDtypho>
-                  </div>
-                </JDalign>
-              </JDtypho>
-
-              <JDbutton
-                onClick={handleDoResvBtn}
-                mb="no"
-                thema="primary"
-                size="longLarge"
-                label="예약하기"
-              />
-            </JDalign>
-          </JDalign>
-        </JDmodal>
+        <PopUpDetailModal DailyPrice={DailyPrice} availableCount={availableCount} roomType={roomType} roomTypeContext={roomTypeContext}  resvContext={resvContext} isSoldOut={!!isSoldOut} handleDoResvBtn={handleDoResvBtn} productVeiwerModal={productVeiwerModal} images={roomType.images || []}  popUpProductClose={popUpProductClose} />
       )}
     </div>
   );

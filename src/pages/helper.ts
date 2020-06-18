@@ -15,15 +15,15 @@ import {
 } from "../types/deafult";
 import { HouseOptionsKey, PayMethod } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
-import {haveUrlProduct} from "./Reservation";
-
+import { haveUrlProduct } from "./Reservation";
+import $ from "jquery";
 interface IUrlParamInformation {
   urlTagNames: string[] | null;
   urlDateFrom: Date | undefined;
   urlDateTo: Date | undefined;
   urlRoomTypeName: string | null;
   urlProductIndex: number | null;
-  haveUrlProduct: boolean
+  haveUrlProduct: boolean;
 }
 
 export const getUrlInformation = (): IUrlParamInformation => {
@@ -34,12 +34,12 @@ export const getUrlInformation = (): IUrlParamInformation => {
     productName: urlRoomTypeName,
     productIndex: urlProductIndex,
   } = getAllFromUrl();
-  const haveUrlProduct = !!urlRoomTypeName || !!urlProductIndex; 
+  const haveUrlProduct = !!urlRoomTypeName || !!urlProductIndex;
   const replacedProductName = urlRoomTypeName?.replace(/\+/g, "") || null;
   const urlTagNames = urlTags?.split(" ") || null;
   const urlDateFrom = urlFrom ? moment(urlFrom).toDate() : undefined;
   const urlDateTo = urlTo ? moment(urlFrom).add(1, "d").toDate() : undefined;
-  const urlDataProductIndex = parseInt(urlProductIndex)
+  const urlDataProductIndex = parseInt(urlProductIndex);
 
   return {
     haveUrlProduct,
@@ -63,11 +63,6 @@ export const bookingValidater = (
   if (!isPhone(bookerInfo.phoneNumber)) {
     toast.warn("전화번호를 입력해주세요.");
     $("#phoneInput").focus();
-    return false;
-  }
-  if (!bookerInfo.password) {
-    toast.warn("비밀번호를 입력해주세요.");
-    $("#passwordInput").focus();
     return false;
   }
 
