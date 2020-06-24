@@ -20,6 +20,9 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
   let totalWoman = 0;
   let totalMale = 0;
   let totalRoom = 0;
+
+  let totalOptionString = "";
+
   const imgs: string[] = [];
   roomSelectInfo.forEach((rsi) => {
     totalWoman += rsi.count.female;
@@ -27,6 +30,12 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
     totalRoom += rsi.count.roomCount;
     if (rsi.img) imgs.push(rsi.img);
   });
+
+  const optionalSelectInfo = roomSelectInfo.map(rsi => ({
+    roomTypeName: rsi.roomTypeName,
+    optString: rsi.options?.map((op)=> op.label + ": " + op.count).join(",")
+  }))
+
   return (
     <div className="prevSelectViewer">
       <div>
@@ -84,7 +93,9 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
           }}
         >
           <JDtypho weight={600}>{LANG("option")}</JDtypho>
-          <JDtypho />-
+          <JDtypho />{optionalSelectInfo.map(osi => <div>
+            {osi.roomTypeName + " - " +(osi.optString || "")}
+          </div>)}
         </JDalign>
       </div>
       <JDalign mb="small" className="prevSelectViewer__totalPrice">

@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { Observable, ApolloLink } from "apollo-link";
 import { onError, ErrorResponse } from "apollo-link-error";
 import { createUploadLink } from "apollo-upload-client";
-
 const request = async (operation: any) => {
   operation.setContext({
     headers: {
@@ -16,10 +15,9 @@ const request = async (operation: any) => {
       "H-KEY": localStorage.getItem("hk") || "",
       "X-JWT": localStorage.getItem("jwt") || "",
       "HP-Key": sessionStorage.getItem("hpk") || "",
-      "HM-Key": sessionStorage.getItem("hmk") || ""
-    }
+      "HM-Key": sessionStorage.getItem("hmk") || "",
+    },
   });
-  localStorage.setItem("UTH", "[]");
 };
 
 const requestLink = new ApolloLink(
@@ -27,12 +25,12 @@ const requestLink = new ApolloLink(
     new Observable((observer: any) => {
       let handle: any;
       Promise.resolve(operation)
-        .then(oper => request(oper))
+        .then((oper) => request(oper))
         .then(() => {
           handle = forward(operation).subscribe({
             next: observer.next.bind(observer),
             error: observer.error.bind(observer),
-            complete: observer.complete.bind(observer)
+            complete: observer.complete.bind(observer),
           });
         })
         .catch(observer.error.bind(observer));
@@ -58,21 +56,21 @@ const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
 };
 
 dotenv.config({
-  path: "../.env"
+  path: "../.env",
 });
 
 cache.writeData({
   data: {
     auth: {
       __typename: "Auth",
-      isLogIn: Boolean(localStorage.getItem("jwt"))
+      isLogIn: Boolean(localStorage.getItem("jwt")),
     },
     lastSelectedHouse: {
       __typename: "House",
       value: localStorage.getItem("selectId"),
-      label: localStorage.getItem("selectHouseLabel")
-    }
-  }
+      label: localStorage.getItem("selectHouseLabel"),
+    },
+  },
 });
 
 const client = new ApolloClient({
@@ -82,10 +80,10 @@ const client = new ApolloClient({
     requestLink,
     createUploadLink({
       uri,
-      credentials: "omit"
-    })
+      credentials: "omit",
+    }),
   ]),
-  cache
+  cache,
 });
 
 export const tclient = new ApolloClient({
@@ -96,10 +94,10 @@ export const tclient = new ApolloClient({
     createUploadLink({
       // @ts-ignore
       TICEKT_URI,
-      credentials: "omit"
-    })
+      credentials: "omit",
+    }),
   ]),
-  cache
+  cache,
 });
 
 export default client;

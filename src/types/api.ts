@@ -36,6 +36,7 @@ export interface makeBookingForPublicVariables {
   guestDomitoryParams?: MakeBookingDomitoryGuestInput[] | null;
   guestRoomParams?: MakeBookingRoomGuestInput[] | null;
   paymentParams: MakeBookingPaymentInput;
+  optionalItemSubmit?: RoomTypeOptionalItemSubmitInput[] | null;
 }
 
 /* tslint:disable */
@@ -116,6 +117,20 @@ export interface getHouseForPublic_GetHouseForPublic_house_roomTypes_tags {
   value: string;
 }
 
+export interface getHouseForPublic_GetHouseForPublic_house_roomTypes_optionalItems {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getHouseForPublic_GetHouseForPublic_house_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -123,7 +138,6 @@ export interface getHouseForPublic_GetHouseForPublic_house_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
   img: getHouseForPublic_GetHouseForPublic_house_roomTypes_img | null;
@@ -132,6 +146,7 @@ export interface getHouseForPublic_GetHouseForPublic_house_roomTypes {
    */
   images: string[] | null;
   hashTags: string[];
+  code: string;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -140,6 +155,7 @@ export interface getHouseForPublic_GetHouseForPublic_house_roomTypes {
   createdAt: any;
   updatedAt: any | null;
   tags: getHouseForPublic_GetHouseForPublic_house_roomTypes_tags[];
+  optionalItems: getHouseForPublic_GetHouseForPublic_house_roomTypes_optionalItems[];
 }
 
 export interface getHouseForPublic_GetHouseForPublic_house_bookingPayInfo_bankAccountInfo {
@@ -279,6 +295,20 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   value: string;
 }
 
+export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -286,7 +316,6 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
   img: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img | null;
@@ -295,6 +324,7 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
    */
   images: string[] | null;
   hashTags: string[];
+  code: string;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -303,6 +333,7 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   createdAt: any;
   updatedAt: any | null;
   tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
+  optionalItems: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems[];
 }
 
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -370,6 +401,20 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags 
   value: string;
 }
 
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_optionalItems {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -377,7 +422,6 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
   img: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img | null;
@@ -386,6 +430,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
    */
   images: string[] | null;
   hashTags: string[];
+  code: string;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -394,6 +439,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   createdAt: any;
   updatedAt: any | null;
   tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags[];
+  optionalItems: getBookingForPublic_GetBookingForPublic_booking_roomTypes_optionalItems[];
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_checkInInfo {
@@ -430,6 +476,33 @@ export interface getBookingForPublic_GetBookingForPublic_booking_payment {
   refundedPrice: number | null;
   tid: string | null;
   cardInfo: getBookingForPublic_GetBookingForPublic_booking_payment_cardInfo | null;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted_roomType {
+  __typename: "RoomType";
+  name: string;
+  _id: string;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted_items {
+  __typename: "OptionalItemSubmitted";
+  itemId: string;
+  itemLabel: string;
+  parentLabel: string | null;
+  /**
+   * 입력된 총 가격
+   */
+  price: number;
+  /**
+   * multiplyDate=true 인 아이템의 경우 사용자가 입력한 count * date 해서 입력됨. price도 마찬가지로...
+   */
+  count: number;
+}
+
+export interface getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted {
+  __typename: "RoomTypeOptionalItemSubmitted";
+  roomType: getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted_roomType;
+  items: getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted_items[];
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_guests_roomType {
@@ -472,6 +545,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking {
   createdAt: any;
   updatedAt: any | null;
   isConfirm: boolean;
+  optionalItemSubmitted: getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted[] | null;
   guests: getBookingForPublic_GetBookingForPublic_booking_guests[] | null;
 }
 
@@ -526,6 +600,20 @@ export interface searchBooking_SearchBooking_data_roomTypes_tags {
   value: string;
 }
 
+export interface searchBooking_SearchBooking_data_roomTypes_optionalItems {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface searchBooking_SearchBooking_data_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -533,7 +621,6 @@ export interface searchBooking_SearchBooking_data_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
   img: searchBooking_SearchBooking_data_roomTypes_img | null;
@@ -542,6 +629,7 @@ export interface searchBooking_SearchBooking_data_roomTypes {
    */
   images: string[] | null;
   hashTags: string[];
+  code: string;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -550,6 +638,7 @@ export interface searchBooking_SearchBooking_data_roomTypes {
   createdAt: any;
   updatedAt: any | null;
   tags: searchBooking_SearchBooking_data_roomTypes_tags[];
+  optionalItems: searchBooking_SearchBooking_data_roomTypes_optionalItems[];
 }
 
 export interface searchBooking_SearchBooking_data_checkInInfo {
@@ -588,11 +677,37 @@ export interface searchBooking_SearchBooking_data_payment {
   cardInfo: searchBooking_SearchBooking_data_payment_cardInfo | null;
 }
 
+export interface searchBooking_SearchBooking_data_optionalItemSubmitted_roomType {
+  __typename: "RoomType";
+  name: string;
+  _id: string;
+}
+
+export interface searchBooking_SearchBooking_data_optionalItemSubmitted_items {
+  __typename: "OptionalItemSubmitted";
+  itemId: string;
+  itemLabel: string;
+  parentLabel: string | null;
+  /**
+   * 입력된 총 가격
+   */
+  price: number;
+  /**
+   * multiplyDate=true 인 아이템의 경우 사용자가 입력한 count * date 해서 입력됨. price도 마찬가지로...
+   */
+  count: number;
+}
+
+export interface searchBooking_SearchBooking_data_optionalItemSubmitted {
+  __typename: "RoomTypeOptionalItemSubmitted";
+  roomType: searchBooking_SearchBooking_data_optionalItemSubmitted_roomType;
+  items: searchBooking_SearchBooking_data_optionalItemSubmitted_items[];
+}
+
 export interface searchBooking_SearchBooking_data_guests_roomType {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
   description: string | null;
 }
 
@@ -631,6 +746,7 @@ export interface searchBooking_SearchBooking_data {
   createdAt: any;
   updatedAt: any | null;
   isConfirm: boolean;
+  optionalItemSubmitted: searchBooking_SearchBooking_data_optionalItemSubmitted[] | null;
   guests: searchBooking_SearchBooking_data_guests[] | null;
 }
 
@@ -833,6 +949,29 @@ export interface Fimg {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: Foptional
+// ====================================================
+
+export interface Foptional {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: FroomType
 // ====================================================
 
@@ -862,6 +1001,20 @@ export interface FroomType_tags {
   value: string;
 }
 
+export interface FroomType_optionalItems {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface FroomType {
   __typename: "RoomType";
   _id: string;
@@ -869,7 +1022,6 @@ export interface FroomType {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
   img: FroomType_img | null;
@@ -878,6 +1030,7 @@ export interface FroomType {
    */
   images: string[] | null;
   hashTags: string[];
+  code: string;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -886,6 +1039,7 @@ export interface FroomType {
   createdAt: any;
   updatedAt: any | null;
   tags: FroomType_tags[];
+  optionalItems: FroomType_optionalItems[];
 }
 
 /* tslint:disable */
@@ -923,6 +1077,20 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType_tags {
   value: string;
 }
 
+export interface FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItems {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -930,7 +1098,6 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
   img: FroomTypePriceResult_roomTypeDatePrices_roomType_img | null;
@@ -939,6 +1106,7 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
    */
   images: string[] | null;
   hashTags: string[];
+  code: string;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -947,6 +1115,7 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   createdAt: any;
   updatedAt: any | null;
   tags: FroomTypePriceResult_roomTypeDatePrices_roomType_tags[];
+  optionalItems: FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItems[];
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_datePrices {
@@ -1085,6 +1254,20 @@ export interface Fbooking_roomTypes_tags {
   value: string;
 }
 
+export interface Fbooking_roomTypes_optionalItems {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface Fbooking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1092,7 +1275,6 @@ export interface Fbooking_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
   img: Fbooking_roomTypes_img | null;
@@ -1101,6 +1283,7 @@ export interface Fbooking_roomTypes {
    */
   images: string[] | null;
   hashTags: string[];
+  code: string;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1109,6 +1292,7 @@ export interface Fbooking_roomTypes {
   createdAt: any;
   updatedAt: any | null;
   tags: Fbooking_roomTypes_tags[];
+  optionalItems: Fbooking_roomTypes_optionalItems[];
 }
 
 export interface Fbooking_checkInInfo {
@@ -1147,6 +1331,33 @@ export interface Fbooking_payment {
   cardInfo: Fbooking_payment_cardInfo | null;
 }
 
+export interface Fbooking_optionalItemSubmitted_roomType {
+  __typename: "RoomType";
+  name: string;
+  _id: string;
+}
+
+export interface Fbooking_optionalItemSubmitted_items {
+  __typename: "OptionalItemSubmitted";
+  itemId: string;
+  itemLabel: string;
+  parentLabel: string | null;
+  /**
+   * 입력된 총 가격
+   */
+  price: number;
+  /**
+   * multiplyDate=true 인 아이템의 경우 사용자가 입력한 count * date 해서 입력됨. price도 마찬가지로...
+   */
+  count: number;
+}
+
+export interface Fbooking_optionalItemSubmitted {
+  __typename: "RoomTypeOptionalItemSubmitted";
+  roomType: Fbooking_optionalItemSubmitted_roomType;
+  items: Fbooking_optionalItemSubmitted_items[];
+}
+
 export interface Fbooking {
   __typename: "Booking";
   _id: string;
@@ -1170,6 +1381,7 @@ export interface Fbooking {
   createdAt: any;
   updatedAt: any | null;
   isConfirm: boolean;
+  optionalItemSubmitted: Fbooking_optionalItemSubmitted[] | null;
 }
 
 /* tslint:disable */
@@ -1242,6 +1454,13 @@ export enum Funnels {
 export enum Gender {
   FEMALE = "FEMALE",
   MALE = "MALE",
+}
+
+export enum OptionalItemType {
+  CHECK = "CHECK",
+  GROUP = "GROUP",
+  INPUT = "INPUT",
+  RADIO = "RADIO",
 }
 
 export enum PayMethod {
@@ -1326,7 +1545,7 @@ export interface MakeBookingDomitoryGuestInput {
 }
 
 export interface MakeBookingPaymentInput {
-  price: number;
+  price?: number | null;
   payMethod: PayMethod;
   status?: PaymentStatus | null;
   cardPayInfo?: CreateBillKeyInput | null;
@@ -1337,6 +1556,13 @@ export interface MakeBookingRoomGuestInput {
   countRoom: number;
 }
 
+export interface OptionalItemSubmittedUpsertInput {
+  itemId?: string | null;
+  count?: number | null;
+  price?: number | null;
+  multiplyDate?: boolean | null;
+}
+
 export interface RoomTypeCapacityInitValueInput {
   count: number;
   gender: Gender;
@@ -1345,6 +1571,11 @@ export interface RoomTypeCapacityInitValueInput {
 export interface RoomTypeCapacityInput {
   checkInOut: CheckInOutInput;
   initValue?: RoomTypeCapacityInitValueInput | null;
+}
+
+export interface RoomTypeOptionalItemSubmitInput {
+  roomTypeId: string;
+  items: OptionalItemSubmittedUpsertInput[];
 }
 
 //==============================================================

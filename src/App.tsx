@@ -81,7 +81,14 @@ function App({ publickey, lang, route }: APP_PROP) {
           id="JDversion"
           className="JDtextColor--placeHolder"
         >
-          <JDtypho size="superTiny">{version}</JDtypho>
+          <JDtypho
+            style={{
+              opacity: 0.5,
+            }}
+            size="superTiny"
+          >
+            {version}
+          </JDtypho>
         </div>
       </ErrorBound>
     </div>

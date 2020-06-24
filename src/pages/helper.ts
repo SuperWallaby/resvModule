@@ -21,6 +21,7 @@ interface IUrlParamInformation {
   urlTagNames: string[] | null;
   urlDateFrom: Date | undefined;
   urlDateTo: Date | undefined;
+  urlRoomTypeCode: string | null;
   urlRoomTypeName: string | null;
   urlProductIndex: number | null;
   haveUrlProduct: boolean;
@@ -33,7 +34,9 @@ export const getUrlInformation = (): IUrlParamInformation => {
     tags: urlTags,
     productName: urlRoomTypeName,
     productIndex: urlProductIndex,
+    productCode: urlProductCode
   } = getAllFromUrl();
+  const urlRoomTypeCode = urlProductCode || null;
   const haveUrlProduct = !!urlRoomTypeName || !!urlProductIndex;
   const replacedProductName = urlRoomTypeName?.replace(/\+/g, "") || null;
   const urlTagNames = urlTags?.split(" ") || null;
@@ -48,6 +51,7 @@ export const getUrlInformation = (): IUrlParamInformation => {
     urlDateFrom,
     urlDateTo,
     urlRoomTypeName: replacedProductName,
+    urlRoomTypeCode
   };
 };
 

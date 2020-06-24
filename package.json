@@ -1,6 +1,6 @@
 {
   "name": "@janda-com/resv-module",
-  "version": "1.0.4",
+  "version": "1.0.8",
   "main": "dist/RC.js",
   "module": "dist/RC.es.js",
   "jsnext:main": "dist/RC.es.js",
@@ -89,7 +89,7 @@
     "preprod": "cp ./envs/env.pro ./.env",
     "prod": "node scripts/build.js",
     "build:bundle": "webpack --config webpack.config.js",
-    "upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.0.7--gang/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.0.0--gang/resvModule.css ",
+    "upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.0.8--gang/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.0.0--gang/resvModule.css ",
     "test": "react-app-rewired test --env=jsdom",
     "cjs": "yarn prod && yarn build:bundle && yarn upload",
     "precodegen": "apollo schema:download --endpoint=https://temp-booking.stayjanda.cloud/graphql",
@@ -146,7 +146,7 @@
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-scss": "^2.5.0",
     "rollup-plugin-typescript2": "^0.25.3",
-    "typescript": "~3.7.2",
+    "typescript": "~3.9.5",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack-cli": "^3.3.11"
   },

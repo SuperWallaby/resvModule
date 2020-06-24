@@ -24,6 +24,7 @@ html:root {
     margin-right: 0 !important;
   }
 }
+
 @import "./variables.scss";
 @import "~@janda-com/front/build/scss/all.scss";
 @import "./component/AgreeBlock.scss";
@@ -35,6 +36,7 @@ html:root {
 @import "./component/RoomType.scss";
 @import "./component/SelectViewer.scss";
 @import "./component/CheckBox.scss";
+@import "./component/AgreePolicy.scss";
 
 @import "./page/Reservation.scss";
 @import "./page/ReservationFind.scss";

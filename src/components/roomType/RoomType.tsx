@@ -22,13 +22,9 @@ import {
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
-import CountSelecter from "./CountSelecter";
+import CountSelecter,{Counter} from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
-import { ExtraRoomTypeConfig } from "../../types/enum";
-import { isMobile } from "is-mobile";
-import { isEmpty } from "@janda-com/front";
-import moment from "moment";
 import { PopUpDetailModal } from "./PopUpDetailModal";
 
 const IS_MOBILE = false;
@@ -64,13 +60,14 @@ const RoomType: React.FC<IProps> = ({
     images,
     description,
     defaultPrice,
+    optionalItems
   } = roomType;
   const publicSelectHook = useSelect(
-    { label: "9시", value: 9 },
+    { label: "10시", value: 10 },
     selectOpCreater({
       count: 10,
       labelAdd: "시",
-      start: 9,
+      start: 10,
     })
   );
   const productVeiwerModal = useModal(true);
@@ -91,6 +88,8 @@ const RoomType: React.FC<IProps> = ({
     targetSelectInfo,
     capacityData,
   } = roomTypeContext;
+
+  const targetSelectRoom = roomSelectInfo.find(rsi => rsi.roomTypeId === roomType._id);
 
   const availableCount = getAvailableCountFromQuery(capacityData!);
   const totalCan =
@@ -307,16 +306,63 @@ const RoomType: React.FC<IProps> = ({
       </div>
       <JDphotoModal modalHook={photoModalHook} />
       {targetSelectInfo && (
-        <CountSelecter
-          availableCount={availableCount}
-          roomTypeContext={roomTypeContext}
-          isDomitory={isDomitory}
-          targetSelectInfo={targetSelectInfo}
-          fullDatePrice={fullDatePrice}
-          roomType={roomType}
-          resvContext={resvContext}
-        />
+        <div className="roomType__countSelectWrap">
+          <div className="roomType__countMainWrap"> 
+            <CountSelecter
+              availableCount={availableCount}
+              roomTypeContext={roomTypeContext}
+              isDomitory={isDomitory}
+              targetSelectInfo={targetSelectInfo}
+              fullDatePrice={fullDatePrice}
+              roomType={roomType}
+              resvContext={resvContext}
+            />
+        </div>
+        <div className="roomType__optionalItems">
+          <JDtypho weight={600} size="small">옵션선택</JDtypho>
+          {targetSelectRoom && optionalItems.map(op => {
+            let targetOp = targetSelectRoom.options?.find(op => op._id === op._id);
+            if(!targetSelectRoom) return <div/>
+            return <JDalign flex={{
+              between:true
+            }} className="roomType__optionalItem" key={op._id}>
+            <Counter
+              maxCount={op.maxCount || 999}
+              label={op.label}
+              handleCount={(flag)=> {
+                const sum = flag ? 1 : -1;
+                const upCount = sum +  (targetOp?.count || 0);
+                const upDateValue = {
+                  label: op.label,
+                  _id: op._id,
+                  count: upCount,
+                  price: ((op.price || 0) * upCount)
+                }
+                if (targetOp) {
+                  targetOp.count = upDateValue.count;
+                  targetOp.price = upDateValue.price;
+                } else {
+                  if(targetSelectRoom.options) 
+                  targetSelectRoom.options.push(upDateValue);
+                  else 
+                  targetSelectRoom["options"] = [upDateValue];
+                }
+                
+                setRoomSelectInfo([...roomSelectInfo])
+              }}
+              count={targetOp?.count || 0}
+              target={op._id}
+            />
+            <div>
+            <JDtypho size="large" mb="no">{autoComma(op.price || 0)} KRW</JDtypho>
+            <JDtypho size="tiny">*1인당</JDtypho>
+            </div>
+        </JDalign>
+      })}
+      </div>
+      </div>
       )}
+
       {popUpDetailPage && targetSelectInfo && (
         <PopUpDetailModal
           roomTypeContext={roomTypeContext}
@@ -324,6 +370,7 @@ const RoomType: React.FC<IProps> = ({
           roomType={roomType}
           handleDoResvBtn={handleDoResvBtn}
           resvContext={resvContext}
+
           images={roomType.images || []}
           isSoldOut={!!isSoldOut}
           popUpProductClose={popUpProductClose}
