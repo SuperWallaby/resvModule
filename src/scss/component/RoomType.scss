@@ -5,15 +5,30 @@ $cardHeight: 11rem;
   border-radius: $standard-border-radius;
   overflow: hidden;
 
+  &__countSelectWrap {
+    padding: $standard-space;
+    background-color: $grey-level1;
+  }
+
+  &__countMainWrap {
+    border-bottom: 1px solid $grey-level1;
+  }
+
+  &__optionalItem {
+    padding: $standard-space;
+  }
+
   &__soldOut {
     position: absolute;
     left: space(0.5);
     top: space(1);
     @extend %z-depth-3;
   }
+
   &__inner {
     border: 1px solid $grey-level2;
   }
+
   &__slider {
     position: relative;
     width: 100%;
@@ -40,6 +55,7 @@ $cardHeight: 11rem;
       margin-bottom: 0;
       background-color: $primary-color;
       color: white;
+
       .JDbtn__contents {
         color: $html-color;
       }
@@ -52,7 +68,9 @@ $cardHeight: 11rem;
   }
 
   &__counter {
+
     padding: $standard-space;
     background-color: $grey-level2;
+
   }
 }

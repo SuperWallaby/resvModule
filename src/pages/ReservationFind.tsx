@@ -13,6 +13,7 @@ import {
   getBookingForPublic_GetBookingForPublic_booking as IBooking,
   searchBooking,
   searchBookingVariables,
+  getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted_items,
 } from "../types/api";
 import { SEARCH_BOOKING } from "../apollo/queries";
 import { onCompletedMessage } from "@janda-com/front";
@@ -22,6 +23,7 @@ import { dateRangeFormat } from "@janda-com/front";
 import { getRoomSelectInfo } from "../utils/typeChanger";
 import moment from "moment";
 import { autoComma } from "@janda-com/front";
+import { runInContext } from "lodash";
 
 export interface IProps {
   callBackGoToBook: () => void;
@@ -60,12 +62,19 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
       payment,
       createdAt,
       guests,
+      optionalItemSubmitted
     } = data;
     if (!roomTypes) return <span />;
 
     const { totalPrice, status, payMethod } = payment;
 
     const roomSelectInfo = getRoomSelectInfo(guests, roomTypes);
+
+    const itemArray:getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted_items[] = [];
+     optionalItemSubmitted?.forEach(sub => {
+       sub.items.forEach(item =>{
+        itemArray.push(item);
+     })}); 
 
     return (
       <div className="searchResult">
@@ -77,7 +86,7 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
         </div>
         <div className="searchResult__body">
           {roomSelectInfo.map((ri) => {
-            const { count } = ri;
+            const { count,roomTypeId } = ri;
             const { female, male, roomCount } = count;
             return (
               <InfoRender
@@ -116,6 +125,17 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
             }}
             label={LANG("payMethod")}
             value={LANG("PayMethod", payMethod)}
+          />
+          <InfoRender
+            wrapProp={{
+              className: "searchResult__cell",
+            }}
+            label={LANG("option")}
+            value={<div>
+              {itemArray.map(ii => <div key={ii.itemId}>
+                {ii.itemLabel +":"+ ii.count + "=" + autoComma(ii.price)}
+              </div>)}
+            </div>}
           />
         </div>
       </div>

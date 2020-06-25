@@ -44,6 +44,7 @@ import moment from "moment";
 import { validation } from "../components/helper";
 import { JDdropDown } from "@janda-com/front";
 import AgreePolicyModal from "../components/AgreePoilicyModal";
+import { isEmpty } from "lodash";
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
@@ -58,6 +59,7 @@ export const {
   urlTagNames,
   urlProductIndex,
   urlRoomTypeName,
+  urlRoomTypeCode
 } = getUrlInformation();
 
 if (urlDateFrom) {
@@ -81,17 +83,19 @@ const Reservation: React.FC<IProps> = ({
     urlDateTo || loadMemo("to")
   );
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
+
   const uniqTags = getUniqTag(roomTypes || []);
   const allTags = uniqTags.map((t) => t.value);
-
   const radioButtonHook = useRadioButton(urlTagNames || allTags, uniqTags);
-
   const noTags = uniqTags.length === 0;
 
   let urlSearchedRoomType = roomTypes?.find((r) => r.name === urlRoomTypeName);
 
   if (!urlSearchedRoomType)
     urlSearchedRoomType = roomTypes?.find((r, i) => i + 1 === urlProductIndex);
+  
+  if(!urlSearchedRoomType)
+    urlSearchedRoomType = roomTypes?.find((r,i) => r.code === urlRoomTypeCode);
 
   const urlRoomSelectInfo: IRoomSelectInfo[] = [
     {
@@ -111,10 +115,12 @@ const Reservation: React.FC<IProps> = ({
   const [bookerInfo, setBookerInfo] = useState<IBookerInfo>(
     loadMemo("bookerInfo")
   );
+
   const [step, setStep] = useState<Tstep>(loadMemo("step"));
   const [roomSelectInfo, setRoomSelectInfo] = useState<IRoomSelectInfo[]>(
     urlSearchedRoomType ? urlRoomSelectInfo : loadMemo("roomSelectInfo")
   );
+
   const selectedPrice = arraySum(roomSelectInfo.map((rs) => rs.price));
 
   const handleDoResvBtn = () => {
@@ -134,13 +140,21 @@ const Reservation: React.FC<IProps> = ({
           agreePrivacyPolicy: true,
           memo: `${
             hiddenMemo ? `[${hiddenMemo}]` : ""
-          } ["입금자:"${sender}] ${memo}`,
+          }  ${ sender ? `["입금자:"${sender}] ${memo}` : ""}`,
           email: "crawl1234@nave.com",
           name: name,
           password: password,
           phoneNumber: phoneNumber,
           funnels: Funnels.HOMEPAGE,
         },
+        optionalItemSubmit: roomSelectInfo.filter(rs => !isEmpty(rs.options)).map(rs => ({
+          items:  (rs.options || []).map(op => ({
+              itemId: op._id,
+              count: op.count,
+              price: op.price
+            })),
+          roomTypeId: rs.roomTypeId
+        })),
         checkInOut: {
           checkIn: from,
           checkOut: to,
@@ -188,6 +202,12 @@ const Reservation: React.FC<IProps> = ({
   };
 
   const { from, to } = dayPickerHook;
+
+
+  const ops = roomSelectInfo.map(rs => rs.options);
+  const opPrices = ops.map(o => arraySum(o?.map(o => o.price || 0) || [0]));
+  const totalOptionPrice = arraySum(opPrices);
+
   const resvContext: IResvContext = {
     roomSelectInfo,
     houseData,
@@ -201,9 +221,10 @@ const Reservation: React.FC<IProps> = ({
     payInfo,
     setPayInfo,
     customMsgs,
-    totalPrice: selectedPrice,
+    totalPrice: selectedPrice + totalOptionPrice,
     dayPickerHook,
     handleStepChange,
+    totalOptionPrice
   };
 
   const sharedSectionTitleProp: any = {

@@ -18,10 +18,11 @@ import { autoComma } from "@janda-com/front";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import { selectOpCreater } from "@janda-com/front";
 import { useSelect } from "@janda-com/front";
-import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
+import { getHouseForPublic_GetHouseForPublic_house_roomTypes, getHouseForPublic_GetHouseForPublic_house_roomTypes_optionalItems } from "../../types/api";
 import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { LANG } from "../../App";
+import { OptionSelecter } from "./OptionSelecter";
 
 interface IProp {
   popUpProductClose: () => void;
@@ -37,6 +38,7 @@ interface IProp {
     femaleCount: number;
     roomCount: number;
   };
+  optionalItems:getHouseForPublic_GetHouseForPublic_house_roomTypes_optionalItems[]
   DailyPrice: () => JSX.Element;
 }
 
@@ -50,9 +52,29 @@ export const PopUpDetailPage: React.FC<IProp> = ({
   isSoldOut,
   popUpProductClose,
   productVeiwerModal,
+  optionalItems,
   DailyPrice,
 }) => {
+<<<<<<< HEAD
   const { dayPickerHook, setBookerInfo, bookerInfo, from, to } = resvContext;
+=======
+  const exception = roomType.name == "요트퍼블릭 60분";
+
+  const publicSelectHook = useSelect(
+    { label: "시간선택", value: "미선택"},
+    [
+    { label: "10:30", value: "10시 30분"},
+    { label: "12:00", value: "12시 00분"},
+    { label: "13:30", value: "13시 30분"},
+    { label: "15:00", value: "15시 00분"},
+    { label: "16:30", value: "16시 30분"},
+    { label: "18:00", value: "18시 00분"},
+    { label: "19:30", value: "19시 30분"},
+    { label: "21:00", value: "21시 00분"},
+  ]
+  );
+  const { dayPickerHook, setBookerInfo, bookerInfo,totalPrice, from, roomSelectInfo,setRoomSelectInfo } = resvContext;
+>>>>>>> feature/광안리
   const { isDomitory, targetSelectInfo, fullDatePrice } = roomTypeContext;
   const name = roomType.name;
 
@@ -189,6 +211,12 @@ export const PopUpDetailPage: React.FC<IProp> = ({
               resvContext={resvContext}
             />
           </JDalign>
+
+              {targetSelectInfo && <div>
+          <JDtypho mb="large" weight={600} >옵션선택</JDtypho>
+         <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectInfo} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
+         </div>
+              }
           <JDtypho mb="large" color="error" size="large">
             <JDalign
               flex={{
@@ -198,7 +226,7 @@ export const PopUpDetailPage: React.FC<IProp> = ({
               <div>총금액:</div>
               <div>
                 <JDtypho mb="no" size="h6">
-                  {autoComma(targetSelectInfo.price)}
+                  {autoComma(totalPrice)}
                 </JDtypho>
               </div>
             </JDalign>
