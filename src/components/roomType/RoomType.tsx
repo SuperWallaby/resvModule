@@ -26,6 +26,7 @@ import CountSelecter,{Counter} from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 import { PopUpDetailModal } from "./PopUpDetailModal";
+import { OptionSelecter } from "./OptionSelecter";
 
 const IS_MOBILE = false;
 
@@ -318,48 +319,12 @@ const RoomType: React.FC<IProps> = ({
               resvContext={resvContext}
             />
         </div>
+        {targetSelectRoom && 
         <div className="roomType__optionalItems">
-          <JDtypho weight={600} size="small">옵션선택</JDtypho>
-          {targetSelectRoom && optionalItems.map(op => {
-            let targetOp = targetSelectRoom.options?.find(op => op._id === op._id);
-            if(!targetSelectRoom) return <div/>
-            return <JDalign flex={{
-              between:true
-            }} className="roomType__optionalItem" key={op._id}>
-            <Counter
-              maxCount={op.maxCount || 999}
-              label={op.label}
-              handleCount={(flag)=> {
-                const sum = flag ? 1 : -1;
-                const upCount = sum +  (targetOp?.count || 0);
-                const upDateValue = {
-                  label: op.label,
-                  _id: op._id,
-                  count: upCount,
-                  price: ((op.price || 0) * upCount)
-                }
-                if (targetOp) {
-                  targetOp.count = upDateValue.count;
-                  targetOp.price = upDateValue.price;
-                } else {
-                  if(targetSelectRoom.options) 
-                  targetSelectRoom.options.push(upDateValue);
-                  else 
-                  targetSelectRoom["options"] = [upDateValue];
-                }
-                
-                setRoomSelectInfo([...roomSelectInfo])
-              }}
-              count={targetOp?.count || 0}
-              target={op._id}
-            />
-            <div>
-            <JDtypho size="large" mb="no">{autoComma(op.price || 0)} KRW</JDtypho>
-            <JDtypho size="tiny">*1인당</JDtypho>
-            </div>
-        </JDalign>
-      })}
+          <JDtypho  weight={600} >옵션선택</JDtypho>
+         <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
       </div>
+}
       </div>
       )}
 
@@ -370,7 +335,7 @@ const RoomType: React.FC<IProps> = ({
           roomType={roomType}
           handleDoResvBtn={handleDoResvBtn}
           resvContext={resvContext}
-
+          optionalItems={optionalItems}
           images={roomType.images || []}
           isSoldOut={!!isSoldOut}
           popUpProductClose={popUpProductClose}

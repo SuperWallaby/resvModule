@@ -44,6 +44,7 @@ import moment from "moment";
 import { validation } from "../components/helper";
 import { JDdropDown } from "@janda-com/front";
 import AgreePolicyModal from "../components/AgreePoilicyModal";
+import { isEmpty } from "lodash";
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
@@ -146,8 +147,8 @@ const Reservation: React.FC<IProps> = ({
           phoneNumber: phoneNumber,
           funnels: Funnels.HOMEPAGE,
         },
-        optionalItemSubmit: roomSelectInfo.map(rs => ({
-          items: (rs.options || []).map(op => ({
+        optionalItemSubmit: roomSelectInfo.filter(rs => !isEmpty(rs.options)).map(rs => ({
+          items:  (rs.options || []).map(op => ({
               itemId: op._id,
               count: op.count,
               price: op.price

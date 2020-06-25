@@ -16,7 +16,7 @@ import {
 import { HouseOptionsKey, PayMethod } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
 import { haveUrlProduct } from "./Reservation";
-import $ from "jquery";
+import $, { nodeName } from "jquery";
 interface IUrlParamInformation {
   urlTagNames: string[] | null;
   urlDateFrom: Date | undefined;
@@ -195,7 +195,7 @@ const getParsedDate = (key: "from" | "to") => {
 };
 
 export const store = {
-  isAsked: false,
+  isAsked:   process.env.NODE_ENV === "development" ? false : true,
 };
 
 export const removeAllSaveInfo = () => {
