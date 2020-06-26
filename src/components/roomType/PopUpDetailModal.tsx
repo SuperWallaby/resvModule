@@ -19,8 +19,8 @@ import { IResvContext, IRoomSelectInfo } from '../../pages/declare';
 import { selectOpCreater } from '@janda-com/front';
 import { useSelect } from '@janda-com/front';
 import {
-	getHouseForPublic_GetHouseForPublic_house_roomTypes,
-	getHouseForPublic_GetHouseForPublic_house_roomTypes_optionalItems
+	getHouseForPublic_GetHouseForPublic_house_roomTypes_optionalItems,
+	getHouseForPublic_GetHouseForPublic_house_roomTypes
 } from '../../types/api';
 import CountSelecter from './CountSelecter';
 import { IRoomTypeContext } from './RoomTypeWrap';
@@ -117,12 +117,16 @@ export const PopUpDetailPage: React.FC<IProp> = ({
 					}}
 				>
 					<JDalign mb="large" grid>
-						<JDtypho mb="large">
+						<JDtypho
+							style={{
+								width: '100%'
+							}}
+							mb="large"
+						>
 							<JDtypho weight={600} mb="normal">
 								날짜선택
 							</JDtypho>
-							{dayPickerHook &&
-							from && (
+							{dayPickerHook && (
 								<JDdayPicker
 									displayIcon={true}
 									mode="input"
@@ -130,10 +134,10 @@ export const PopUpDetailPage: React.FC<IProp> = ({
 									inputComponent={(prop: any) => (
 										<div>
 											<JDbutton mode="border" {...prop}>
-												{moment(from!).format('YYYY-MM-DD')}
+												{from ? moment(from).format('YYYY-MM-DD') : '선택'}
 											</JDbutton>
 											<JDbutton mode="border" {...prop}>
-												{moment(to!).format('YYYY-MM-DD')}
+												{to ? moment(to).format('YYYY-MM-DD') : '선택'}
 											</JDbutton>
 										</div>
 									)}
@@ -198,7 +202,7 @@ export const PopUpDetailPage: React.FC<IProp> = ({
 					</JDalign>
 
 					{isEmpty(optionalItems) || (
-						<div>
+						<div className="roomType__options">
 							<JDtypho mb="large" weight={600}>
 								옵션선택
 							</JDtypho>

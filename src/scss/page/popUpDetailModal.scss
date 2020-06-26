@@ -23,8 +23,12 @@ $flex-grid--column-margin: 4%;
   }
 
   .roomType__optionalItem {
-    padding: 0 !important;
-    margin-bottom: space(4);
+    padding: space(2) 0 !important;
+    border-bottom: 1px solid $grey-level1;
+  }
+
+  .roomType__options {
+    margin-bottom: space(2);
   }
 
   .roomType__optionalItem {
