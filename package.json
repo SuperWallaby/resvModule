@@ -1,7 +1,6 @@
 {
   "name": "@janda-com/resv-module",
-  "version": "1.0.8",
-
+  "version": "1.1.0",
   "main": "dist/RC.js",
   "module": "dist/RC.es.js",
   "jsnext:main": "dist/RC.es.js",
@@ -90,6 +89,7 @@
     "preprod": "cp ./envs/env.pro ./.env",
     "prod": "node scripts/build.js",
     "brc": "yarn build && yarn publish",
+    "build-for-react": "yarn prod && yarn publish",
     "build:bundle": "webpack --config webpack.config.js",
     "upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.2.0/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.0.0/resvModule.css ",
     "test": "react-app-rewired test --env=jsdom",
