@@ -10,7 +10,7 @@ import { queryDataFormater } from '@janda-com/front';
 interface CounterProp {
 	count: number;
 	handleCount: (flag: boolean, target: any) => any;
-	target: any;
+	target?: any;
 	label: string;
 	maxCount: number;
 }

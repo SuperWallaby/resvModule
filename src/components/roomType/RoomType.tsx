@@ -27,6 +27,7 @@ import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 import { PopUpDetailModal } from "./PopUpDetailModal";
 import { OptionSelecter } from "./OptionSelecter";
+import { isEmpty } from "lodash";
 
 const IS_MOBILE = false;
 
@@ -319,7 +320,7 @@ const RoomType: React.FC<IProps> = ({
               resvContext={resvContext}
             />
         </div>
-        {targetSelectRoom && 
+        {isEmpty(optionalItems) ||
         <div className="roomType__optionalItems">
           <JDtypho  weight={600} >옵션선택</JDtypho>
          <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />

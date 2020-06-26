@@ -23,6 +23,7 @@ import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { LANG } from "../../App";
 import { OptionSelecter } from "./OptionSelecter";
+import { isEmpty } from "lodash";
 
 interface IProp {
   popUpProductClose: () => void;
@@ -208,7 +209,7 @@ export const PopUpDetailModal: React.FC<IProp> = ({
             />
           </JDalign>
 
-              {targetSelectInfo && <div>
+              {isEmpty(optionalItems) || <div>
           <JDtypho mb="large" weight={600} >옵션선택</JDtypho>
          <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectInfo} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
          </div>

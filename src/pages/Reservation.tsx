@@ -82,6 +82,12 @@ const Reservation: React.FC<IProps> = ({
     urlDateFrom || loadMemo("from"),
     urlDateTo || loadMemo("to")
   );
+
+  
+  console.log("dayPickerHook");
+  console.log(dayPickerHook)
+  console.log("dayPickerHook")
+  console.log(urlDateFrom)
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
 
   const uniqTags = getUniqTag(roomTypes || []);
@@ -123,7 +129,12 @@ const Reservation: React.FC<IProps> = ({
 
   const selectedPrice = arraySum(roomSelectInfo.map((rs) => rs.price));
 
+  const { from, to } = dayPickerHook;
+
+  
   const handleDoResvBtn = () => {
+    console.log("from");
+    console.log(from);
     if (bookingValidater(bookerInfo, payInfo)) {
       const { memo, hiddenMemo, name, password, phoneNumber } = bookerInfo;
       const {
@@ -156,8 +167,8 @@ const Reservation: React.FC<IProps> = ({
           roomTypeId: rs.roomTypeId
         })),
         checkInOut: {
-          checkIn: from,
-          checkOut: moment(from!).add(1, "d"),
+          checkIn: moment(dayPickerHook.from).add(9,"h").toDate(),
+          checkOut: moment(dayPickerHook.from).add(9,"h").add(1, "d").toDate(),
         },
         paymentParams: {
           payMethod: paymethod as PayMethod,
@@ -200,8 +211,6 @@ const Reservation: React.FC<IProps> = ({
       setStep("input");
     }
   };
-
-  const { from, to } = dayPickerHook;
 
 
   const ops = roomSelectInfo.map(rs => rs.options);
