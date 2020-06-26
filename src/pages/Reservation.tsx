@@ -44,7 +44,7 @@ import moment from "moment";
 import { validation } from "../components/helper";
 import { JDdropDown } from "@janda-com/front";
 import AgreePolicyModal from "../components/AgreePoilicyModal";
-import { isEmpty } from "lodash";
+import { isEmpty } from "@janda-com/front";
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;

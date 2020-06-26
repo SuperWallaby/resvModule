@@ -26,7 +26,7 @@ import CountSelecter from './CountSelecter';
 import { IRoomTypeContext } from './RoomTypeWrap';
 import { LANG } from '../../App';
 import { OptionSelecter } from './OptionSelecter';
-import { isEmpty } from 'lodash';
+import { isEmpty } from '@janda-com/front';
 
 interface IProp {
 	popUpProductClose: () => void;

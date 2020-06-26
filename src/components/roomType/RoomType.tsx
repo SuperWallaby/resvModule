@@ -22,7 +22,7 @@ import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 import PopUpDetailModal from "./PopUpDetailModal";
 import { OptionSelecter } from "./OptionSelecter";
-import { isEmpty } from "lodash";
+import { isEmpty } from "@janda-com/front";
 
 const IS_MOBILE = false;
 
