@@ -22,6 +22,9 @@ export const OptionSelecter:React.FC<IProp> = ({optionalItems,targetSelectRoom,r
           between:true
         }} className="roomType__optionalItem" key={op._id}>
         <Counter
+          labelProp={{
+            weight: 400
+          }}
           maxCount={op.maxCount || 999}
           label={op.label}
           handleCount={(flag)=> {

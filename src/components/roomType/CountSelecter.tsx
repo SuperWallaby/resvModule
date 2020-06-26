@@ -6,16 +6,18 @@ import { LANG } from '../../App';
 import { IRoomTypeContext, Gender } from './RoomTypeWrap';
 import { getAvailableCountFromQuery } from './helper';
 import { queryDataFormater } from '@janda-com/front';
+import { IJDtyphoProp } from '@janda-com/front/build/components/typho/Typho';
 
 interface CounterProp {
 	count: number;
 	handleCount: (flag: boolean, target: any) => any;
 	target?: any;
 	label: string;
+	labelProp?: IJDtyphoProp;
 	maxCount: number;
 }
 
-export const Counter: React.FC<CounterProp> = ({ handleCount, target, count, label, maxCount }) => {
+export const Counter: React.FC<CounterProp> = ({ handleCount, labelProp, target, count, label, maxCount }) => {
 	return (
 		<JDalign
 			className="counter"
@@ -23,7 +25,7 @@ export const Counter: React.FC<CounterProp> = ({ handleCount, target, count, lab
 				vCenter: true
 			}}
 		>
-			<JDtypho weight={600} mr="large">
+			<JDtypho weight={600} mr="large" {...labelProp}>
 				{label}
 			</JDtypho>
 			<JDalign className="counter__inner">

@@ -6,15 +6,25 @@ $cardHeight: 11rem;
   overflow: hidden;
 
   &__countSelectWrap {
-    padding: $standard-space;
     background-color: $grey-level1;
   }
 
+  &__optionTitle {
+    padding: space(2);
+  }
+
   &__countMainWrap {
-    border-bottom: 1px solid $grey-level1;
+    padding: $standard-space;
+
+    border-bottom: 1px solid $grey-level2;
+  }
+
+  &__optionalItems {
+    padding: $standard-space;
   }
 
   &__optionalItem {
+    border-bottom: 1px solid $grey-level2;
     padding: $standard-space;
   }
 

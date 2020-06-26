@@ -129,7 +129,9 @@ export const PopUpDetailModal: React.FC<IProp> = ({
           }}
         >
           <JDalign mb="large" grid>
-            <JDtypho mb="large">
+            <JDtypho style={{
+				width: '100%'
+			}} mb="large">
               <JDtypho weight={600} mb="normal">
                 날짜선택
               </JDtypho>
@@ -141,7 +143,7 @@ export const PopUpDetailModal: React.FC<IProp> = ({
                   {...dayPickerHook}
                   inputComponent={(prop: any) => (
                     <JDbutton mode="border" {...prop}>
-                      {moment(from!).format("YYYY-MM-DD")}
+                      {from ? moment(from).format("YYYY-MM-DD") : "선택"}
                     </JDbutton>
                   )}
                 />
@@ -209,25 +211,33 @@ export const PopUpDetailModal: React.FC<IProp> = ({
             />
           </JDalign>
 
-              {isEmpty(optionalItems) || <div>
-          <JDtypho mb="large" weight={600} >옵션선택</JDtypho>
-         <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectInfo} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
-         </div>
-              }
-          <JDtypho mb="large" color="error" size="large">
-            <JDalign
-              flex={{
-                between: true,
-              }}
-            >
-              <div>총금액:</div>
-              <div>
-                <JDtypho mb="no" size="h6">
-                  {autoComma(totalPrice)}
-                </JDtypho>
-              </div>
-            </JDalign>
-          </JDtypho>
+					{isEmpty(optionalItems) || (
+						<div className="roomType__options">
+							<JDtypho mb="large" weight={600}>
+								옵션선택
+							</JDtypho>
+							<OptionSelecter
+								optionalItems={optionalItems}
+								targetSelectRoom={targetSelectInfo}
+								setRoomSelectInfo={setRoomSelectInfo}
+								roomSelectInfo={roomSelectInfo}
+							/>
+						</div>
+					)}
+					<JDtypho mb="large" color="error" size="large">
+						<JDalign
+							flex={{
+								between: true
+							}}
+						>
+							<div>총금액:</div>
+							<div>
+								<JDtypho mb="no" size="h6">
+									{autoComma(totalPrice)}
+								</JDtypho>
+							</div>
+						</JDalign>
+					</JDtypho>
 
           <JDbutton
             onClick={() => {

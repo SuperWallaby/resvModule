@@ -322,7 +322,7 @@ const RoomType: React.FC<IProps> = ({
         </div>
         {isEmpty(optionalItems) ||
         <div className="roomType__optionalItems">
-          <JDtypho  weight={600} >옵션선택</JDtypho>
+          <JDtypho className="roomType__optionTitle" weight={600} >옵션선택</JDtypho>
          <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
       </div>
 }
