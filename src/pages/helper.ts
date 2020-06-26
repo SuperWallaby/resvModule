@@ -181,11 +181,12 @@ const getParsedData = (key: string, DEFAULT: any) => {
 const getParsedDate = (key: "from" | "to") => {
   const defualtTo = moment().add(1,"d").toDate();
   try {
-    const date = sessionStorage.getItem(key);
+    const date = undefined;
     if (key === "to" && !date) {
       return defualtTo;
     }
     const data = moment(date || undefined).toDate();
+
     return data;
   } catch (e) {
     console.error(e);
@@ -223,6 +224,8 @@ export const loadMemo = (
   }
 
   store.isAsked = true;
+
+
 
   switch (getKey) {
     case "from":

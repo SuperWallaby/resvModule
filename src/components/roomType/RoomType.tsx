@@ -17,16 +17,12 @@ import {
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
-import CountSelecter,{Counter} from "./CountSelecter";
+import CountSelecter, {Counter} from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
-<<<<<<< HEAD
-
 import PopUpDetailModal from "./PopUpDetailModal";
-=======
-import { PopUpDetailModal } from "./PopUpDetailModal";
 import { OptionSelecter } from "./OptionSelecter";
->>>>>>> feature/광안리
+import { isEmpty } from "lodash";
 
 const IS_MOBILE = false;
 
@@ -310,7 +306,7 @@ const RoomType: React.FC<IProps> = ({
               resvContext={resvContext}
             />
         </div>
-        {targetSelectRoom && 
+        {isEmpty(optionalItems) ||
         <div className="roomType__optionalItems">
           <JDtypho  weight={600} >옵션선택</JDtypho>
          <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
@@ -326,15 +322,11 @@ const RoomType: React.FC<IProps> = ({
           roomType={roomType}
           roomTypeContext={roomTypeContext}
           resvContext={resvContext}
-<<<<<<< HEAD
-=======
           optionalItems={optionalItems}
           images={roomType.images || []}
->>>>>>> feature/광안리
           isSoldOut={!!isSoldOut}
           handleDoResvBtn={handleDoResvBtn}
           productVeiwerModal={productVeiwerModal}
-          images={roomType.images || []}
           popUpProductClose={popUpProductClose}
         />
       )}

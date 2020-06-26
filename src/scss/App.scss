@@ -19,6 +19,10 @@ html:root,.themeProvider {
   }
 }
 
+.iconWrapper.JDmodal__closeIcon {
+  position: absolute;
+}
+
 @import "./variables.scss";
 @import "~@janda-com/front/build/scss/all.scss";
 @import "./component/AgreeBlock.scss";

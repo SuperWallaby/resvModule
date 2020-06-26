@@ -10,62 +10,11 @@ import { queryDataFormater } from '@janda-com/front';
 interface CounterProp {
 	count: number;
 	handleCount: (flag: boolean, target: any) => any;
-	target: any;
+	target?: any;
 	label: string;
 	maxCount: number;
 }
 
-<<<<<<< HEAD
-const Counter: React.FC<CounterProp> = ({
-  handleCount,
-  target,
-  count,
-  label,
-  maxCount,
-}) => {
-  return (
-    <JDalign
-      className="counter"
-      flex={{
-        vCenter: true,
-        center: true,
-      }}
-    >
-      <JDtypho weight={600} mr="large">
-        {label}
-      </JDtypho>
-      <JDalign className="counter__inner">
-        <JDbutton
-          mb="no"
-          disabled={count === 0}
-          thema="grey1"
-          mode="flat"
-          className="counter__btn"
-          onClick={() => {
-            handleCount(false, target);
-          }}
-        >
-          -
-        </JDbutton>
-        <JDbutton mb="no" thema="grey1" mode="flat" className="counter__count">
-          {count}
-        </JDbutton>
-        <JDbutton
-          mb="no"
-          disabled={maxCount <= count}
-          thema="grey1"
-          mode="flat"
-          className="counter__btn"
-          onClick={() => {
-            handleCount(true, target);
-          }}
-        >
-          +
-        </JDbutton>
-      </JDalign>
-    </JDalign>
-  );
-=======
 export const Counter: React.FC<CounterProp> = ({ handleCount, target, count, label, maxCount }) => {
 	return (
 		<JDalign
@@ -106,7 +55,6 @@ export const Counter: React.FC<CounterProp> = ({ handleCount, target, count, lab
 			</JDalign>
 		</JDalign>
 	);
->>>>>>> feature/광안리
 };
 
 interface IProps {
@@ -133,120 +81,6 @@ const CountSelecter: React.FC<IProps> = ({
 	availableCount,
 	alignProp
 }) => {
-<<<<<<< HEAD
-  const [loading, setLoading] = useState(false);
-  const {
-    refetchCapacity,
-    capacityData,
-    sharedQueryVariable,
-  } = roomTypeContext;
-  const {
-    femaleCount: availableCountFemale,
-    maleCount: availableCountMale,
-    roomCount: availableCountRoom,
-  } = availableCount;
-  const { roomSelectInfo, setRoomSelectInfo } = resvContext;
-  const [maxCount, setMaxCount] = useState({
-    maxFemale: availableCountFemale,
-    maxMale: availableCountMale,
-  });
-
-  const handleCount = async (
-    positive: boolean,
-    target: "male" | "female" | "room"
-  ) => {
-    if (loading) return;
-    setLoading(true);
-    let sum = positive ? 1 : -1;
-    if (!targetSelectInfo)
-      throw Error("This must not happend by UI :: RoomType");
-
-    const isFemaleCall = target === "female";
-    const { roomCount, female, male } = targetSelectInfo.count;
-
-    if (target === "room") targetSelectInfo.count.roomCount += sum;
-
-    if (target !== "room") {
-      sharedQueryVariable.RoomTypeCapacityInput.initValue = {
-        count: isFemaleCall ? female + sum : male + sum,
-        gender: isFemaleCall ? Gender.FEMALE : Gender.MALE,
-      };
-      const { data } = await refetchCapacity({
-        ...sharedQueryVariable,
-      });
-
-      const queryData =
-        queryDataFormater(data, "GetRoomTypeById", "roomType", undefined) ||
-        undefined;
-
-      if (!queryData) return;
-
-      if (target === "female") targetSelectInfo.count.female += sum;
-      if (target === "male") targetSelectInfo.count.male += sum;
-
-      const capcityData = getAvailableCountFromQuery(queryData);
-      const { femaleCount, maleCount } = capcityData;
-
-      if (isFemaleCall && targetSelectInfo.count.male > maleCount) {
-        targetSelectInfo.count.male = 0;
-      }
-
-      if (!isFemaleCall && targetSelectInfo.count.female > femaleCount) {
-        targetSelectInfo.count.female = 0;
-      }
-
-      if (targetSelectInfo.count.female < 0) {
-        targetSelectInfo.count.female = 0;
-      }
-
-      if (targetSelectInfo.count.male < 0) {
-        targetSelectInfo.count.male = 0;
-      }
-
-      setMaxCount({
-        maxFemale: isFemaleCall ? maxCount.maxFemale : femaleCount,
-        maxMale: isFemaleCall ? maleCount : maxCount.maxMale,
-      });
-    }
-
-    console.log("fullDatePrice");
-    console.log(fullDatePrice);
-
-    targetSelectInfo.price =
-      fullDatePrice *
-      (targetSelectInfo.count.male +
-        targetSelectInfo.count.female +
-        targetSelectInfo.count.roomCount);
-
-    setRoomSelectInfo([...roomSelectInfo]);
-
-    setLoading(false);
-  };
-
-  const { count } = targetSelectInfo;
-  const { male, female, roomCount } = count;
-
-  return (
-    <JDalign
-      flex={{
-        around: true,
-        grow: true,
-        center: true,
-      }}
-      className="countSelecter"
-      {...alignProp}
-    >
-      {isDomitory ? (
-        <Fragment>
-          <Counter
-            maxCount={maxCount.maxMale}
-            label={LANG("male")}
-            handleCount={handleCount}
-            target={"male"}
-            count={male}
-          />
-          <Counter
-=======
 	const [ loading, setLoading ] = useState(false);
 	const { refetchCapacity, capacityData, sharedQueryVariable } = roomTypeContext;
 	const {
@@ -334,36 +168,14 @@ const CountSelecter: React.FC<IProps> = ({
 		>
 			{isDomitory ? (
 				<Fragment>
+					<Counter maxCount={maxCount.maxMale} label={LANG('male')} handleCount={handleCount} target={'male'} count={male} />
 					<Counter
-						maxCount={maxCount.maxMale}
-						label={LANG('people')}
+						maxCount={maxCount.maxFemale}
+						label={LANG('female')}
 						handleCount={handleCount}
-						target={'male'}
-						count={male}
+						target={'female'}
+						count={female}
 					/>
-					{/* <Counter
->>>>>>> feature/광안리
-            maxCount={maxCount.maxFemale}
-            label={LANG("female")}
-            handleCount={handleCount}
-            target={"female"}
-            count={female}
-<<<<<<< HEAD
-          />
-        </Fragment>
-      ) : (
-        <Counter
-          maxCount={availableCountRoom}
-          label={LANG("room_count")}
-          handleCount={handleCount}
-          target={"room"}
-          count={roomCount}
-        />
-      )}
-    </JDalign>
-  );
-=======
-          /> */}
 				</Fragment>
 			) : (
 				<Counter
@@ -376,7 +188,6 @@ const CountSelecter: React.FC<IProps> = ({
 			)}
 		</JDalign>
 	);
->>>>>>> feature/광안리
 };
 
 export default CountSelecter;
