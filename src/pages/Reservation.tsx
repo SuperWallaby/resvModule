@@ -259,7 +259,6 @@ const Reservation: React.FC<IProps> = ({
   if (step === "select")
     return (
       <div>
-        <h1>광안리</h1>
         <JDalign grid>
           <JDalign
             col={{
