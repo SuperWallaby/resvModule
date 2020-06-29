@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   JDbutton,
   InputText,
@@ -32,6 +32,13 @@ export interface IProps {
 export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
   const bookingNumHook = useInput(localStorage.getItem("jdbn") || "");
   const [data, setData] = useState<IBooking>();
+
+  useEffect(()=>{
+    //  @ts-ignore
+    window.dataLayer.push({'event':'complete'});
+    //  @ts-ignore
+    window.fbq('track', 'Reservation success');
+   },[])
 
   const handleNumSearch = async (bn: string) => {
     const result = await client.query<searchBooking, searchBookingVariables>({
@@ -75,6 +82,8 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
        sub.items.forEach(item =>{
         itemArray.push(item);
      })}); 
+
+
 
     return (
       <div className="searchResult">

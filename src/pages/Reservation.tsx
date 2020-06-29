@@ -66,6 +66,9 @@ if (urlDateFrom) {
   store.isAsked = true;
 }
 
+
+let FV_FLAG = false;
+
 const Reservation: React.FC<IProps> = ({
   houseData,
   makeBookingFn,
@@ -76,6 +79,7 @@ const Reservation: React.FC<IProps> = ({
   const { roomTypes, houseConfig } = houseData;
   const { bookingConfig } = houseConfig;
   const { maxStayDate } = bookingConfig;
+
   const dayPickerModalHook = useModal(false);
   // TODO 여기서 sameDate일경우에
   const dayPickerHook = useDayPicker(
@@ -83,11 +87,6 @@ const Reservation: React.FC<IProps> = ({
     urlDateTo || loadMemo("to")
   );
 
-  
-  console.log("dayPickerHook");
-  console.log(dayPickerHook)
-  console.log("dayPickerHook")
-  console.log(urlDateFrom)
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
 
   const uniqTags = getUniqTag(roomTypes || []);
@@ -122,6 +121,19 @@ const Reservation: React.FC<IProps> = ({
     loadMemo("bookerInfo")
   );
 
+  useEffect(()=>{
+
+    // @ts-ignore
+    window.dataLayer.push({'event': urlRoomSelectInfo[0]?.roomTypeName + 'Enter'});
+    // @ts-ignore
+    window.fbq('track', 'PageView');
+    // @ts-ignore
+    window.fbq('track',  urlRoomSelectInfo[0]?.roomTypeName + 'Reservation clik');
+
+  },[])
+  
+
+
   const [step, setStep] = useState<Tstep>(loadMemo("step"));
   const [roomSelectInfo, setRoomSelectInfo] = useState<IRoomSelectInfo[]>(
     urlSearchedRoomType ? urlRoomSelectInfo : loadMemo("roomSelectInfo")
@@ -130,6 +142,18 @@ const Reservation: React.FC<IProps> = ({
   const selectedPrice = arraySum(roomSelectInfo.map((rs) => rs.price));
 
   const { from, to } = dayPickerHook;
+
+
+  useEffect(()=>{
+    if(step === "input" && !FV_FLAG) {
+      FV_FLAG = true;
+      // @ts-ignore
+     window.dataLayer.push({'event': urlRoomSelectInfo[0]?.roomTypeName + 'Enter Input Page'});
+
+      // @ts-ignore
+      window.fbq('track', 'Info Input Step');
+    }
+  },[step])
 
   
   const handleDoResvBtn = () => {
