@@ -220,7 +220,7 @@ export const MAKE_BOOKING_FOR_PUBLIC = gql`
 			error
 			booking {
 				_id
-				bookingNum
+        bookingNum
 			}
 		}
 	}

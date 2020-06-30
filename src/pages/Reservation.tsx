@@ -126,10 +126,7 @@ const Reservation: React.FC<IProps> = ({
     // @ts-ignore
     window.dataLayer.push({'event': urlRoomSelectInfo[0]?.roomTypeName + 'Enter'});
     // @ts-ignore
-    window.fbq('track', 'PageView');
-    // @ts-ignore
     window.fbq('track',  urlRoomSelectInfo[0]?.roomTypeName + 'Reservation clik');
-
   },[])
   
 

@@ -51,6 +51,11 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
   >(MAKE_BOOKING_FOR_PUBLIC, {
     client,
     onCompleted: ({ MakeBookingForPublic }) => {
+      // @ts-ignore
+      window.dataLayer.push({'event': 'reservation completed'});
+      // @ts-ignore
+      window.fbq('track', 'reservation completed');
+      
       onCompletedMessage(MakeBookingForPublic, LANG("COMPLETE"), LANG("FAIL"));
       const bookingNum = MakeBookingForPublic.booking?.bookingNum || "";
       removeAllSaveInfo();
