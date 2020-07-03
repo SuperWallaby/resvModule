@@ -3,10 +3,13 @@ $cardHeight: 11rem;
 .roomType {
   margin-bottom: $standard-small-space;
   border-radius: $standard-border-radius;
+  // @extend %z-depth-half;
   overflow: hidden;
 
   &__countSelectWrap {
     background-color: $grey-level1;
+    border: 1px #e2e2e2 solid;
+    box-sizing: border-box;
   }
 
   &__optionTitle {
@@ -15,17 +18,17 @@ $cardHeight: 11rem;
 
   &__countMainWrap {
     padding: $standard-space;
-
     border-bottom: 1px solid $grey-level2;
   }
 
   &__optionalItems {
-    padding: $standard-space;
+    padding: space(2);
+    background-color: #fff;
   }
 
   &__optionalItem {
-    border-bottom: 1px solid $grey-level2;
-    padding: $standard-space;
+    border-top: 1px dashed $grey-level2;
+    padding: space(2.5) space(2) space(2.5) space(2);
   }
 
   &__soldOut {

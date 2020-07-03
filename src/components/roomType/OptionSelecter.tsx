@@ -19,7 +19,8 @@ export const OptionSelecter:React.FC<IProp> = ({optionalItems,targetSelectRoom,r
         let targetOp = targetSelectRoom.options?.find(op => op._id === op._id);
         if(!targetSelectRoom) return <div/>
         return <JDalign flex={{
-          between:true
+          between:true,
+          vCenter: true
         }} className="roomType__optionalItem" key={op._id}>
         <Counter
           labelProp={{
@@ -51,10 +52,12 @@ export const OptionSelecter:React.FC<IProp> = ({optionalItems,targetSelectRoom,r
           count={targetOp?.count || 0}
           target={op._id}
         />
-        <div>
+        <JDalign flex={{
+          vCenter:true
+        }}>
+        <JDtypho size="small" mr="large">*1인당</JDtypho>
         <JDtypho mb="no">{autoComma(op.price || 0)} KRW</JDtypho>
-        <JDtypho size="tiny">*1인당</JDtypho>
-        </div>
+        </JDalign>
     </JDalign>
   })}
   </div>
