@@ -1,5 +1,5 @@
-import React from 'react';
-import { IUseDayPicker } from '@janda-com/front';
+import React from "react";
+import { IUseDayPicker } from "@janda-com/front";
 interface Iprops {
     dayPickerHook: IUseDayPicker;
     handleDateClick: any;

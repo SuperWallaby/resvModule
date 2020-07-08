@@ -4,6 +4,7 @@ export declare const F_PAYMENT: import("graphql").DocumentNode;
 export declare const F_HOUSE_CONFIG: import("graphql").DocumentNode;
 export declare const F_BANK_ACOUNT_INFO: import("graphql").DocumentNode;
 export declare const F_IMG: import("graphql").DocumentNode;
+export declare const F_OPTIONAL_ITEM: import("graphql").DocumentNode;
 export declare const F_ROOMTYPE: import("graphql").DocumentNode;
 export declare const F_ROOM_TYPE_DATE_PRICE_RESULT: import("graphql").DocumentNode;
 export declare const F_ROOM: import("graphql").DocumentNode;

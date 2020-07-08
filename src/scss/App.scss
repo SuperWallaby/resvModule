@@ -34,7 +34,7 @@ html:root {
 }
 
 @import "./variables.scss";
-@import "~@janda-com/front/build/scss/all.scss";
+@import "~@janda-com/front/src/scss/all.scss";
 @import "./component/AgreeBlock.scss";
 @import "./component/BookerForm.scss";
 @import "./component/CountSelecter.scss";

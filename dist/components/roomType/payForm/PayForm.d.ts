@@ -1,5 +1,5 @@
-import React from "react";
-import { IResvContext } from "../../../pages/declare";
+import React from 'react';
+import { IResvContext } from '../../../pages/declare';
 interface IProps {
     resvContext: IResvContext;
 }

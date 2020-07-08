@@ -31,6 +31,8 @@ interface IProps {
     houseData: getHouseForPublic_GetHouseForPublic_house;
     roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
     dateInfo: ICheckInOutInfo;
+    urlSearched: boolean;
+    handleDoResvBtn: () => void;
 }
 declare const RoomTypeWrap: React.FC<IProps>;
 export default RoomTypeWrap;

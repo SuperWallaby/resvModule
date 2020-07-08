@@ -39,3 +39,7 @@ export declare enum HouseOptionsKey {
     ResvCompeleteMsg = "ResvCompeleteMsg",
     PayPrecaution = "PayPrecaution"
 }
+export declare enum ExtraRoomTypeConfig {
+    ExtraDescrib = "ExtraDescrib",
+    Detail = "Detail"
+}

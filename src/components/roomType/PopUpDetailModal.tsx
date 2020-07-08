@@ -14,7 +14,7 @@ import {
   toast,
 } from "@janda-com/front";
 import moment from "moment";
-import { autoComma } from "@janda-com/front";
+import { autoComma,isEmpty } from "@janda-com/front";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
 import { selectOpCreater } from "@janda-com/front";
 import { useSelect } from "@janda-com/front";
@@ -23,7 +23,6 @@ import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { LANG } from "../../App";
 import { OptionSelecter } from "./OptionSelecter";
-import { isEmpty } from "lodash";
 import ReactGA from 'react-ga';
 
 interface IProp {
@@ -77,9 +76,8 @@ export const PopUpDetailModal: React.FC<IProp> = ({
   const name = roomType.name;
   if (!targetSelectInfo) throw Error("targetSelectInfo not exsist");
 
-
   useEffect(()=>{
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.modalview(window.location.pathname + window.location.search);
   },[])
 
   return (

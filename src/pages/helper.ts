@@ -17,6 +17,7 @@ import { HouseOptionsKey, PayMethod } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
 import { haveUrlProduct } from "./Reservation";
 import $, { nodeName } from "jquery";
+import ReactGA from "react-ga";
 interface IUrlParamInformation {
   urlTagNames: string[] | null;
   urlDateFrom: Date | undefined;
@@ -59,19 +60,33 @@ export const bookingValidater = (
   bookerInfo: IBookerInfo,
   payInfo: IPayInfo
 ): boolean => {
+
+  const sendGa = (action:string) => {
+    ReactGA.event({
+      category: 'Validation Fail',
+      action
+    });
+  }
+
   if (!bookerInfo.name) {
     toast.warn("예약자명을 입력 해주세요.");
     $("#nameInput").focus();
+    sendGa('Did not input nmae');
+
     return false;
   }
   if (!isPhone(bookerInfo.phoneNumber)) {
     toast.warn("전화번호를 입력해주세요.");
     $("#phoneInput").focus();
+    sendGa('Did not input phoneNumber');
+
     return false;
   }
 
   if (!bookerInfo.agreePersonal || !bookerInfo.agreePersonal) {
     toast.warn("약관에 동의바랍니다.");
+    sendGa('Did not agrre to agreePersonal');
+
     return false;
   }
 
@@ -79,15 +94,21 @@ export const bookingValidater = (
     if (!payInfo.cardNum) {
       toast.warn("카드번호를 입력해주세요.");
       $("cardInput").focus();
+      sendGa('Did not input card Number');
+
       return false;
     }
     if (payInfo.expireM.length !== 2 || payInfo.expireY.length !== 2) {
       toast.warn("카드 만료기간을 입력 해주세요.");
+      sendGa('Did not input card Exp');
+
       $("cardExpireInput").focus();
       return false;
     }
     if (payInfo.idNum.length !== 6) {
       toast.warn("주민번호 앞자리를 채워주세요.");
+      sendGa('Personal ID');
+
       $("idNumInput").focus();
       return false;
     }
@@ -95,6 +116,8 @@ export const bookingValidater = (
     if (payInfo.password.length !== 2) {
       toast.warn("카드 비밀번호를 입력 해주세요.");
       $("idNumInput").focus();
+      sendGa('Did not input Card Number');
+
       return false;
     }
   }

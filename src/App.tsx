@@ -7,9 +7,9 @@ import kr from "./lang/kr";
 import "./scss/App.scss";
 import { RESV_INIT_OPTION } from ".";
 import ReservationFind from "./pages/ReservationFind";
+import ReactGA from "react-ga";
 // @ts-ignore
 import ErrorBound from "./ErrorBound";
-import ReactGA from 'react-ga';
 
 export const JDlangsSet: any = {
   kr,
@@ -43,7 +43,7 @@ export interface APP_PROP extends RESV_INIT_OPTION {
 
 const { version } = require("../package.json");
 
-function App({ publickey, lang, route }: APP_PROP) {
+function App({ publickey, lang, route, ga_track }: APP_PROP) {
   const langHook = useLang(lang || "kr");
   const [step, setStep] = useState<"book" | "search">(route || "book");
   sessionStorage.setItem("hpk", publickey);
@@ -52,9 +52,16 @@ function App({ publickey, lang, route }: APP_PROP) {
     setStep("search");
   };
 
+  
   useEffect(()=>{
-    ReactGA.initialize('UA-170431978-2');
+
+    console.log("ga_track");
+    console.log(ga_track);
+    if(ga_track) 
+      ReactGA.initialize(ga_track,{ debug: true, alwaysSendToDefaultTracker: false }
+    );
   },[])
+
 
   return (
     <div className="App themeProvider">

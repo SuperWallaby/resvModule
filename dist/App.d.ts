@@ -7,5 +7,5 @@ export declare let LANG: (key: string, key2?: string) => any;
 export interface APP_PROP extends RESV_INIT_OPTION {
     publickey: string;
 }
-declare function App({ publickey, lang, route }: APP_PROP): JSX.Element;
+declare function App({ publickey, lang, route, ga_track }: APP_PROP): JSX.Element;
 export default App;

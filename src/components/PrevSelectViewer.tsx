@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   JDphotoFrame,
   JDslider,
@@ -10,7 +10,7 @@ import {
 } from "@janda-com/front";
 import { LANG } from "../App";
 import { IResvContext } from "../pages/declare";
-
+import ReactGA from "react-ga"
 interface IProps {
   resvContext: IResvContext;
 }
@@ -35,7 +35,6 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
     roomTypeName: rsi.roomTypeName,
     optString: rsi.options?.map((op)=> op.label + ": " + op.count).join(",")
   }))
-
   return (
     <div className="prevSelectViewer">
       <div>

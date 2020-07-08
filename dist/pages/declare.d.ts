@@ -1,12 +1,19 @@
 /// <reference types="react" />
-import { PricingType, getHouseForPublic_GetHouseForPublic_house } from "../types/api";
-import { TOptionsObj } from "../types/type";
+import { PricingType, getHouseForPublic_GetHouseForPublic_house } from '../types/api';
+import { TOptionsObj } from '../types/type';
+import { IUseDayPicker } from '@janda-com/front';
 export interface IRoomSelectInfo {
     roomTypeId: string;
     roomTypeName?: string;
     count: IGuestCount;
     pricingType: PricingType;
     img?: string;
+    options?: {
+        label: string;
+        _id: string;
+        price: number;
+        count: number;
+    }[];
     price: number;
 }
 export interface IGuestCount {
@@ -19,10 +26,12 @@ export interface IBookerInfo {
     phoneNumber: string;
     password: string;
     memo: string;
+    hiddenMemo?: string;
     agreeUse: boolean;
     agreePersonal: boolean;
 }
 export interface IPayInfo {
+    sender?: string;
     paymethod: string;
     cardNum: string;
     password: string;
@@ -36,12 +45,15 @@ export interface IResvContext {
     setPayInfo: React.Dispatch<React.SetStateAction<IPayInfo>>;
     bookerInfo: IBookerInfo;
     setBookerInfo: React.Dispatch<React.SetStateAction<IBookerInfo>>;
-    step: "select" | "input" | "check";
-    setStep: React.Dispatch<React.SetStateAction<"select" | "input" | "check">>;
+    step: 'select' | 'input' | 'check';
+    setStep: React.Dispatch<React.SetStateAction<'select' | 'input' | 'check'>>;
     totalPrice: number;
     roomSelectInfo: IRoomSelectInfo[];
     setRoomSelectInfo: React.Dispatch<React.SetStateAction<IRoomSelectInfo[]>>;
     from: Date | null;
     to: Date | null;
     houseData: getHouseForPublic_GetHouseForPublic_house;
+    dayPickerHook?: IUseDayPicker;
+    handleStepChange: () => void;
+    totalOptionPrice: number;
 }

@@ -34,9 +34,7 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
   const [data, setData] = useState<IBooking>();
 
   useEffect(()=>{
-      ReactGA.pageview('resv-confirm');
-    //  @ts-ignore
-    window.fbq('track', 'Reservation success');
+      ReactGA.pageview('resv-find');
    },[])
 
   const handleNumSearch = async (bn: string) => {

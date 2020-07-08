@@ -50,19 +50,23 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
     makeBookingForPublicVariables
   >(MAKE_BOOKING_FOR_PUBLIC, {
     client,
+    onError: (e) => {
+      ReactGA.exception({
+        description: 'makeBookingForPublicMu Error Occur',
+        fatal: true
+      });
+    },
     onCompleted: ({ MakeBookingForPublic }) => {
-      // @ts-ignore
-      window.dataLayer.push({'event': 'reservation completed'});
-      // @ts-ignore
-      window.fbq('track', 'reservation completed');
-
       
       onCompletedMessage(MakeBookingForPublic, LANG("COMPLETE"), LANG("FAIL"));
       const bookingNum = MakeBookingForPublic.booking?.bookingNum || "";
       removeAllSaveInfo();
       localStorage.setItem("jdbn", bookingNum);
       if (MakeBookingForPublic.ok) {
-        ReactGA.pageview(window.location.pathname + "/completed");
+        ReactGA.event({
+          category: "Resv",
+          action: "completed"
+        });
         confirmModal.openModal({
           bookingNum,
         });

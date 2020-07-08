@@ -6,5 +6,6 @@ interface IProps {
     houseData: getHouseForPublic_GetHouseForPublic_house;
     customMsgs: TOptionsObj;
 }
+export declare const urlDateFrom: Date | undefined, haveUrlProduct: boolean, urlDateTo: Date | undefined, urlTagNames: string[] | null, urlProductIndex: number | null, urlRoomTypeName: string | null, urlRoomTypeCode: string | null;
 declare const Reservation: React.FC<IProps>;
 export default Reservation;

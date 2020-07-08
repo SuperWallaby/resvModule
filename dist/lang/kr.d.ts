@@ -4,6 +4,8 @@ declare const _default: {
         NOT_YET: string;
         COMPLETED: string;
     };
+    COMPLETE: string;
+    FAIL: string;
     PayMethod: {
         BILL: string;
         VBANK: string;
@@ -75,5 +77,15 @@ declare const _default: {
     close: string;
     move_to_confirm_page: string;
     out_range_msg: (N: number) => string;
+    complete_msg: string;
+    we_collect_your_personal_information_to_provide_the_service: string;
+    privacy_item: string;
+    purpose_of_collection: string;
+    retention_period: string;
+    contact: string;
+    smooth_reservation_management: string;
+    six_months_after_stay: string;
+    the_minimum_personal_information_required_to_provide_the_service_is_required_to_use_the_service: string;
+    if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation: string;
 };
 export default _default;

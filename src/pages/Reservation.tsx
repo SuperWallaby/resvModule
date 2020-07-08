@@ -42,9 +42,8 @@ import {
 import { store } from "./helper";
 import moment from "moment";
 import { validation } from "../components/helper";
-import { JDdropDown } from "@janda-com/front";
+import { JDdropDown,isEmpty } from "@janda-com/front";
 import AgreePolicyModal from "../components/AgreePoilicyModal";
-import { isEmpty } from "lodash";
 import ReactGA from "react-ga";
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
@@ -121,15 +120,6 @@ const Reservation: React.FC<IProps> = ({
     loadMemo("bookerInfo")
   );
 
-  useEffect(()=>{
-
-    // @ts-ignore
-    window.dataLayer.push({'event': urlRoomSelectInfo[0]?.roomTypeName + 'Enter'});
-    // @ts-ignore
-    window.fbq('track',  urlRoomSelectInfo[0]?.roomTypeName + 'Reservation clik');
-  },[])
-  
-
 
   const [step, setStep] = useState<Tstep>(loadMemo("step"));
   const [roomSelectInfo, setRoomSelectInfo] = useState<IRoomSelectInfo[]>(
@@ -140,22 +130,14 @@ const Reservation: React.FC<IProps> = ({
 
   const { from, to } = dayPickerHook;
 
-
-  useEffect(()=>{
-    if(step === "input" && !FV_FLAG) {
-      FV_FLAG = true;
-      // @ts-ignore
-     window.dataLayer.push({'event': urlRoomSelectInfo[0]?.roomTypeName + 'Enter Input Page'});
-
-      // @ts-ignore
-      window.fbq('track', 'Info Input Step');
-    }
-  },[step])
-
-  
   const handleDoResvBtn = () => {
-    console.log("from");
-    console.log(from);
+
+    ReactGA.event({
+      category: 'Resv',
+      action: 'Click Resv Btn'
+    });
+
+
     if (bookingValidater(bookerInfo, payInfo)) {
       const { memo, hiddenMemo, name, password, phoneNumber } = bookerInfo;
       const {
@@ -228,6 +210,11 @@ const Reservation: React.FC<IProps> = ({
 
   const handleStepChange = () => {
     if (validation(roomSelectInfo, from, to)) {
+
+      ReactGA.event({
+        action:"Select Items " + roomSelectInfo.map(rsi => rsi.roomTypeName).join(','),
+        category:"Resv"});
+
       window.history.pushState({ data: "input" }, "예약자 정보입력");
       setStep("input");
     }
@@ -277,6 +264,8 @@ const Reservation: React.FC<IProps> = ({
     return visible;
   });
 
+  const {name} = houseData;
+
   useEffect(()=>{
     if(step === "input")
       ReactGA.pageview(window.location.pathname + window.location.search + "/payment");
@@ -285,7 +274,7 @@ const Reservation: React.FC<IProps> = ({
   if (step === "select")
     return (
       <div>
-        <h1>광안리</h1>
+        <h1>{name}</h1>
         <JDalign grid>
           <JDalign
             col={{

@@ -8,6 +8,9 @@ interface IProps {
     dailyPrice: number;
     roomTypeContext: IRoomTypeContext;
     countLoading: boolean;
+    popUpDetailPage?: boolean;
+    priceLoading: boolean;
+    handleDoResvBtn: () => void;
 }
 declare const RoomType: React.FC<IProps>;
 export default RoomType;

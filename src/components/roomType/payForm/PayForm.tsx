@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { InputText, JDalign, JDselect, JDtypho, WindowSizeNumber, useSelect, useWindowSize } from '@janda-com/front';
 import { LANG } from '../../../App';
 import { IResvContext, IPayInfo } from '../../../pages/declare';
 import { PayMethod } from '../../../types/enum';
-
+import ReactGA from "react-ga";
 interface IProps {
 	resvContext: IResvContext;
 }
@@ -29,6 +29,13 @@ const PayForm: React.FC<IProps> = ({ resvContext }) => {
 	function set<T extends keyof IPayInfo>(key: T, value: IPayInfo[T]) {
 		setPayInfo({ ...payInfo, [key]: value });
 	}
+
+	useEffect(()=>{
+		ReactGA.event({
+		  category: "Resv",
+		  action: `select payMethod ${payInfo.paymethod}`,
+		});
+	},[isCardMode])
 
 	return (
 		<div className="payForm">
