@@ -45,7 +45,7 @@ import { validation } from "../components/helper";
 import { JDdropDown } from "@janda-com/front";
 import AgreePolicyModal from "../components/AgreePoilicyModal";
 import { isEmpty } from "lodash";
-
+import ReactGA from "react-ga";
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
   houseData: getHouseForPublic_GetHouseForPublic_house;
@@ -276,6 +276,11 @@ const Reservation: React.FC<IProps> = ({
 
     return visible;
   });
+
+  useEffect(()=>{
+    if(step === "input")
+      ReactGA.pageview(window.location.pathname + window.location.search + "/payment");
+  },[step])
 
   if (step === "select")
     return (

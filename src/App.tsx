@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ApolloProvider } from "react-apollo";
 import client from "./apollo/apolloClient";
 import { Toast, JDtypho } from "@janda-com/front";
@@ -9,6 +9,7 @@ import { RESV_INIT_OPTION } from ".";
 import ReservationFind from "./pages/ReservationFind";
 // @ts-ignore
 import ErrorBound from "./ErrorBound";
+import ReactGA from 'react-ga';
 
 export const JDlangsSet: any = {
   kr,
@@ -50,6 +51,10 @@ function App({ publickey, lang, route }: APP_PROP) {
   const finishCallBack = () => {
     setStep("search");
   };
+
+  useEffect(()=>{
+    ReactGA.initialize('UA-170431978-2');
+  },[])
 
   return (
     <div className="App themeProvider">

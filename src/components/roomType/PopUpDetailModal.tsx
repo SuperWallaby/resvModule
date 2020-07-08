@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   JDmodal,
   IUseModal,
@@ -24,6 +24,7 @@ import { IRoomTypeContext } from "./RoomTypeWrap";
 import { LANG } from "../../App";
 import { OptionSelecter } from "./OptionSelecter";
 import { isEmpty } from "lodash";
+import ReactGA from 'react-ga';
 
 interface IProp {
   popUpProductClose: () => void;
@@ -75,6 +76,11 @@ export const PopUpDetailModal: React.FC<IProp> = ({
   const { isDomitory, targetSelectInfo, fullDatePrice } = roomTypeContext;
   const name = roomType.name;
   if (!targetSelectInfo) throw Error("targetSelectInfo not exsist");
+
+
+  useEffect(()=>{
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  },[])
 
   return (
     <JDmodal

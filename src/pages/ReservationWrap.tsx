@@ -26,7 +26,7 @@ import { LANG } from "../App";
 import Reservation from "./Reservation";
 import { removeAllSaveInfo, getOptionsObj } from "./helper";
 import { InputText } from "@janda-com/front";
-
+import ReactGA from "react-ga";
 interface IProps {
   publickey: string;
   finishCallBack?: () => void;
@@ -55,12 +55,14 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
       window.dataLayer.push({'event': 'reservation completed'});
       // @ts-ignore
       window.fbq('track', 'reservation completed');
+
       
       onCompletedMessage(MakeBookingForPublic, LANG("COMPLETE"), LANG("FAIL"));
       const bookingNum = MakeBookingForPublic.booking?.bookingNum || "";
       removeAllSaveInfo();
       localStorage.setItem("jdbn", bookingNum);
       if (MakeBookingForPublic.ok) {
+        ReactGA.pageview(window.location.pathname + "/completed");
         confirmModal.openModal({
           bookingNum,
         });

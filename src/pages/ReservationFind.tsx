@@ -24,7 +24,7 @@ import { getRoomSelectInfo } from "../utils/typeChanger";
 import moment from "moment";
 import { autoComma } from "@janda-com/front";
 import { runInContext } from "lodash";
-
+import ReactGA from "react-ga";
 export interface IProps {
   callBackGoToBook: () => void;
 }
@@ -34,8 +34,7 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
   const [data, setData] = useState<IBooking>();
 
   useEffect(()=>{
-    //  @ts-ignore
-    window.dataLayer.push({'event':'complete'});
+      ReactGA.pageview('resv-confirm');
     //  @ts-ignore
     window.fbq('track', 'Reservation success');
    },[])
