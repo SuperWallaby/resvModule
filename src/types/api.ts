@@ -36,7 +36,7 @@ export interface makeBookingForPublicVariables {
   guestDomitoryParams?: MakeBookingDomitoryGuestInput[] | null;
   guestRoomParams?: MakeBookingRoomGuestInput[] | null;
   paymentParams: MakeBookingPaymentInput;
-  optionalItemSubmit?: RoomTypeOptionalItemSubmitInput[] | null;
+optionalItemSubmit?: RoomTypeOptionalItemSubmitInput[] | null;
 }
 
 /* tslint:disable */

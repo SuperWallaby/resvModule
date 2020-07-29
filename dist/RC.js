@@ -61164,7 +61164,7 @@ var SelectViewer = function (_a) {
                 React__default.createElement(JDtypho, { weight: 300 },
                     LANG('date'),
                     " : ",
-                    dateRangeFormat$1(from, to)),
+                    moment$1(from).format("YYYY-MM-DD")),
                 React__default.createElement(JDtypho, { mb: "no", weight: 300 },
                     LANG(isDomitory ? 'people' : 'room_count'),
                     " :",

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import moment from "moment";
-import { IUseDayPicker, JDicon, JDtypho } from "@janda-com/front";
+import { IUseDayPicker, JDicon, JDtypho, JDbutton } from "@janda-com/front";
 import { JDalign } from "@janda-com/front";
 import { LANG } from "../App";
 import { IResvContext } from "../pages/declare";
@@ -46,11 +46,13 @@ const DateSelecter: React.FC<Iprops> = ({
           <JDalign
             flex={{
               vCenter: true,
+              between:true
             }}
             onClick={handleDateClick}
             {...props}
           >
             {dateRender(from || undefined)}
+            <JDbutton onClick={handleDateClick}>날짜변경</JDbutton>
           </JDalign>
         </JDalign>
       </div>
