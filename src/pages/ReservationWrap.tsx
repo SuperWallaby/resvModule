@@ -38,12 +38,28 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
     client,
     skip: publickey === undefined,
   });
-
+  
+  
   const confirmModal = useModal();
 
   const houseData =
     queryDataFormater(data, "GetHouseForPublic", "house", undefined) ||
     undefined;
+
+  const themProvider = document
+  .getElementsByClassName("themeProvider")
+  .item(0) as HTMLElement;
+
+  const primaryColor = houseData?.tags.find(op => op.key === "--primary-color")?.value || null;
+
+  if (themProvider && primaryColor) {
+    themProvider.style.setProperty(
+      "--primary-color-dark",
+      primaryColor
+    );
+    themProvider.style.setProperty("--primary-color", primaryColor);
+  }
+
 
   const [makeBookingForPublicMu, { loading: makeBookingLoading }] = useMutation<
     makeBookingForPublic,

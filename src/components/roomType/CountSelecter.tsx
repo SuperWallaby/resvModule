@@ -107,30 +107,31 @@ const CountSelecter: React.FC<IProps> = ({
 
 		if (target === 'room') targetSelectInfo.count.roomCount += sum;
 
+		// 해당부분은 레져 로서 리패칭이 필요없음 (주석부)
 		if (target !== 'room') {
-			sharedQueryVariable.RoomTypeCapacityInput.initValue = {
-				count: isFemaleCall ? female + sum : male + sum,
-				gender: isFemaleCall ? Gender.FEMALE : Gender.MALE
-			};
-			const { data } = await refetchCapacity({
-				...sharedQueryVariable
-			});
+			// sharedQueryVariable.RoomTypeCapacityInput.initValue = {
+			// 	count: isFemaleCall ? female + sum : male + sum,
+			// 	gender: isFemaleCall ? Gender.FEMALE : Gender.MALE
+			// };
+			// const { data } = await refetchCapacity({
+			// 	...sharedQueryVariable
+			// });
 
-			const queryData = queryDataFormater(data, 'GetRoomTypeById', 'roomType', undefined) || undefined;
+			// const queryData = queryDataFormater(data, 'GetRoomTypeById', 'roomType', undefined) || undefined;
 
-			if (!queryData) return;
+			// if (!queryData) return;
 
 			if (target === 'female') targetSelectInfo.count.female += sum;
 			if (target === 'male') targetSelectInfo.count.male += sum;
 
-			const capcityData = getAvailableCountFromQuery(queryData);
-			const { femaleCount, maleCount } = capcityData;
+			// const capcityData = getAvailableCountFromQuery(queryData);
+			// const { femaleCount, maleCount } = capcityData;
 
-			if (isFemaleCall && targetSelectInfo.count.male > maleCount) {
+			if (isFemaleCall && targetSelectInfo.count.male > maxCount.maxMale) {
 				targetSelectInfo.count.male = 0;
 			}
 
-			if (!isFemaleCall && targetSelectInfo.count.female > femaleCount) {
+			if (!isFemaleCall && targetSelectInfo.count.female > maxCount.maxFemale) {
 				targetSelectInfo.count.female = 0;
 			}
 
@@ -142,10 +143,10 @@ const CountSelecter: React.FC<IProps> = ({
 				targetSelectInfo.count.male = 0;
 			}
 
-			setMaxCount({
-				maxFemale: isFemaleCall ? maxCount.maxFemale : femaleCount,
-				maxMale: isFemaleCall ? maleCount : maxCount.maxMale
-			});
+			// setMaxCount({
+			// 	maxFemale: isFemaleCall ? maxCount.maxFemale : femaleCount,
+			// 	maxMale: isFemaleCall ? maleCount : maxCount.maxMale
+			// });
 		}
 
 		targetSelectInfo.price =

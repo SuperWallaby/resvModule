@@ -396,6 +396,9 @@ const Reservation: React.FC<IProps> = ({
           }}
         >
           <JDbutton
+            iconProp={{
+              icon: "arrowBack"
+            }}
             size="long"
             label={LANG("go_back")}
             onClick={() => {
@@ -425,7 +428,7 @@ const Reservation: React.FC<IProps> = ({
             </JDtypho>
           )}
         </JDalign>
-        <JDalign
+         <JDalign
           col={{
             full: 8,
             lg: 12,

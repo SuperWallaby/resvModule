@@ -52589,7 +52589,7 @@ TabPanel.tabsRole = 'TabPanel';
 
 var useDayPicker$1 = hooks.useDayPicker, useInput$1 = hooks.useInput, useModal$1 = hooks.useModal, useWindowSize$1 = hooks.useWindowSize, useRadioButton$1 = hooks.useRadioButton, useSelect$1 = hooks.useSelect, useDropDown$1 = hooks.useDropDown;
 //TODO 유틸만 따로 모듈 분리
-var JDatomClasses$1 = JDutils.JDatomClasses, arraySum$1 = JDutils.arraySum, autoComma$1 = JDutils.autoComma, dateRangeFormat$1 = JDutils.dateRangeFormat, fromToRender$1 = JDutils.fromToRender, instanceOfA$1 = JDutils.instanceOfA, selectOpCreater$1 = JDutils.selectOpCreater, isEmpty$1$1 = JDutils.isEmpty, isPhone$1 = JDutils.isPhone, onCompletedMessage$1 = JDutils.onCompletedMessage, queryDataFormater$1 = JDutils.queryDataFormater, getAllFromUrl$1 = JDutils.getAllFromUrl, copytoClipboard$1 = JDutils.copytoClipboard;
+var JDatomClasses$1 = JDutils.JDatomClasses, arraySum$1 = JDutils.arraySum, autoComma$1 = JDutils.autoComma, dateRangeFormat$1 = JDutils.dateRangeFormat, fromToRender$1 = JDutils.fromToRender, instanceOfA$1 = JDutils.instanceOfA, selectOpCreater$1 = JDutils.selectOpCreater, isEmpty$1$1 = JDutils.isEmpty, isPhone$1 = JDutils.isPhone, onCompletedMessage$1 = JDutils.onCompletedMessage, queryDataFormater$1 = JDutils.queryDataFormater, toNumber$2 = JDutils.toNumber, getAllFromUrl$1 = JDutils.getAllFromUrl, copytoClipboard$1 = JDutils.copytoClipboard;
 
 function devAssert(condition, message) {
   var booleanCondition = Boolean(condition);
@@ -55384,7 +55384,7 @@ var F_CAPACITY_ROOM = src$1(templateObject_11 || (templateObject_11 = __makeTemp
 var F_CAPACITY_DOMITORY = src$1(templateObject_12 || (templateObject_12 = __makeTemplateObject(["\n  fragment FcapacityDomitory on CapacityRoomTypeDomitory {\n    checkIn\n    checkOut\n    capacities {\n      room {\n        ...Froom\n      }\n      genders\n      beds\n      count\n    }\n    availableCount {\n      male\n      female\n      total\n    }\n  }\n  ", "\n"], ["\n  fragment FcapacityDomitory on CapacityRoomTypeDomitory {\n    checkIn\n    checkOut\n    capacities {\n      room {\n        ...Froom\n      }\n      genders\n      beds\n      count\n    }\n    availableCount {\n      male\n      female\n      total\n    }\n  }\n  ", "\n"])), F_ROOM);
 // 예약 ::예약생성 (게스트용)
 var MAKE_BOOKING_FOR_PUBLIC = src$1(templateObject_13 || (templateObject_13 = __makeTemplateObject(["\n\tmutation makeBookingForPublic(\n\t\t$bookerParams: MakeBookingBookerInput!\n\t\t$checkInOut: CheckInOutInput!\n\t\t$guestDomitoryParams: [MakeBookingDomitoryGuestInput!]\n\t\t$guestRoomParams: [MakeBookingRoomGuestInput!]\n\t\t$paymentParams: MakeBookingPaymentInput!\n\t\t$optionalItemSubmit: [RoomTypeOptionalItemSubmitInput!]\n\t) {\n\t\tMakeBookingForPublic(\n\t\t\tbookerParams: $bookerParams\n\t\t\tcheckInOut: $checkInOut\n\t\t\tguestDomitoryParams: $guestDomitoryParams\n\t\t\tguestRoomParams: $guestRoomParams\n\t\t\tpaymentParams: $paymentParams\n\t\t\toptionalItemSubmit: $optionalItemSubmit\n\t\t) {\n\t\t\tok\n\t\t\terror\n\t\t\tbooking {\n\t\t\t\t_id\n        bookingNum\n\t\t\t}\n\t\t}\n\t}\n"], ["\n\tmutation makeBookingForPublic(\n\t\t$bookerParams: MakeBookingBookerInput!\n\t\t$checkInOut: CheckInOutInput!\n\t\t$guestDomitoryParams: [MakeBookingDomitoryGuestInput!]\n\t\t$guestRoomParams: [MakeBookingRoomGuestInput!]\n\t\t$paymentParams: MakeBookingPaymentInput!\n\t\t$optionalItemSubmit: [RoomTypeOptionalItemSubmitInput!]\n\t) {\n\t\tMakeBookingForPublic(\n\t\t\tbookerParams: $bookerParams\n\t\t\tcheckInOut: $checkInOut\n\t\t\tguestDomitoryParams: $guestDomitoryParams\n\t\t\tguestRoomParams: $guestRoomParams\n\t\t\tpaymentParams: $paymentParams\n\t\t\toptionalItemSubmit: $optionalItemSubmit\n\t\t) {\n\t\t\tok\n\t\t\terror\n\t\t\tbooking {\n\t\t\t\t_id\n        bookingNum\n\t\t\t}\n\t\t}\n\t}\n"])));
-var GET_HOUSE_FOR_PUBLIC = src$1(templateObject_14 || (templateObject_14 = __makeTemplateObject(["\n  query getHouseForPublic {\n    GetHouseForPublic {\n      ok\n      error\n      house {\n        _id\n        phoneNumber\n        name\n        houseConfig {\n          bookingConfig {\n            maxStayDate\n            collectingInfoFromGuest {\n              email\n              country\n            }\n            bookOnlySingleDay\n          }\n          options {\n            key\n            value\n          }\n        }\n        location {\n          address\n          addressDetail\n        }\n        roomTypes {\n          ...FroomType\n        }\n        bookingPayInfo {\n          bankAccountInfo {\n            ...FbankAccountInfo\n          }\n          payMethods\n        }\n      }\n    }\n  }\n  ", "\n  ", "\n"], ["\n  query getHouseForPublic {\n    GetHouseForPublic {\n      ok\n      error\n      house {\n        _id\n        phoneNumber\n        name\n        houseConfig {\n          bookingConfig {\n            maxStayDate\n            collectingInfoFromGuest {\n              email\n              country\n            }\n            bookOnlySingleDay\n          }\n          options {\n            key\n            value\n          }\n        }\n        location {\n          address\n          addressDetail\n        }\n        roomTypes {\n          ...FroomType\n        }\n        bookingPayInfo {\n          bankAccountInfo {\n            ...FbankAccountInfo\n          }\n          payMethods\n        }\n      }\n    }\n  }\n  ", "\n  ", "\n"])), F_ROOMTYPE, F_BANK_ACOUNT_INFO);
+var GET_HOUSE_FOR_PUBLIC = src$1(templateObject_14 || (templateObject_14 = __makeTemplateObject(["\n  query getHouseForPublic {\n    GetHouseForPublic {\n      ok\n      error\n      house {\n        _id\n        phoneNumber\n        name\n        tags {\n          key\n          value\n        }\n        houseConfig {\n          bookingConfig {\n            maxStayDate\n            collectingInfoFromGuest {\n              email\n              country\n            }\n            bookOnlySingleDay\n          }\n          options {\n            key\n            value\n          }\n        }\n        location {\n          address\n          addressDetail\n        }\n        roomTypes {\n          ...FroomType\n        }\n        bookingPayInfo {\n          bankAccountInfo {\n            ...FbankAccountInfo\n          }\n          payMethods\n        }\n      }\n    }\n  }\n  ", "\n  ", "\n"], ["\n  query getHouseForPublic {\n    GetHouseForPublic {\n      ok\n      error\n      house {\n        _id\n        phoneNumber\n        name\n        tags {\n          key\n          value\n        }\n        houseConfig {\n          bookingConfig {\n            maxStayDate\n            collectingInfoFromGuest {\n              email\n              country\n            }\n            bookOnlySingleDay\n          }\n          options {\n            key\n            value\n          }\n        }\n        location {\n          address\n          addressDetail\n        }\n        roomTypes {\n          ...FroomType\n        }\n        bookingPayInfo {\n          bankAccountInfo {\n            ...FbankAccountInfo\n          }\n          payMethods\n        }\n      }\n    }\n  }\n  ", "\n  ", "\n"])), F_ROOMTYPE, F_BANK_ACOUNT_INFO);
 var GET_ROOM_TYPE_INFO = src$1(templateObject_15 || (templateObject_15 = __makeTemplateObject(["\n  query getRoomTypeInfo(\n    $roomTypeId: ID!\n    $RoomTypeCapacityInput: RoomTypeCapacityInput!\n    $GetRoomTypeDatePricesInput: GetRoomTypeDatePricesInput!\n  ) {\n    GetRoomTypeById(roomTypeId: $roomTypeId) {\n      ok\n      error\n      roomType {\n        _id\n        capacity(param: $RoomTypeCapacityInput) {\n          ... on CapacityRoomType {\n            ...FcapacityRoom\n          }\n          ... on CapacityRoomTypeDomitory {\n            ...FcapacityDomitory\n          }\n        }\n      }\n    }\n    GetRoomTypeDatePrices(param: $GetRoomTypeDatePricesInput) {\n      ...FroomTypePriceResult\n    }\n  }\n  ", "\n  ", "\n  ", "\n"], ["\n  query getRoomTypeInfo(\n    $roomTypeId: ID!\n    $RoomTypeCapacityInput: RoomTypeCapacityInput!\n    $GetRoomTypeDatePricesInput: GetRoomTypeDatePricesInput!\n  ) {\n    GetRoomTypeById(roomTypeId: $roomTypeId) {\n      ok\n      error\n      roomType {\n        _id\n        capacity(param: $RoomTypeCapacityInput) {\n          ... on CapacityRoomType {\n            ...FcapacityRoom\n          }\n          ... on CapacityRoomTypeDomitory {\n            ...FcapacityDomitory\n          }\n        }\n      }\n    }\n    GetRoomTypeDatePrices(param: $GetRoomTypeDatePricesInput) {\n      ...FroomTypePriceResult\n    }\n  }\n  ", "\n  ", "\n  ", "\n"])), F_CAPACITY_DOMITORY, F_ROOM_TYPE_DATE_PRICE_RESULT, F_CAPACITY_ROOM);
 var F_BOOKING = src$1(templateObject_16 || (templateObject_16 = __makeTemplateObject(["\n  fragment Fbooking on Booking {\n    _id\n    roomTypes {\n      ...FroomType\n    }\n    paidByNice\n    isNew\n    name\n    bookingNum\n    password\n    breakfast\n    phoneNumber\n    email\n    checkInInfo {\n      isIn\n      checkInDateTime\n    }\n    memo\n    agreePrivacyPolicy\n    checkIn\n    checkOut\n    payment {\n      ...Fpayment\n      cardInfo {\n        ...FcardInfo\n      }\n    }\n    funnels\n    status\n    createdAt\n    updatedAt\n    isNew\n    isConfirm\n\n    optionalItemSubmitted {\n      roomType {\n        name\n        _id\n      }\n      items {\n        itemId\n        itemLabel\n        parentLabel\n        price\n        count\n      }\n    }\n  }\n  ", "\n  ", "\n  ", "\n"], ["\n  fragment Fbooking on Booking {\n    _id\n    roomTypes {\n      ...FroomType\n    }\n    paidByNice\n    isNew\n    name\n    bookingNum\n    password\n    breakfast\n    phoneNumber\n    email\n    checkInInfo {\n      isIn\n      checkInDateTime\n    }\n    memo\n    agreePrivacyPolicy\n    checkIn\n    checkOut\n    payment {\n      ...Fpayment\n      cardInfo {\n        ...FcardInfo\n      }\n    }\n    funnels\n    status\n    createdAt\n    updatedAt\n    isNew\n    isConfirm\n\n    optionalItemSubmitted {\n      roomType {\n        name\n        _id\n      }\n      items {\n        itemId\n        itemLabel\n        parentLabel\n        price\n        count\n      }\n    }\n  }\n  ", "\n  ", "\n  ", "\n"])), F_ROOMTYPE, F_PAYMENT, F_CARD_INFO);
 // BOOKING_FOR_PUBLIC 가져오기
@@ -61074,7 +61074,12 @@ var DateSelecter = function (_a) {
                 } },
                 React__default.createElement(Align, __assign({ flex: {
                         vCenter: true,
-                    }, onClick: handleDateClick }, props), dateRender(from || undefined))))));
+                        between: true
+                    }, style: {
+                        width: "100%"
+                    }, onClick: handleDateClick }, props),
+                    dateRender(from || undefined),
+                    React__default.createElement(Button, { mb: "no", mode: "border", onClick: handleDateClick }, "\uB0A0\uC9DC\uBCC0\uACBD"))))));
 };
 
 var PricingType;
@@ -61130,9 +61135,228 @@ var ExtraRoomTypeConfig;
     ExtraRoomTypeConfig["Detail"] = "Detail";
 })(ExtraRoomTypeConfig || (ExtraRoomTypeConfig = {}));
 
+var CalculateViewer = function (_a) {
+    var products = _a.products;
+    var total = arraySum$1(products.map(function (p) { return toNumber$2(p.price) + arraySum$1(p.sub.map(function (subp) { return toNumber$2(subp.price); })); }));
+    return (React__default.createElement("div", { className: "calculateViewer" },
+        products.map(function (p) { return (React__default.createElement("div", { className: "calculateViewer__history" },
+            React__default.createElement("div", { className: "calculateViewer__historyInner" },
+                React__default.createElement(JDtypho, null,
+                    React__default.createElement(Align, { flex: {
+                            between: true
+                        }, className: "calculateViewer__mainLine" },
+                        React__default.createElement("span", { className: "calculateViewer__mainLiTitle" }, p.title),
+                        React__default.createElement("span", { className: "calculateViewer__mainLiDesc" }, p.describe),
+                        React__default.createElement("span", { className: "calculateViewer__mainLiPrice" }, autoComma$1(p.price)))),
+                p.sub.map(function (subp) { return (React__default.createElement("div", { className: "calculateViewer__subDetail" }, subp.price ? (React__default.createElement(Align, { className: "calculateViewer__subLine", flex: { between: true, vCenter: true } },
+                    React__default.createElement("div", { className: "calculateViewer__subTitle" },
+                        "\u2514",
+                        subp.title),
+                    subp.describe && React__default.createElement(JDtypho, { className: "calculateViewer__describe" }, subp.describe),
+                    React__default.createElement(JDtypho, { mr: "no" },
+                        "+",
+                        autoComma$1(subp.price)))) : (React__default.createElement(Align, { flex: {
+                        between: true
+                    }, className: "calculateViewer__subTitle" },
+                    "\u2514",
+                    subp.title,
+                    " ",
+                    LANG("free"))))); })))); }),
+        React__default.createElement(Align, { flex: {
+                between: true
+            }, className: "calculateViewer__result" },
+            React__default.createElement(JDtypho, { size: "h6", mb: "no" }, "\uCD1D\uAE08\uC561"),
+            React__default.createElement(JDtypho, { color: "error", size: "h6", mb: "no" }, total === 0 ? LANG("free") : autoComma$1(total)))));
+};
+var CalculateViewerModal = function (_a) {
+    var modalHook = _a.modalHook, modalProp = _a.modalProp, products = _a.products;
+    return React__default.createElement(JDmodal, __assign({}, modalProp, modalHook),
+        React__default.createElement(CalculateViewer, { products: products }));
+};
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+//==============================================================
+// START Enums and Input Objects
+//==============================================================
+var BookingStatus;
+(function (BookingStatus) {
+    BookingStatus["CANCELED"] = "CANCELED";
+    BookingStatus["COMPLETED"] = "COMPLETED";
+})(BookingStatus || (BookingStatus = {}));
+var Card;
+(function (Card) {
+    Card["AMX"] = "AMX";
+    Card["BC_CARD"] = "BC_CARD";
+    Card["CHOHUNG"] = "CHOHUNG";
+    Card["CHUKHYUP"] = "CHUKHYUP";
+    Card["CITY"] = "CITY";
+    Card["DINERS_CARD"] = "DINERS_CARD";
+    Card["GWANGJU"] = "GWANGJU";
+    Card["HANMI"] = "HANMI";
+    Card["HYUNDAI"] = "HYUNDAI";
+    Card["JCB"] = "JCB";
+    Card["JEJU_BANK"] = "JEJU_BANK";
+    Card["JEOCHUK"] = "JEOCHUK";
+    Card["JEONBOOK"] = "JEONBOOK";
+    Card["KAKAO_BANK"] = "KAKAO_BANK";
+    Card["KB_CARD"] = "KB_CARD";
+    Card["KDB"] = "KDB";
+    Card["KEB_HANA"] = "KEB_HANA";
+    Card["KOREA_POST"] = "KOREA_POST";
+    Card["K_BANK"] = "K_BANK";
+    Card["LOTTE_CARD"] = "LOTTE_CARD";
+    Card["MASTER_CARD"] = "MASTER_CARD";
+    Card["MG_CARD"] = "MG_CARD";
+    Card["NONGHYUP"] = "NONGHYUP";
+    Card["OK_CASH_BAG"] = "OK_CASH_BAG";
+    Card["SAMSUNG"] = "SAMSUNG";
+    Card["SAVINGS_BANK"] = "SAVINGS_BANK";
+    Card["SHINHAN"] = "SHINHAN";
+    Card["SHINSEGAE"] = "SHINSEGAE";
+    Card["SUHYUP"] = "SUHYUP";
+    Card["UNIONPAY"] = "UNIONPAY";
+    Card["VISA"] = "VISA";
+    Card["WOORI"] = "WOORI";
+})(Card || (Card = {}));
+var Funnels$2;
+(function (Funnels) {
+    Funnels["AGODA"] = "AGODA";
+    Funnels["AIRBNB"] = "AIRBNB";
+    Funnels["BOOKING_COM"] = "BOOKING_COM";
+    Funnels["COOPANG"] = "COOPANG";
+    Funnels["ELSE_CHANNEL"] = "ELSE_CHANNEL";
+    Funnels["FREINDS"] = "FREINDS";
+    Funnels["HOMEPAGE"] = "HOMEPAGE";
+    Funnels["NAVER"] = "NAVER";
+    Funnels["PHONE_CALL"] = "PHONE_CALL";
+    Funnels["WALK_IN"] = "WALK_IN";
+    Funnels["YANOLJA"] = "YANOLJA";
+    Funnels["YEOGIEOTTAE"] = "YEOGIEOTTAE";
+})(Funnels$2 || (Funnels$2 = {}));
+/**
+ * 도미토리 방식으로 예약한 게스트만 적용됨
+ */
+var Gender$2;
+(function (Gender) {
+    Gender["FEMALE"] = "FEMALE";
+    Gender["MALE"] = "MALE";
+})(Gender$2 || (Gender$2 = {}));
+var OptionalItemType;
+(function (OptionalItemType) {
+    OptionalItemType["CHECK"] = "CHECK";
+    OptionalItemType["GROUP"] = "GROUP";
+    OptionalItemType["INPUT"] = "INPUT";
+    OptionalItemType["RADIO"] = "RADIO";
+})(OptionalItemType || (OptionalItemType = {}));
+var PayMethod$1;
+(function (PayMethod) {
+    PayMethod["BANK_TRANSFER"] = "BANK_TRANSFER";
+    PayMethod["BILL"] = "BILL";
+    PayMethod["CARD"] = "CARD";
+    PayMethod["CASH"] = "CASH";
+    PayMethod["CHANNEL_PAY"] = "CHANNEL_PAY";
+    PayMethod["VBANK"] = "VBANK";
+})(PayMethod$1 || (PayMethod$1 = {}));
+var PaymentStatus;
+(function (PaymentStatus) {
+    PaymentStatus["CANCELED"] = "CANCELED";
+    PaymentStatus["COMPLETED"] = "COMPLETED";
+    PaymentStatus["FAILED"] = "FAILED";
+    PaymentStatus["NOT_YET"] = "NOT_YET";
+})(PaymentStatus || (PaymentStatus = {}));
+var PaymentType;
+(function (PaymentType) {
+    PaymentType["ONE_TIME"] = "ONE_TIME";
+    PaymentType["SUBSCRIPTION"] = "SUBSCRIPTION";
+})(PaymentType || (PaymentType = {}));
+var PricingType$1;
+(function (PricingType) {
+    PricingType["DOMITORY"] = "DOMITORY";
+    PricingType["ROOM"] = "ROOM";
+})(PricingType$1 || (PricingType$1 = {}));
+var RoomGender$2;
+(function (RoomGender) {
+    RoomGender["ANY"] = "ANY";
+    RoomGender["FEMALE"] = "FEMALE";
+    RoomGender["MALE"] = "MALE";
+    RoomGender["SEPARATELY"] = "SEPARATELY";
+})(RoomGender$2 || (RoomGender$2 = {}));
+//==============================================================
+// END Enums and Input Objects
+//==============================================================
+
+var priceSurvey = function (data) {
+    var tempCount = data.map(function (d) { return ({
+        count: d.count.female + d.count.male + d.count.roomCount,
+        price: d.price,
+        options: d.options,
+        roomTypeName: d.roomTypeName,
+        pricingType: d.pricingType
+    }); });
+    return tempCount.map(function (d) {
+        var _a;
+        return {
+            price: d.price,
+            sub: ((_a = d.options) === null || _a === void 0 ? void 0 : _a.map(function (sb) {
+                return {
+                    price: sb.price * sb.count,
+                    title: sb.label,
+                    describe: autoComma$1(sb.price) + " x " + sb.count + (d.pricingType === PricingType$1.DOMITORY ? "명" : "개")
+                };
+            })) || [],
+            title: d.roomTypeName || "",
+            describe: autoComma$1(d.price) + " x " + d.count + (d.pricingType === PricingType$1.DOMITORY ? "명" : "개")
+        };
+    });
+};
+
+var isMobile_1$1 = isMobile$1;
+var isMobile_2$1 = isMobile$1;
+var default_1$1 = isMobile$1;
+
+var mobileRE$1 = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series[46]0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i;
+
+var tabletRE$1 = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series[46]0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino|android|ipad|playbook|silk/i;
+
+function isMobile$1 (opts) {
+  if (!opts) opts = {};
+  var ua = opts.ua;
+  if (!ua && typeof navigator !== 'undefined') ua = navigator.userAgent;
+  if (ua && ua.headers && typeof ua.headers['user-agent'] === 'string') {
+    ua = ua.headers['user-agent'];
+  }
+  if (typeof ua !== 'string') return false
+
+  var result = opts.tablet ? tabletRE$1.test(ua) : mobileRE$1.test(ua);
+
+  if (
+    !result &&
+    opts.tablet &&
+    opts.featureDetect &&
+    navigator &&
+    navigator.maxTouchPoints > 1 &&
+    ua.indexOf('Macintosh') !== -1 &&
+    ua.indexOf('Safari') !== -1
+  ) {
+    result = true;
+  }
+
+  return result
+}
+isMobile_1$1.isMobile = isMobile_2$1;
+isMobile_1$1.default = default_1$1;
+
 var SelectViewer = function (_a) {
     var resvContext = _a.resvContext;
-    var roomSelectInfo = resvContext.roomSelectInfo, from = resvContext.from, to = resvContext.to, totalPrice = resvContext.totalPrice, handleStepChange = resvContext.handleStepChange, totalOptionPrice = resvContext.totalOptionPrice;
+    var detailPriceModal = useModal$1();
+    var roomSelectInfo = resvContext.roomSelectInfo, from = resvContext.from, to = resvContext.to, totalPrice = resvContext.totalPrice, handleStepChange = resvContext.handleStepChange, totalOptionPrice = resvContext.totalOptionPrice, payInfo = resvContext.payInfo;
     var sharedBtnProp = {
         onClick: function () {
             handleStepChange();
@@ -61145,15 +61369,16 @@ var SelectViewer = function (_a) {
         return (React__default.createElement("div", { className: "selectViewer" },
             React__default.createElement(JDtypho, { mb: "no", size: "h6" }, LANG('date_un_selected')),
             React__default.createElement("div", null,
-                React__default.createElement(Button, __assign({}, sharedBtnProp, { label: LANG('do_reservation'), mb: "no", size: "longLarge", thema: "primary" })))));
+                React__default.createElement(Button, __assign({ hide: isMobile_1$1() }, sharedBtnProp, { label: LANG('do_reservation'), mb: "no", size: "longLarge", thema: "primary" })))));
     }
     var unSelected = isEmpty$1$1(roomSelectInfo);
     if (unSelected) {
         return (React__default.createElement("div", { className: "selectViewer" },
             React__default.createElement(JDtypho, { mb: "no", size: "h6" }, LANG('un_selected')),
             React__default.createElement("div", null,
-                React__default.createElement(Button, __assign({}, sharedBtnProp, { label: LANG('do_reservation'), mb: "no", size: "longLarge", thema: "primary" })))));
+                React__default.createElement(Button, __assign({ hide: isMobile_1$1() }, sharedBtnProp, { label: LANG('do_reservation'), mb: "no", size: "longLarge", thema: "primary" })))));
     }
+    var priceLog = priceSurvey(roomSelectInfo);
     return (React__default.createElement("div", { className: "selectViewer" },
         React__default.createElement("div", { className: "selectViewer__header" }, roomSelectInfo.map(function (RI) {
             var pricingType = RI.pricingType, count = RI.count, price = RI.price;
@@ -61169,7 +61394,11 @@ var SelectViewer = function (_a) {
                     LANG(isDomitory ? 'people' : 'room_count'),
                     " :",
                     ' ',
-                    isDomitory ? LANG('female') + female + ' ' + LANG('male') + male : roomCount + LANG('count'))));
+                    isDomitory ?
+                        female ? LANG('female') + female + ' '
+                            : ""
+                                + LANG('male') + male
+                        : roomCount + LANG('count'))));
         })),
         React__default.createElement("div", { className: "selectViewer__calculater" },
             React__default.createElement("div", { className: "selectViewer__calculaterBody" },
@@ -61196,11 +61425,21 @@ var SelectViewer = function (_a) {
                 React__default.createElement(Align, { mb: "small", flex: {
                         between: true
                     } },
-                    React__default.createElement(JDtypho, null, LANG('total_price')),
+                    React__default.createElement(JDtypho, { size: "h6", mb: "no" }, LANG('total_price')),
                     React__default.createElement(JDtypho, { size: "h6", mb: "no", weight: 600 },
-                        autoComma$1(totalPrice),
-                        " KRW"))),
-            React__default.createElement(Button, __assign({}, sharedBtnProp, { label: LANG('do_reservation') })))));
+                        React__default.createElement(Align, { flex: {
+                                center: true
+                            } },
+                            React__default.createElement(JDtypho, { mr: "small" },
+                                autoComma$1(totalPrice),
+                                " KRW"),
+                            React__default.createElement(JDIcon, { onClick: detailPriceModal.openModal, tooltip: "\uAC00\uACA9 \uC0C1\uC138\uBCF4\uAE30", color: "primary", icon: "help" }))))),
+            React__default.createElement(Button, __assign({ hide: isMobile_1$1() }, sharedBtnProp, { label: LANG('do_reservation') }))),
+        React__default.createElement(CalculateViewerModal, { modalProp: {
+                head: {
+                    title: "가격 자세히보기"
+                }
+            }, products: priceLog, modalHook: detailPriceModal })));
 };
 
 var getAvailableCountFromQuery = function (capacityData) {
@@ -61271,7 +61510,7 @@ var CountSelecter = function (_a) {
                     if (!(target !== 'room')) return [3 /*break*/, 2];
                     sharedQueryVariable.RoomTypeCapacityInput.initValue = {
                         count: isFemaleCall ? female + sum : male + sum,
-                        gender: isFemaleCall ? Gender$2.FEMALE : Gender$2.MALE
+                        gender: isFemaleCall ? Gender$3.FEMALE : Gender$3.MALE
                     };
                     return [4 /*yield*/, refetchCapacity(__assign({}, sharedQueryVariable))];
                 case 1:
@@ -73505,11 +73744,11 @@ var loadMemo = function (getKey) {
     }
 };
 
-var Gender$2;
+var Gender$3;
 (function (Gender) {
     Gender["FEMALE"] = "FEMALE";
     Gender["MALE"] = "MALE";
-})(Gender$2 || (Gender$2 = {}));
+})(Gender$3 || (Gender$3 = {}));
 var RoomTypeWrap = function (_a) {
     var _b;
     var roomType = _a.roomType, resvContext = _a.resvContext, houseData = _a.houseData, dateInfo = _a.dateInfo, urlSearched = _a.urlSearched, handleDoResvBtn = _a.handleDoResvBtn;
@@ -73536,7 +73775,7 @@ var RoomTypeWrap = function (_a) {
             },
             initValue: {
                 count: 0,
-                gender: Gender$2.MALE,
+                gender: Gender$3.MALE,
             },
         },
     };
@@ -73581,42 +73820,6 @@ var RoomTypeWrap = function (_a) {
         React__default.createElement(RoomType, { handleDoResvBtn: handleDoResvBtn, priceLoading: networkStatus === 1, popUpDetailPage: urlSearched, countLoading: countLoading, roomTypeContext: roomTypeContext, resvContext: resvContext, dailyPrice: formattedDailyPrice, roomType: roomType }),
         React__default.createElement(Preloader, { floating: true, loading: countLoading })));
 };
-
-var isMobile_1$1 = isMobile$1;
-var isMobile_2$1 = isMobile$1;
-var default_1$1 = isMobile$1;
-
-var mobileRE$1 = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series[46]0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i;
-
-var tabletRE$1 = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series[46]0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino|android|ipad|playbook|silk/i;
-
-function isMobile$1 (opts) {
-  if (!opts) opts = {};
-  var ua = opts.ua;
-  if (!ua && typeof navigator !== 'undefined') ua = navigator.userAgent;
-  if (ua && ua.headers && typeof ua.headers['user-agent'] === 'string') {
-    ua = ua.headers['user-agent'];
-  }
-  if (typeof ua !== 'string') return false
-
-  var result = opts.tablet ? tabletRE$1.test(ua) : mobileRE$1.test(ua);
-
-  if (
-    !result &&
-    opts.tablet &&
-    opts.featureDetect &&
-    navigator &&
-    navigator.maxTouchPoints > 1 &&
-    ua.indexOf('Macintosh') !== -1 &&
-    ua.indexOf('Safari') !== -1
-  ) {
-    result = true;
-  }
-
-  return result
-}
-isMobile_1$1.isMobile = isMobile_2$1;
-isMobile_1$1.default = default_1$1;
 
 var NGO_NUMS = [93,
     358,
@@ -74549,7 +74752,9 @@ var Reservation = function (_a) {
                     full: 8,
                     lg: 12,
                 } },
-                React__default.createElement(Button, { size: "long", label: LANG("go_back"), onClick: function () {
+                React__default.createElement(Button, { iconProp: {
+                        icon: "arrowBack"
+                    }, size: "long", label: LANG("go_back"), onClick: function () {
                         setStep("select");
                     } }),
                 React__default.createElement(JDtypho, __assign({}, sharedSectionTitleProp), LANG("bookerInfo")),
@@ -74576,16 +74781,25 @@ var Reservation = function (_a) {
 };
 
 var ReservationWrap = function (_a) {
+    var _b;
     var publickey = _a.publickey, finishCallBack = _a.finishCallBack;
     // 스타트부킹(게스트)
-    var _b = useQuery(GET_HOUSE_FOR_PUBLIC, {
+    var _c = useQuery(GET_HOUSE_FOR_PUBLIC, {
         client: client,
         skip: publickey === undefined,
-    }), data = _b.data, loading = _b.loading;
+    }), data = _c.data, loading = _c.loading;
     var confirmModal = useModal$1();
     var houseData = queryDataFormater$1(data, "GetHouseForPublic", "house", undefined) ||
         undefined;
-    var _c = useMutation(MAKE_BOOKING_FOR_PUBLIC, {
+    var themProvider = document
+        .getElementsByClassName("themeProvider")
+        .item(0);
+    var primaryColor = ((_b = houseData === null || houseData === void 0 ? void 0 : houseData.tags.find(function (op) { return op.key === "--primary-color"; })) === null || _b === void 0 ? void 0 : _b.value) || null;
+    if (themProvider && primaryColor) {
+        themProvider.style.setProperty("--primary-color-dark", primaryColor);
+        themProvider.style.setProperty("--primary-color", primaryColor);
+    }
+    var _d = useMutation(MAKE_BOOKING_FOR_PUBLIC, {
         client: client,
         onError: function (e) {
             ReactGA.exception({
@@ -74610,7 +74824,7 @@ var ReservationWrap = function (_a) {
                 });
             }
         },
-    }), makeBookingForPublicMu = _c[0], makeBookingLoading = _c[1].loading;
+    }), makeBookingForPublicMu = _d[0], makeBookingLoading = _d[1].loading;
     var makeBookingFn = function (param) {
         makeBookingForPublicMu({
             variables: param,

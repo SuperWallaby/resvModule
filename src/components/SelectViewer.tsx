@@ -7,6 +7,9 @@ import { validation } from './helper';
 import moment from "moment";
 import { CalculateViewerModal } from './DetailPriceView';
 import { priceSurvey } from '../utils/priceSurvey';
+import isMobile from "is-mobile";
+
+
 interface IProps {
 	resvContext: IResvContext;
 }
@@ -32,7 +35,7 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 					{LANG('date_un_selected')}
 				</JDtypho>
 				<div>
-					<JDbutton {...sharedBtnProp} label={LANG('do_reservation')} mb="no" size="longLarge" thema="primary" />
+					<JDbutton hide={isMobile()} {...sharedBtnProp} label={LANG('do_reservation')} mb="no" size="longLarge" thema="primary" />
 				</div>
 			</div>
 		);
@@ -46,7 +49,7 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 					{LANG('un_selected')}
 				</JDtypho>
 				<div>
-					<JDbutton {...sharedBtnProp} label={LANG('do_reservation')} mb="no" size="longLarge" thema="primary" />
+					<JDbutton hide={isMobile()} {...sharedBtnProp} label={LANG('do_reservation')} mb="no" size="longLarge" thema="primary" />
 				</div>
 			</div>
 		);
@@ -71,7 +74,11 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 							</JDtypho>
 							<JDtypho mb="no" weight={300}>
 								{LANG(isDomitory ? 'people' : 'room_count')} :{' '}
-								{isDomitory ? LANG('female') + female + ' ' + LANG('male') + male : roomCount + LANG('count')}
+								{isDomitory ? 
+									female ? LANG('female') + female + ' ' 
+									: "" 
+								+ LANG('male')  + male 
+								: roomCount + LANG('count')}
 							</JDtypho>
 						</div>
 					);
@@ -87,7 +94,6 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 					>
 						<JDtypho>{LANG('select_product')}</JDtypho>
 						<JDtypho weight={600}>{autoComma(totalPrice)} KRW</JDtypho>
-						<JDicon onClick={detailPriceModal.openModal} tooltip="가격 상세보기" color="primary" icon="help"/>
 					</JDalign>
 
 					<JDalign
@@ -117,13 +123,20 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 							between: true
 						}}
 					>
-						<JDtypho>{LANG('total_price')}</JDtypho>
+						<JDtypho size="h6" mb="no">{LANG('total_price')}</JDtypho>
 						<JDtypho size="h6" mb="no" weight={600}>
-							{autoComma(totalPrice)} KRW
+							<JDalign flex={{
+								center: true
+							}}>
+							<JDtypho mr="small">
+								{autoComma(totalPrice)} KRW
+							</JDtypho>
+							<JDicon onClick={detailPriceModal.openModal} tooltip="가격 상세보기" color="primary" icon="help"/>
+							</JDalign>
 						</JDtypho>
 					</JDalign>
 				</div>
-				<JDbutton {...sharedBtnProp} label={LANG('do_reservation')} />
+				<JDbutton hide={isMobile()} {...sharedBtnProp} label={LANG('do_reservation')} />
 			</div>
 			<CalculateViewerModal modalProp={{
 				head: {

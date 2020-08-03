@@ -48,11 +48,14 @@ const DateSelecter: React.FC<Iprops> = ({
               vCenter: true,
               between:true
             }}
+            style={{
+              width: "100%"
+            }}
             onClick={handleDateClick}
             {...props}
           >
             {dateRender(from || undefined)}
-            <JDbutton onClick={handleDateClick}>날짜변경</JDbutton>
+            <JDbutton  mb="no" mode="border" onClick={handleDateClick}>날짜변경</JDbutton>
           </JDalign>
         </JDalign>
       </div>

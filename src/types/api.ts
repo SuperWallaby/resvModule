@@ -36,7 +36,7 @@ export interface makeBookingForPublicVariables {
   guestDomitoryParams?: MakeBookingDomitoryGuestInput[] | null;
   guestRoomParams?: MakeBookingRoomGuestInput[] | null;
   paymentParams: MakeBookingPaymentInput;
-optionalItemSubmit?: RoomTypeOptionalItemSubmitInput[] | null;
+  optionalItemSubmit?: RoomTypeOptionalItemSubmitInput[] | null;
 }
 
 /* tslint:disable */
@@ -47,6 +47,18 @@ optionalItemSubmit?: RoomTypeOptionalItemSubmitInput[] | null;
 // ====================================================
 // GraphQL query operation: getHouseForPublic
 // ====================================================
+
+export interface getHouseForPublic_GetHouseForPublic_house_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
 
 export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig_collectingInfoFromGuest {
   __typename: "CollectingInfoFromGuest";
@@ -176,6 +188,7 @@ export interface getHouseForPublic_GetHouseForPublic_house {
   _id: string;
   phoneNumber: any | null;
   name: string;
+  tags: getHouseForPublic_GetHouseForPublic_house_tags[];
   houseConfig: getHouseForPublic_GetHouseForPublic_house_houseConfig;
   location: getHouseForPublic_GetHouseForPublic_house_location;
   roomTypes: getHouseForPublic_GetHouseForPublic_house_roomTypes[] | null;
