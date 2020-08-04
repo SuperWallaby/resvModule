@@ -92,7 +92,7 @@ const CountSelecter: React.FC<IProps> = ({
 		roomCount: availableCountRoom
 	} = availableCount;
 	const { roomSelectInfo, setRoomSelectInfo } = resvContext;
-	const [ maxCount, setMaxCount ] = useState({
+	const [ maxCount, setMaxCount ] = useState({	
 		maxFemale: availableCountFemale,
 		maxMale: availableCountMale
 	});
