@@ -5,6 +5,13 @@ $cardHeight: 11rem;
   border-radius: $standard-border-radius;
   overflow: hidden;
 
+
+  &__detailSection {
+    padding: space(1);
+    white-space: pre-line;
+    line-height: 1.3;
+  }
+
   &__countSelectWrap {
     background-color: $grey-level1;
   }

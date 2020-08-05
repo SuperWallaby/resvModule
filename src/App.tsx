@@ -96,7 +96,9 @@ function App({ publickey, lang, route, ga_track }: APP_PROP) {
           <JDtypho
             style={{
               opacity: 0.5,
+              color: "black"
             }}
+            color="black"
             size="superTiny"
           >
             {version}

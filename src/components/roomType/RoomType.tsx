@@ -28,9 +28,7 @@ import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 import { PopUpDetailModal } from "./PopUpDetailModal";
 import { OptionSelecter } from "./OptionSelecter";
-
-const IS_MOBILE = false;
-
+import isMobile from "is-mobile";
 const { autoComma } = utils;
 
 interface IProps {
@@ -72,6 +70,7 @@ const RoomType: React.FC<IProps> = ({
       start: 10,
     })
   );
+  const [detailOpen, setDetailOpen] = useState(false);
   const productVeiwerModal = useModal(true);
   const photoModalHook = useModal();
   const {
@@ -161,13 +160,7 @@ const RoomType: React.FC<IProps> = ({
         <JDalign
           className="roomType__wrap"
           flex={{
-            center: IS_MOBILE ? true : false,
-            column: IS_MOBILE ? true : false,
-            grow: IS_MOBILE ? false : true,
-          }}
-          style={{
-            padding: IS_MOBILE ? "0.4rem" : 0,
-            paddingTop: IS_MOBILE ? "0.8rem" : 0,
+            grow:  true,
           }}
         >
           <JDalign
@@ -177,9 +170,8 @@ const RoomType: React.FC<IProps> = ({
               });
             }}
             style={{
-              height: IS_MOBILE ? "24rem" : "11rem",
-              width: IS_MOBILE ? "19rem" : undefined,
-              maxWidth: IS_MOBILE ? undefined : "10.7rem",
+              height: "11rem",
+              maxWidth: "10.7rem",
             }}
             className="roomType__slider"
           >
@@ -262,7 +254,12 @@ const RoomType: React.FC<IProps> = ({
               >
                 {description && (
                   <JDtypho size="small" className="roomType__describ">
-                    {description}
+                    {isMobile() ?  description.slice(0,40) : description}
+                    {isMobile() && description.length > 40 && <JDtypho onClick={()=>{
+                      setDetailOpen(!detailOpen);
+                    }} hover color="point">
+                      {detailOpen ? '...닫기' : '...더보기'}
+                      </JDtypho>}
                   </JDtypho>
                 )}
               </JDalign>
@@ -306,6 +303,9 @@ const RoomType: React.FC<IProps> = ({
           </JDalign>
         </JDalign>
       </div>
+      {detailOpen && <div className="roomType__detailSection">
+        {description}
+        </div>}
       <JDphotoModal modalHook={photoModalHook} />
       {targetSelectInfo && (
         <div className="roomType__countSelectWrap">

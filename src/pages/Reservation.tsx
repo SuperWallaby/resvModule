@@ -75,7 +75,6 @@ const Reservation: React.FC<IProps> = ({
   customMsgs,
 }) => {
   if (!houseData) throw Error("House date is not exsist");
-  const dropDownHook = useDropDown(true);
   const { roomTypes, houseConfig } = houseData;
   const { bookingConfig } = houseConfig;
   const { maxStayDate } = bookingConfig;
@@ -121,7 +120,6 @@ const Reservation: React.FC<IProps> = ({
     loadMemo("bookerInfo")
   );
 
-
   const [step, setStep] = useState<Tstep>(loadMemo("step"));
   const [roomSelectInfo, setRoomSelectInfo] = useState<IRoomSelectInfo[]>(
     urlSearchedRoomType ? urlRoomSelectInfo : loadMemo("roomSelectInfo")
@@ -133,11 +131,13 @@ const Reservation: React.FC<IProps> = ({
 
   const handleDoResvBtn = () => {
 
+    console.log("!!!!!!cc");
+    console.log(bookerInfo);
+
     ReactGA.event({
       category: 'Resv',
       action: 'Click Resv Btn'
     });
-
 
     if (bookingValidater(bookerInfo, payInfo)) {
       const { memo, hiddenMemo, name, password, phoneNumber } = bookerInfo;
@@ -290,6 +290,7 @@ const Reservation: React.FC<IProps> = ({
               full: 8,
               md: 12,
             }}
+            id="ResvBody"
           >
             <div>
               <JDtypho {...sharedSectionTitleProp}>
@@ -374,24 +375,6 @@ const Reservation: React.FC<IProps> = ({
             <SelectViewer resvContext={resvContext} />
           </JDalign>
         </JDalign>
-        {isMobile() && (
-          <JDdropDown
-            mode={"floatBottom"}
-            {...dropDownHook}
-            isOpen={true}
-            Buttons={() => {
-              return [
-                <JDbutton
-                  onClick={handleStepChange}
-                  thema="primary"
-                  size="large"
-                  key={"Asd"}
-                  label="예약하기"
-                />,
-              ];
-            }}
-          />
-        )}
       </div>
     );
 
@@ -403,6 +386,7 @@ const Reservation: React.FC<IProps> = ({
             full: 8,
             lg: 12,
           }}
+          
         >
           <JDbutton
             id="MobileGoBackBtn"

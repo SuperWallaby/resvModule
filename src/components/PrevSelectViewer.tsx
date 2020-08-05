@@ -124,8 +124,4 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => 
   );
 };
 
-export default React.memo(
-  PrevSelectViewer,
-  ({ resvContext }, { resvContext: resvContext2 }) =>
-    resvContext.roomSelectInfo === resvContext2.roomSelectInfo
-);
+export default PrevSelectViewer;

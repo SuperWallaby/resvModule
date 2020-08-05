@@ -13,7 +13,16 @@
     @include response($tablet) {
         margin-bottom: space(3);
     }
+    @include response($mobile) {
+        padding-bottom:  24rem;
+    }
 }
+
+
+#cardPasswordInput {
+    width: 1%;
+    min-width: 100px;
+  }
 
 #MobileGoBackBtn {
     display: none;

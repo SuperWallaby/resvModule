@@ -61,6 +61,10 @@ export const bookingValidater = (
   payInfo: IPayInfo
 ): boolean => {
 
+
+  console.log("bookerInfo");
+  console.log(bookerInfo);
+
   const sendGa = (action:string) => {
     ReactGA.event({
       category: 'Validation Fail',

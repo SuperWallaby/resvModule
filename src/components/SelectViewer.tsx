@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { JDbutton, JDtypho, JDalign, isEmpty, arraySum, autoComma, dateRangeFormat, toast, JDicon, useSelect, useModal, JDmodal } from '@janda-com/front';
 import { LANG } from '../App';
 import { IResvContext } from '../pages/declare';
@@ -8,11 +8,18 @@ import moment from "moment";
 import { CalculateViewerModal } from './DetailPriceView';
 import { priceSurvey } from '../utils/priceSurvey';
 import isMobile from "is-mobile";
+import $ from "jquery";
 
 
 interface IProps {
 	resvContext: IResvContext;
 }
+
+
+
+const checkNeedAbsoluteFloat = () => navigator.platform == 'iPhone' ||  navigator.platform == 'Linux armv6l'
+
+
 
 const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 	const detailPriceModal = useModal();
@@ -28,14 +35,25 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 		thema: 'primary'
 	};
 
+	
+	useLayoutEffect(()=>{
+			
+	},[])
+
+	const sharedSelectViewrProp = {
+		id: "SelectViewer",
+		className: "selectViewer",
+	}
+
+
 	if (!to || !from) {
 		return (
-			<div className="selectViewer">
+			<div  {...sharedSelectViewrProp}>
 				<JDtypho mb="no" size="h6">
 					{LANG('date_un_selected')}
 				</JDtypho>
 				<div>
-					<JDbutton hide={isMobile()} {...sharedBtnProp} label={LANG('do_reservation')} mb="no" size="longLarge" thema="primary" />
+					<JDbutton label={LANG('do_reservation')} mb="no" size="longLarge" thema="primary" />
 				</div>
 			</div>
 		);
@@ -44,12 +62,12 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 	const unSelected = isEmpty(roomSelectInfo);
 	if (unSelected) {
 		return (
-			<div className="selectViewer">
+			<div {...sharedSelectViewrProp}>
 				<JDtypho mb="no" size="h6">
 					{LANG('un_selected')}
 				</JDtypho>
 				<div>
-					<JDbutton hide={isMobile()} {...sharedBtnProp} label={LANG('do_reservation')} mb="no" size="longLarge" thema="primary" />
+					<JDbutton  label={LANG('do_reservation')} mb="no" size="longLarge" thema="primary" />
 				</div>
 			</div>
 		);
@@ -58,7 +76,7 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 	const priceLog = priceSurvey(roomSelectInfo);
 
 	return (
-		<div className="selectViewer">
+		<div {...sharedSelectViewrProp}>
 			<div className="selectViewer__header">
 				{roomSelectInfo.map((RI) => {
 					const { pricingType, count, price } = RI;
@@ -136,7 +154,7 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 						</JDtypho>
 					</JDalign>
 				</div>
-				<JDbutton hide={isMobile()} {...sharedBtnProp} label={LANG('do_reservation')} />
+				<JDbutton {...sharedBtnProp} label={LANG('do_reservation')} />
 			</div>
 			<CalculateViewerModal modalProp={{
 				head: {

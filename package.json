@@ -1,6 +1,6 @@
 {
   "name": "@janda-com/resv-module--leisure",
-  "version": "1.0.4--leisure",
+  "version": "1.4.12--leisure",
   "main": "dist/RC.js",
   "module": "dist/RC.es.js",
   "jsnext:main": "dist/RC.es.js",
@@ -91,7 +91,7 @@
     "preprod": "cp ./envs/env.pro ./.env",
     "prod": "node scripts/build.js",
     "build:bundle": "webpack --config webpack.config.js",
-    "upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.4.1--leisure/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.4.1--leiuse/resvModule.css ",
+    "upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.4.12--leisure/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.4.12--leiuse/resvModule.css ",
     "test": "react-app-rewired test --env=jsdom",
     "cjs": "yarn prod && yarn build:bundle && yarn upload",
     "precodegen": "apollo schema:download --endpoint=https://temp-booking.stayjanda.cloud/graphql",
