@@ -42,9 +42,10 @@ import {
 import { store } from "./helper";
 import moment from "moment";
 import { validation } from "../components/helper";
-import { JDdropDown,isEmpty } from "@janda-com/front";
+import { JDdropDown, isEmpty,utils } from "@janda-com/front";
 import AgreePolicyModal from "../components/AgreePoilicyModal";
 import ReactGA from "react-ga";
+const { parentScrollMove } = utils;
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
   houseData: getHouseForPublic_GetHouseForPublic_house;
@@ -271,6 +272,14 @@ const Reservation: React.FC<IProps> = ({
       ReactGA.pageview(window.location.pathname + window.location.search + "/payment");
   },[step])
 
+  useEffect(()=>{
+    // 상위 모달의 스크롤을 top 0으로 맞춤
+    parentScrollMove(document.getElementById("root")!,{
+      top: 0,
+    })
+
+  },[step])
+
   if (step === "select")
     return (
       <div>
@@ -396,9 +405,11 @@ const Reservation: React.FC<IProps> = ({
           }}
         >
           <JDbutton
+            id="MobileGoBackBtn"
             iconProp={{
               icon: "arrowBack"
             }}
+            mode="border"
             size="long"
             label={LANG("go_back")}
             onClick={() => {
@@ -421,7 +432,7 @@ const Reservation: React.FC<IProps> = ({
           }}
         >
           <JDtypho {...sharedSectionTitleProp}>{LANG("check_select")}</JDtypho>
-          <PrevSelectViewer resvContext={resvContext} />
+          <PrevSelectViewer handleDoResvBtn={handleDoResvBtn} resvContext={resvContext} />
           {customMsgs.ResvCautionMsg && (
             <JDtypho mb="small" size="small">
               {"*" + customMsgs.ResvCautionMsg}
@@ -434,12 +445,6 @@ const Reservation: React.FC<IProps> = ({
             lg: 12,
           }}
         >
-          <JDbutton
-            onClick={handleDoResvBtn}
-            size="longLarge"
-            thema="primary"
-            label={LANG("do_resv")}
-          />
         </JDalign>
       </JDalign>
     );

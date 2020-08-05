@@ -7,15 +7,17 @@ import {
   JDalign,
   fromToRender,
   autoComma,
+  JDbutton,
 } from "@janda-com/front";
 import { LANG } from "../App";
 import { IResvContext } from "../pages/declare";
 import ReactGA from "react-ga"
 interface IProps {
   resvContext: IResvContext;
+  handleDoResvBtn: () => void;
 }
 
-const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
+const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => {
   const { totalPrice, roomSelectInfo, from, setStep, to } = resvContext;
   let totalWoman = 0;
   let totalMale = 0;
@@ -37,6 +39,18 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
   }))
   return (
     <div className="prevSelectViewer">
+      <JDbutton
+            id="PcGoBackBtn"
+            iconProp={{
+              icon: "arrowBack"
+            }}
+            mode="border"
+            size="long"
+            label={LANG("go_back")}
+            onClick={() => {
+              setStep("select");
+            }}
+          />
       <div>
         <JDslider dots={false} mr="no" mb="no" displayArrow={false}>
           {imgs.map((img) => (
@@ -100,6 +114,12 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext }) => {
       <JDalign mb="small" className="prevSelectViewer__totalPrice">
         {autoComma(totalPrice)} KRW
       </JDalign>
+      <JDbutton
+            onClick={handleDoResvBtn}
+            size="longLarge"
+            thema="primary"
+            label={LANG("do_resv")}
+          />
     </div>
   );
 };

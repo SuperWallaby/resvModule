@@ -10,8 +10,22 @@
         }
     }
 
-
     @include response($tablet) {
         margin-bottom: space(3);
+    }
+}
+
+#MobileGoBackBtn {
+    display: none;
+    @include response($tablet) {
+        display: block;
+    }
+}
+
+#PcGoBackBtn {
+    display: none;
+
+    @include response($full,$tablet) {
+        display: block;
     }
 }
