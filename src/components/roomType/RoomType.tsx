@@ -1,351 +1,202 @@
-import React, { useState } from "react";
-import {
-  JDphotoFrame,
-  JDslider,
-  JDslide,
-  JDalign,
-  JDtypho,
-  utils,
-  JDbutton,
-  JDpreloader,
-  JDbadge,
-  JDphotoModal,
-  useModal,
-  JDmodal,
-  JDicon,
-  JDdayPicker,
-  JDselect,
-  useSelect,
-  selectOpCreater,
-  toast,
-} from "@janda-com/front";
-import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
-import { LANG } from "../../App";
-import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
-import CountSelecter,{Counter} from "./CountSelecter";
-import { IRoomTypeContext } from "./RoomTypeWrap";
-import { getAvailableCountFromQuery } from "./helper";
-import { PopUpDetailModal } from "./PopUpDetailModal";
-import { OptionSelecter } from "./OptionSelecter";
-import { isEmpty } from "lodash";
+import React, { Fragment, useState } from 'react';
+import { JDtypho, JDalign, JDbutton, IJDalignProp } from '@janda-com/front';
+import { IResvContext, IRoomSelectInfo } from '../../pages/declare';
+import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from '../../types/api';
+import { LANG } from '../../App';
+import { IRoomTypeContext, Gender } from './RoomTypeWrap';
+import { getAvailableCountFromQuery } from './helper';
+import { queryDataFormater } from '@janda-com/front';
+import { IJDtyphoProp } from '@janda-com/front/build/components/typho/Typho';
 
-const IS_MOBILE = false;
-
-const { autoComma } = utils;
-
-interface IProps {
-  resvContext: IResvContext;
-  roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
-  dailyPrice: number;
-  roomTypeContext: IRoomTypeContext;
-  countLoading: boolean;
-  popUpDetailPage?: boolean;
-  priceLoading: boolean;
-  handleDoResvBtn: () => void;
+interface CounterProp {
+	count: number;
+	handleCount: (flag: boolean, target: any) => any;
+	target?: any;
+	label: string;
+	labelProp?: IJDtyphoProp;
+	maxCount: number;
 }
 
-const RoomType: React.FC<IProps> = ({
-  roomType,
-  dailyPrice,
-  resvContext,
-  roomTypeContext,
-  countLoading,
-  priceLoading,
-  popUpDetailPage,
-  handleDoResvBtn,
-}) => {
-  const {
-    _id,
-    name,
-    pricingType,
-    img,
-    images,
-    description,
-    defaultPrice,
-    optionalItems
-  } = roomType;
-  const publicSelectHook = useSelect(
-    { label: "10시", value: 10 },
-    selectOpCreater({
-      count: 10,
-      labelAdd: "시",
-      start: 10,
-    })
-  );
-  const productVeiwerModal = useModal(true);
-  const photoModalHook = useModal();
-  const {
-    setRoomSelectInfo,
-    roomSelectInfo,
-    from,
-    to,
-    dayPickerHook,
-    setBookerInfo,
-    bookerInfo,
-  } = resvContext;
-  const {
-    fullDatePrice,
-    isDomitory,
-    isSelected,
-    targetSelectInfo,
-    capacityData,
-  } = roomTypeContext;
-
-  const targetSelectRoom = roomSelectInfo.find(rsi => rsi.roomTypeId === roomType._id);
-
-  const availableCount = getAvailableCountFromQuery(capacityData!);
-  const totalCan =
-    availableCount.femaleCount +
-    availableCount.maleCount +
-    availableCount.roomCount;
-  const isSoldOut = !totalCan && !countLoading && from && to;
-  const loading = countLoading && from && to;
-  const exception = roomType.name == "요트퍼블릭 60분";
-
-  if (images?.length === 0) {
-    images.push(img?.url);
-  }
-
-  let classes = "roomType";
-  classes += isSelected ? " roomType--selected" : "";
-
-  const handleRoomSelectTooggler = () => {
-    const filted = roomSelectInfo.filter((r) => r.roomTypeId !== roomType._id);
-    const addInfo: IRoomSelectInfo = {
-      count: {
-        female: 0,
-        male: 0,
-        roomCount: 0,
-      },
-      price: 0,
-      pricingType: pricingType,
-      roomTypeId: _id,
-      roomTypeName: name,
-      img: img?.url,
-    };
-    const added = [...roomSelectInfo, addInfo];
-    setRoomSelectInfo(isSelected ? filted : added);
-  };
-
-  const currentPrice = autoComma(dailyPrice || 0);
-  const isSale = defaultPrice ? defaultPrice > dailyPrice : false;
-  const DailyPrice = () =>
-    priceLoading ? (
-      <span>...</span>
-    ) : isSale ? (
-      <span>
-        <JDtypho
-          size="small"
-          component={"span"}
-          style={{
-            textDecoration: "line-through",
-          }}
-        >
-          {defaultPrice} KRW
-        </JDtypho>
-        <JDtypho size="small" color="error">
-          {currentPrice} KRW
-        </JDtypho>
-      </span>
-    ) : (
-      <span>{currentPrice}</span>
-    );
-
-  const popUpProductClose = () => {
-    window.history.go(-1);
-  };
-
-  return (
-    <div className={classes}>
-      <div className="roomType__inner">
-        <JDalign
-          className="roomType__wrap"
-          flex={{
-            center: IS_MOBILE ? true : false,
-            column: IS_MOBILE ? true : false,
-            grow: IS_MOBILE ? false : true,
-          }}
-          style={{
-            padding: IS_MOBILE ? "0.4rem" : 0,
-            paddingTop: IS_MOBILE ? "0.8rem" : 0,
-          }}
-        >
-          <JDalign
-            onClick={() => {
-              photoModalHook.openModal({
-                images,
-              });
-            }}
-            style={{
-              height: IS_MOBILE ? "24rem" : "11rem",
-              width: IS_MOBILE ? "19rem" : undefined,
-              maxWidth: IS_MOBILE ? undefined : "10.7rem",
-            }}
-            className="roomType__slider"
-          >
-            <JDslider
-              autoplay
-              dots={false}
-              mr="small"
-              mb="no"
-              style={{
-                overflow: "hidden",
-              }}
-              displayArrow={false}
-            >
-              {images?.map((img, i) => (
-                <JDslide key={i + "imgSlider"}>
-                  <JDphotoFrame
-                    style={{
-                      borderRadius: 0,
-                    }}
-                    src={img}
-                    isBgImg
-                    unStyle
-                  />
-                </JDslide>
-              ))}
-            </JDslider>
-            <div>
-              {isSoldOut && (
-                <JDbadge
-                  className="roomType__soldOut"
-                  size="noraml"
-                  thema="error"
-                >
-                  SOLD OUT
-                </JDbadge>
-              )}
-            </div>
-          </JDalign>
-          <JDalign
-            flex={{
-              between: true,
-            }}
-            className="roomType__right"
-          >
-            <JDalign
-              style={{
-                flexGrow: 1,
-              }}
-              grid
-            >
-              <JDalign
-                col={{
-                  md: 12,
-                  full: 6,
-                }}
-                mb="tiny"
-              >
-                <div className="roomType__title">
-                  <JDalign flex>
-                    <JDtypho mb="small" weight={600}>
-                      {name}
-                    </JDtypho>
-                  </JDalign>
-                </div>
-                <div className="roomType__title">
-                  {1 + "명"}
-                  {` - `}
-                  <DailyPrice />
-                </div>
-              </JDalign>
-              <JDalign
-                col={{
-                  md: 12,
-                  full: 6,
-                }}
-                style={{
-                  whiteSpace: "pre-line",
-                }}
-                mr="large"
-              >
-                {description && (
-                  <JDtypho size="small" className="roomType__describ">
-                    {description}
-                  </JDtypho>
-                )}
-              </JDalign>
-            </JDalign>
-            <JDalign
-              style={{
-                alignItems: "flex-end",
-              }}
-              flex={{
-                column: true,
-                between: true,
-                end: true,
-              }}
-            >
-              <JDbutton
-                size="small"
-                onClick={handleRoomSelectTooggler}
-                mr="no"
-                mb="normal"
-                br="no"
-                mode="flat"
-                disabled={!!isSoldOut}
-                thema={isSelected ? "white" : "primary"}
-              >
-                {LANG(isSelected ? "cancel" : "choice")}
-              </JDbutton>
-              {priceLoading ? (
-                <JDpreloader
-                  style={{
-                    margin: "-10px",
-                  }}
-                  size="tiny"
-                  loading={true}
-                />
-              ) : (
-                <JDtypho mb="no" size="h6">
-                  {autoComma(fullDatePrice)} KRW
-                </JDtypho>
-              )}
-            </JDalign>
-          </JDalign>
-        </JDalign>
-      </div>
-      <JDphotoModal modalHook={photoModalHook} />
-      {targetSelectInfo && (
-        <div className="roomType__countSelectWrap">
-          <div className="roomType__countMainWrap"> 
-            <CountSelecter
-              availableCount={availableCount}
-              roomTypeContext={roomTypeContext}
-              isDomitory={isDomitory}
-              targetSelectInfo={targetSelectInfo}
-              fullDatePrice={fullDatePrice}
-              roomType={roomType}
-              resvContext={resvContext}
-            />
-        </div>
-        {isEmpty(optionalItems) ||
-        <div className="roomType__optionalItems">
-          <JDtypho className="roomType__optionTitle" weight={600} >옵션선택</JDtypho>
-         <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
-      </div>
-}
-      </div>
-      )}
-
-      {popUpDetailPage && targetSelectInfo && (
-        <PopUpDetailModal
-          roomTypeContext={roomTypeContext}
-          availableCount={availableCount}
-          roomType={roomType}
-          handleDoResvBtn={handleDoResvBtn}
-          resvContext={resvContext}
-          optionalItems={optionalItems}
-          images={roomType.images || []}
-          isSoldOut={!!isSoldOut}
-          popUpProductClose={popUpProductClose}
-          productVeiwerModal={productVeiwerModal}
-          DailyPrice={DailyPrice}
-        />
-      )}
-    </div>
-  );
+export const Counter: React.FC<CounterProp> = ({ handleCount, labelProp, target, count, label, maxCount }) => {
+	return (
+		<JDalign
+			className="counter"
+			flex={{
+				vCenter: true
+			}}
+		>
+			<JDtypho weight={600} mr="large" {...labelProp}>
+				{label}
+			</JDtypho>
+			<JDalign className="counter__inner">
+				<JDbutton
+					disabled={count === 0}
+					thema="grey1"
+					mode="flat"
+					className="counter__btn"
+					onClick={() => {
+						handleCount(false, target);
+					}}
+				>
+					-
+				</JDbutton>
+				<JDbutton thema="grey1" mode="flat" className="counter__count">
+					{count}
+				</JDbutton>
+				<JDbutton
+					disabled={maxCount <= count}
+					thema="grey1"
+					mode="flat"
+					className="counter__btn"
+					onClick={() => {
+						handleCount(true, target);
+					}}
+				>
+					+
+				</JDbutton>
+			</JDalign>
+		</JDalign>
+	);
 };
 
-export default RoomType;
+interface IProps {
+	resvContext: IResvContext;
+	roomType: getHouseForPublic_GetHouseForPublic_house_roomTypes;
+	fullDatePrice: number;
+	targetSelectInfo: IRoomSelectInfo;
+	isDomitory: boolean;
+	roomTypeContext: IRoomTypeContext;
+	availableCount: {
+		maleCount: number;
+		femaleCount: number;
+		roomCount: number;
+	};
+	alignProp?: IJDalignProp;
+}
+
+const CountSelecter: React.FC<IProps> = ({
+	resvContext,
+	targetSelectInfo,
+	fullDatePrice,
+	isDomitory,
+	roomTypeContext,
+	availableCount,
+	alignProp
+}) => {
+	const [ loading, setLoading ] = useState(false);
+	const { refetchCapacity, capacityData, sharedQueryVariable } = roomTypeContext;
+	const {
+		femaleCount: availableCountFemale,
+		maleCount: availableCountMale,
+		roomCount: availableCountRoom
+	} = availableCount;
+	const { roomSelectInfo, setRoomSelectInfo } = resvContext;
+	const [ maxCount, setMaxCount ] = useState({
+		maxFemale: availableCountFemale,
+		maxMale: availableCountMale
+	});
+
+	const handleCount = async (positive: boolean, target: 'male' | 'female' | 'room') => {
+		if (loading) return;
+		setLoading(true);
+		let sum = positive ? 1 : -1;
+		if (!targetSelectInfo) throw Error('This must not happend by UI :: RoomType');
+
+		const isFemaleCall = target === 'female';
+		const { roomCount, female, male } = targetSelectInfo.count;
+
+		if (target === 'room') targetSelectInfo.count.roomCount += sum;
+
+		// 해당부분은 레져 로서 리패칭이 필요없음 (주석부)
+		if (target !== 'room') {
+			// sharedQueryVariable.RoomTypeCapacityInput.initValue = {
+			// 	count: isFemaleCall ? female + sum : male + sum,
+			// 	gender: isFemaleCall ? Gender.FEMALE : Gender.MALE
+			// };
+			// const { data } = await refetchCapacity({
+			// 	...sharedQueryVariable
+			// });
+
+			// const queryData = queryDataFormater(data, 'GetRoomTypeById', 'roomType', undefined) || undefined;
+
+			// if (!queryData) return;
+
+			if (target === 'female') targetSelectInfo.count.female += sum;
+			if (target === 'male') targetSelectInfo.count.male += sum;
+
+			// const capcityData = getAvailableCountFromQuery(queryData);
+			// const { femaleCount, maleCount } = capcityData;
+
+			if (isFemaleCall && targetSelectInfo.count.male > maxCount.maxMale) {
+				targetSelectInfo.count.male = 0;
+			}
+
+			if (!isFemaleCall && targetSelectInfo.count.female > maxCount.maxFemale) {
+				targetSelectInfo.count.female = 0;
+			}
+
+			if (targetSelectInfo.count.female < 0) {
+				targetSelectInfo.count.female = 0;
+			}
+
+			if (targetSelectInfo.count.male < 0) {
+				targetSelectInfo.count.male = 0;
+			}
+
+			// setMaxCount({
+			// 	maxFemale: isFemaleCall ? maxCount.maxFemale : femaleCount,
+			// 	maxMale: isFemaleCall ? maleCount : maxCount.maxMale
+			// });
+		}
+
+		targetSelectInfo.price =
+			fullDatePrice * (targetSelectInfo.count.male + targetSelectInfo.count.female + targetSelectInfo.count.roomCount);
+
+		setRoomSelectInfo([ ...roomSelectInfo ]);
+
+		setLoading(false);
+	};
+
+	const { count } = targetSelectInfo;
+	const { male, female, roomCount } = count;
+
+	return (
+		<JDalign
+			flex={{
+				around: true,
+				grow: true
+			}}
+			className="countSelecter"
+			{...alignProp}
+		>
+			{isDomitory ? (
+				<Fragment>
+					<Counter
+						maxCount={maxCount.maxMale}
+						label={LANG('people')}
+						handleCount={handleCount}
+						target={'male'}
+						count={male}
+					/>
+					{/* <Counter
+            maxCount={maxCount.maxFemale}
+            label={LANG("female")}
+            handleCount={handleCount}
+            target={"female"}
+            count={female}
+          /> */}
+				</Fragment>
+			) : (
+				<Counter
+					maxCount={availableCountRoom}
+					label={LANG('room_count')}
+					handleCount={handleCount}
+					target={'room'}
+					count={roomCount}
+				/>
+			)}
+		</JDalign>
+	);
+};
+
+export default CountSelecter;
