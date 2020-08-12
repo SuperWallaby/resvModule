@@ -1,0 +1,74 @@
+// 데이픽커 수정
+.DayPickerModal__head {
+    z-index: 9999999 !important;
+    position: relative !important;
+    display: block !important;
+}
+
+.DayPicker-wrapper {
+    padding: 0 !important;
+}
+
+.ReactModal__Content {
+    min-height: 330px !important;
+}
+
+
+@media (max-width: 768px) {
+
+    #root .DayPicker.DayPicker--right,
+    .ReactModalPortal .DayPicker.DayPicker--right {
+        position: relative !important;
+    }
+}
+
+.DayPicker-Months {
+    padding-top: 0px !important;
+}
+
+.ReactModal__Content {
+    border-radius: 10px !important;
+}
+
+.DayPicker-Months {
+    width: 100% !important;
+}
+
+.DayPicker-NavBar {
+    position: absolute;
+    width: 92%;
+}
+
+// 이부분 라이브러리로 ㄱ
+.radioBox__inner {
+    display: flex !important;
+    width: 100%;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+}
+
+#root {
+    .JDslider {
+        margin-right: 0 !important;
+    }
+
+    .roomType__wrap .roomType__slider div {
+        height: 100%;
+    }
+}
+
+.iconWrapper.JDmodal__closeIcon {
+    position: absolute;
+}
+
+.ReactModal__Content {
+    min-height: 500px;
+}
+
+.ReactModal__Overlay {
+    z-index: 99999999 !important;
+}
+
+.selectViewer--static {
+    position: relative !important;
+}

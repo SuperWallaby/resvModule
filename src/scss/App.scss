@@ -29,6 +29,7 @@ html:root,
 }
 
 @import "./variables.scss";
+@import "./Correct";
 @import "../../node_modules/@janda-com/front/src/scss/all.scss";
 @import "./component/AgreeBlock.scss";
 @import "./component/BookerForm.scss";
