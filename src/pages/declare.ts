@@ -60,4 +60,5 @@ export interface IResvContext {
 	dayPickerHook?: IUseDayPicker;
 	handleStepChange: () => void;
 	totalOptionPrice: number;
+	sideShoudStatic?: boolean;
 }

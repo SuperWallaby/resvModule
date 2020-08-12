@@ -87,7 +87,7 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
         <div className="searchResult__header">
           <JDtypho size="h6">{name}</JDtypho>
           <JDtypho weight={300}>
-            {LANG("date")} : {dateRangeFormat(checkIn, checkOut)}
+            {LANG("date")} : {moment(checkIn).format("YYYY-MM-DD")}
           </JDtypho>
         </div>
         <div className="searchResult__body">

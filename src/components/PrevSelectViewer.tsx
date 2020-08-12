@@ -25,6 +25,9 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => 
 
   let totalOptionString = "";
 
+  console.log("roomSelectInfo");
+  console.log(roomSelectInfo);
+
   const imgs: string[] = [];
   roomSelectInfo.forEach((rsi) => {
     totalWoman += rsi.count.female;
@@ -39,18 +42,6 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => 
   }))
   return (
     <div className="prevSelectViewer">
-      <JDbutton
-            id="PcGoBackBtn"
-            iconProp={{
-              icon: "arrowBack"
-            }}
-            mode="border"
-            size="long"
-            label={LANG("go_back")}
-            onClick={() => {
-              setStep("select");
-            }}
-          />
       <div>
         <JDslider dots={false} mr="no" mb="no" displayArrow={false}>
           {imgs.map((img) => (
@@ -119,6 +110,18 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => 
             size="longLarge"
             thema="primary"
             label={LANG("do_resv")}
+          />
+                <JDbutton
+            id="PcGoBackBtn"
+            iconProp={{
+              icon: "arrowBack"
+            }}
+            mode="border"
+            size="long"
+            label={LANG("go_back")}
+            onClick={() => {
+              setStep("select");
+            }}
           />
     </div>
   );

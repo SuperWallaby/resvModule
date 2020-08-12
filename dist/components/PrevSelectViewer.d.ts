@@ -2,6 +2,7 @@ import React from "react";
 import { IResvContext } from "../pages/declare";
 interface IProps {
     resvContext: IResvContext;
+    handleDoResvBtn: () => void;
 }
-declare const _default: React.NamedExoticComponent<IProps>;
-export default _default;
+declare const PrevSelectViewer: React.FC<IProps>;
+export default PrevSelectViewer;

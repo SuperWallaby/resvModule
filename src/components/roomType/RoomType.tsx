@@ -14,11 +14,11 @@ import {
   JDmodal,
   JDicon,
   JDdayPicker,
-  JDselect,
   useSelect,
   selectOpCreater,
   toast,
-  isEmpty 
+  isEmpty, 
+  JDcheckBox
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
@@ -29,6 +29,7 @@ import { getAvailableCountFromQuery } from "./helper";
 import { PopUpDetailModal } from "./PopUpDetailModal";
 import { OptionSelecter } from "./OptionSelecter";
 import isMobile from "is-mobile";
+import CheckBoxMini from "../../atom/CheckBox";
 const { autoComma } = utils;
 
 interface IProps {
@@ -78,9 +79,6 @@ const RoomType: React.FC<IProps> = ({
     roomSelectInfo,
     from,
     to,
-    dayPickerHook,
-    setBookerInfo,
-    bookerInfo,
   } = resvContext;
   const {
     fullDatePrice,
@@ -158,13 +156,17 @@ const RoomType: React.FC<IProps> = ({
     <div className={classes}>
       <div className="roomType__inner">
         <JDalign
+          onClick={isMobile() ? handleRoomSelectTooggler : undefined}
           className="roomType__wrap"
           flex={{
             grow:  true,
+            wrap: true
           }}
         >
           <JDalign
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               photoModalHook.openModal({
                 images,
               });
@@ -175,7 +177,9 @@ const RoomType: React.FC<IProps> = ({
             }}
             className="roomType__slider"
           >
+            <CheckBoxMini handleClick={()=>{}} className="roomType__checkbox"  checked={isSelected}/>
             <JDslider
+              onClick={e => {e.preventDefault(); e.stopPropagation()}}
               autoplay
               dots={false}
               mr="small"
@@ -250,21 +254,37 @@ const RoomType: React.FC<IProps> = ({
                 style={{
                   whiteSpace: "pre-line",
                 }}
+                className="roomType__mid"
                 mr="large"
               >
                 {description && (
                   <JDtypho size="small" className="roomType__describ">
-                    {isMobile() ?  description.slice(0,40) : description}
-                    {isMobile() && description.length > 40 && <JDtypho onClick={()=>{
+                    {isMobile() ?  description.slice(0,60) : description}
+                    {isMobile() && description.length > 60 && <JDtypho onClick={()=>{
                       setDetailOpen(!detailOpen);
                     }} hover color="point">
                       {detailOpen ? '...닫기' : '...더보기'}
                       </JDtypho>}
                   </JDtypho>
                 )}
+                <JDalign
+                 mr="no"
+                 flex={{
+                   end:true
+                 }}
+                  className="roomType__selectpart--mb"
+                >
+                  <JDtypho mr="tiny" mb="no" size="h6">
+                    {autoComma(fullDatePrice)} 
+                  </JDtypho>
+                    <JDtypho style={{
+                      alignSelf: "flex-end"
+                    }} size="small">KRW</JDtypho>
+                </JDalign>
               </JDalign>
             </JDalign>
             <JDalign
+              className="roomType__selectpart--pc"
               style={{
                 alignItems: "flex-end",
               }}
@@ -300,6 +320,7 @@ const RoomType: React.FC<IProps> = ({
                 </JDtypho>
               )}
             </JDalign>
+
           </JDalign>
         </JDalign>
       </div>
@@ -318,6 +339,7 @@ const RoomType: React.FC<IProps> = ({
               fullDatePrice={fullDatePrice}
               roomType={roomType}
               resvContext={resvContext}
+              menuPositon={"top"}
             />
         </div>
         {isEmpty(optionalItems) ||
@@ -325,7 +347,7 @@ const RoomType: React.FC<IProps> = ({
           <JDtypho className="roomType__optionTitle" weight={600} >옵션선택</JDtypho>
          <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
       </div>
-}
+      }
       </div>
       )}
 

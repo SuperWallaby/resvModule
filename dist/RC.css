@@ -3508,7 +3508,8 @@ div > .animationWrap:first-child > .JDbadge {
     position: fixed !important;
     bottom: 2% !important;
     right: 3% !important;
-    transform-origin: left bottom; }
+    transform-origin: left bottom;
+    z-index: 70; }
   .preloader__fill {
     fill: var(--primary-color); }
   .preloader__wrap {
@@ -3561,6 +3562,7 @@ div > .animationWrap:first-child > .JDbadge {
   .JDmodal--sticky .JDmodal__body {
     padding-bottom: 0.8rem; }
   .JDmodal--sticky .JDmodal__foot {
+    border-top: 1px solid #f5f5f5;
     z-index: 60;
     padding-top: 0.8rem;
     position: sticky;
@@ -3579,7 +3581,8 @@ div > .animationWrap:first-child > .JDbadge {
   .JDmodal--loading {
     min-width: 0 !important;
     max-width: fit-content !important;
-    width: fit-content !important; }
+    width: fit-content !important;
+    transition: 0s !important; }
   .JDmodal--alert {
     font-weight: bold; }
   .JDmodal--center {
@@ -5564,6 +5567,31 @@ div > .animationWrap:first-child > .JDbadge {
 .requireMark {
   color: #d5673a; }
 
+.JDcolorPicker {
+  display: inline-block; }
+  .JDcolorPicker__swatch {
+    padding: 0.4rem;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #dbdbdb;
+    display: inline-block;
+    cursor: pointer; }
+  .JDcolorPicker__color {
+    width: 3rem;
+    height: 1.4rem;
+    border-radius: 5px; }
+  .JDcolorPicker__modalWrap {
+    position: absolute;
+    z-index: 2; }
+  .JDcolorPicker__cover {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px; }
+  .JDcolorPicker .JDLabel {
+    margin-bottom: 0; }
+
 .JDsingleUploader .JDinput,
 .JDsingleUploader .JDinput-wrap,
 .JDsingleUploader .JDinput__inside-wrap {
@@ -5854,6 +5882,49 @@ html .__react_component_tooltip {
   border-top: 1px solid #dbdbdb;
   padding: 0.4rem; }
 
+.calculateViewer__history {
+  border-bottom: 1px solid #dbdbdb; }
+
+.calculateViewer__mainLine {
+  padding: 0.8rem 0;
+  font-weight: 600; }
+
+.calculateViewer__mainLiTitle {
+  margin-right: 0.8rem; }
+
+.calculateViewer__mainLiDesc {
+  margin-right: 0.8rem; }
+
+.calculateViewer__mainLiTitle {
+  margin-right: 0.4rem 0; }
+
+.calculateViewer__mainLiDesc {
+  margin-right: 0.4rem 0; }
+
+.calculateViewer__subTitle {
+  margin-right: 0.4rem; }
+
+.calculateViewer__subLine {
+  font-size: 0.825rem;
+  border-top: 1px solid #eee;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem; }
+
+.calculateViewer__describe {
+  margin-right: 0.4rem; }
+
+.calculateViewer__result {
+  padding-top: 0.8rem; }
+
+.calculateViewer__result-title {
+  width: 100%;
+  text-align: end;
+  min-width: 12.5rem; }
+
+.calculateViewer__calculaterTotal {
+  border-top: 1px solid #dbdbdb;
+  padding: 0.4rem; }
+
 .agreeBlock {
   padding: 0.8rem;
   border: 1px solid #dbdbdb; }
@@ -5924,8 +5995,11 @@ html .__react_component_tooltip {
 
 .roomType {
   margin-bottom: 0.6rem;
-  border-radius: 5px;
-  overflow: hidden; }
+  border-radius: 5px; }
+  .roomType__detailSection {
+    padding: 0.4rem;
+    white-space: pre-line;
+    line-height: 1.3; }
   .roomType__countSelectWrap {
     background-color: #f5f5f5; }
   .roomType__optionTitle {
@@ -5970,6 +6044,9 @@ html .__react_component_tooltip {
     padding: 0.8rem;
     background-color: #dbdbdb; }
 
+html {
+  position: relative; }
+
 .selectViewer {
   position: sticky;
   top: 0.8rem;
@@ -5978,6 +6055,20 @@ html .__react_component_tooltip {
   color: #595959;
   border-radius: 5px;
   border: 1px solid #dbdbdb; }
+  @media only screen and (max-width: 550px) and (min-width: 0px) {
+    .selectViewer {
+      overflow: auto;
+      max-height: 24rem;
+      position: fixed;
+      bottom: 0;
+      transform: translate3d(0, 0, 0);
+      z-index: 90;
+      background-color: white;
+      left: 0;
+      right: 0;
+      top: unset;
+      width: 100%;
+      -webkit-overflow-scrolling: touch; } }
   .selectViewer__header {
     background-color: #f5f5f5; }
   .selectViewer__calculaterBody {
@@ -6035,6 +6126,26 @@ html .__react_component_tooltip {
 @media only screen and (max-width: 750px) and (min-width: 0px) {
   #JD_RESV_PAGE {
     margin-bottom: 1.2rem; } }
+
+@media only screen and (max-width: 400px) and (min-width: 0px) {
+  #JD_RESV_PAGE {
+    padding-bottom: 24rem; } }
+
+#cardPasswordInput {
+  width: 1%;
+  min-width: 100px; }
+
+#MobileGoBackBtn {
+  display: none; }
+  @media only screen and (max-width: 750px) and (min-width: 0px) {
+    #MobileGoBackBtn {
+      display: block; } }
+
+#PcGoBackBtn {
+  display: none; }
+  @media only screen and (max-width: 9999px) and (min-width: 750px) {
+    #PcGoBackBtn {
+      display: block; } }
 
 .resvFind__tableWrap {
   margin-bottom: 0.8rem; }

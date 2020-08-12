@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { JDtypho, JDalign, JDbutton, IJDalignProp } from '@janda-com/front';
+import { JDtypho, JDalign, JDbutton, IJDalignProp, selectOpCreater, JDselect, JDlabel } from '@janda-com/front';
 import { IResvContext, IRoomSelectInfo } from '../../pages/declare';
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from '../../types/api';
 import { LANG } from '../../App';
@@ -15,9 +15,10 @@ interface CounterProp {
 	label: string;
 	labelProp?: IJDtyphoProp;
 	maxCount: number;
+	isLastRoomType?: boolean;
 }
 
-export const Counter: React.FC<CounterProp> = ({ handleCount, labelProp, target, count, label, maxCount }) => {
+export const Counter: React.FC<CounterProp> = ({ handleCount, labelProp, target, count, label, maxCount,isLastRoomType }) => {
 	return (
 		<JDalign
 			className="counter"
@@ -72,6 +73,7 @@ interface IProps {
 		roomCount: number;
 	};
 	alignProp?: IJDalignProp;
+	menuPositon?: string;
 }
 
 const CountSelecter: React.FC<IProps> = ({
@@ -81,7 +83,8 @@ const CountSelecter: React.FC<IProps> = ({
 	isDomitory,
 	roomTypeContext,
 	availableCount,
-	alignProp
+	alignProp,
+	menuPositon
 }) => {
 	const [ loading, setLoading ] = useState(false);
 	const { refetchCapacity, capacityData, sharedQueryVariable } = roomTypeContext;
@@ -91,26 +94,25 @@ const CountSelecter: React.FC<IProps> = ({
 		roomCount: availableCountRoom
 	} = availableCount;
 	const { roomSelectInfo, setRoomSelectInfo } = resvContext;
-	const [ maxCount, setMaxCount ] = useState({
-		maxFemale: availableCountFemale,
-		maxMale: availableCountMale
-	});
+	// const [ maxCount, setMaxCount ] = useState({
+	// 	maxFemale: availableCountFemale,
+	// 	maxMale: availableCountMale
+	// });
 
-	const handleCount = async (positive: boolean, target: 'male' | 'female' | 'room') => {
+
+	const handleCount = async ( target: 'male' | 'female' | 'room', count:number) => {
 		if (loading) return;
 		setLoading(true);
-		let sum = positive ? 1 : -1;
 		if (!targetSelectInfo) throw Error('This must not happend by UI :: RoomType');
 
-		const isFemaleCall = target === 'female';
-		const { roomCount, female, male } = targetSelectInfo.count;
+		// const isFemaleCall = target === 'female';
+		// const { roomCount, female, male } = targetSelectInfo.count;
 
-		if (target === 'room') targetSelectInfo.count.roomCount += sum;
+		if (target === 'room') targetSelectInfo.count.roomCount = count;
 
-		// 해당부분은 레져 로서 리패칭이 필요없음 (주석부)
 		if (target !== 'room') {
 			// sharedQueryVariable.RoomTypeCapacityInput.initValue = {
-			// 	count: isFemaleCall ? female + sum : male + sum,
+			// 	count,
 			// 	gender: isFemaleCall ? Gender.FEMALE : Gender.MALE
 			// };
 			// const { data } = await refetchCapacity({
@@ -121,19 +123,19 @@ const CountSelecter: React.FC<IProps> = ({
 
 			// if (!queryData) return;
 
-			if (target === 'female') targetSelectInfo.count.female += sum;
-			if (target === 'male') targetSelectInfo.count.male += sum;
+			if (target === 'female') targetSelectInfo.count.female = count || 0;
+			if (target === 'male') targetSelectInfo.count.male = count || 0;
 
 			// const capcityData = getAvailableCountFromQuery(queryData);
 			// const { femaleCount, maleCount } = capcityData;
 
-			if (isFemaleCall && targetSelectInfo.count.male > maxCount.maxMale) {
-				targetSelectInfo.count.male = 0;
-			}
+			// if (isFemaleCall && targetSelectInfo.count.male > maleCount) {
+			// 	targetSelectInfo.count.male = 0;
+			// }
 
-			if (!isFemaleCall && targetSelectInfo.count.female > maxCount.maxFemale) {
-				targetSelectInfo.count.female = 0;
-			}
+			// if (!isFemaleCall && targetSelectInfo.count.female > femaleCount) {
+			// 	targetSelectInfo.count.female = 0;
+			// }
 
 			if (targetSelectInfo.count.female < 0) {
 				targetSelectInfo.count.female = 0;
@@ -152,14 +154,18 @@ const CountSelecter: React.FC<IProps> = ({
 		targetSelectInfo.price =
 			fullDatePrice * (targetSelectInfo.count.male + targetSelectInfo.count.female + targetSelectInfo.count.roomCount);
 
+
 		setRoomSelectInfo([ ...roomSelectInfo ]);
 
 		setLoading(false);
 	};
 
+
 	const { count } = targetSelectInfo;
 	const { male, female, roomCount } = count;
 
+	const maleOp = selectOpCreater({count: availableCountMale ? availableCountMale + 1 : availableCountMale , labelAdd:"명",start:0 })
+	const selectedMaleOp = maleOp.find(op => op.value === male) || maleOp[0];
 	return (
 		<JDalign
 			flex={{
@@ -171,26 +177,34 @@ const CountSelecter: React.FC<IProps> = ({
 		>
 			{isDomitory ? (
 				<Fragment>
-					<Counter
-						maxCount={maxCount.maxMale}
-						label={LANG('people')}
-						handleCount={handleCount}
-						target={'male'}
-						count={male}
-					/>
-					{/* <Counter
-            maxCount={maxCount.maxFemale}
-            label={LANG("female")}
-            handleCount={handleCount}
-            target={"female"}
-            count={female}
-          /> */}
+					<JDalign z={3} flex={{
+						between:true,
+						vCenter:true
+					}}>
+					<JDalign flex={{
+						vCenter:true
+					}}>
+						<JDlabel mb="no" mr="small" txt="인원"/>
+						<JDselect mb="no" menuPlacement={menuPositon} autoSize z={3}  onChange={(selected)=>{
+							handleCount("male",selected.value);
+						}}  selectedOption={selectedMaleOp} options={maleOp}/>
+					</JDalign>
+{/* 
+					<JDselect
+					 onChange={(selected)=>{
+						handleCount("female",selected.value);
+					}}
+					label={LANG('female')} selectedOption={selectedFemaleOp} options={femaleOp}/>
+					<JDpreloader loading={loading}/> */}
+					<span/>
+					</JDalign>
+
 				</Fragment>
 			) : (
 				<Counter
 					maxCount={availableCountRoom}
 					label={LANG('room_count')}
-					handleCount={handleCount}
+					handleCount={()=> {handleCount("room",roomCount)}}
 					target={'room'}
 					count={roomCount}
 				/>
@@ -200,3 +214,10 @@ const CountSelecter: React.FC<IProps> = ({
 };
 
 export default CountSelecter;
+
+
+
+
+
+
+

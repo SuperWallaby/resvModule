@@ -1,4 +1,3 @@
-
 .checkBoxMini {
   display: flex;
   align-items: center;
@@ -7,7 +6,7 @@
   width: $standard-small-space;
   height: $standard-small-space;
   margin-right: $standard-space;
-  font-size: 5px;
+  font-size: $typho-tiny;
 
   &:hover {
     cursor: pointer;

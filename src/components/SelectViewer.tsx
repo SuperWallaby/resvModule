@@ -8,7 +8,6 @@ import moment from "moment";
 import { CalculateViewerModal } from './DetailPriceView';
 import { priceSurvey } from '../utils/priceSurvey';
 import isMobile from "is-mobile";
-import $ from "jquery";
 
 
 interface IProps {
@@ -24,7 +23,7 @@ const checkNeedAbsoluteFloat = () => navigator.platform == 'iPhone' ||  navigato
 const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 	const detailPriceModal = useModal();
 
-	const { roomSelectInfo, from, to, totalPrice, handleStepChange, totalOptionPrice,payInfo } = resvContext;
+	const { roomSelectInfo, from, to, totalPrice, handleStepChange, totalOptionPrice,payInfo, sideShoudStatic } = resvContext;
 
 	const sharedBtnProp: any = {
 		onClick: () => {
@@ -35,14 +34,10 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 		thema: 'primary'
 	};
 
-	
-	useLayoutEffect(()=>{
-			
-	},[])
 
 	const sharedSelectViewrProp = {
 		id: "SelectViewer",
-		className: "selectViewer",
+		className: `selectViewer ${sideShoudStatic && "selectViewer--static"}`,
 	}
 
 

@@ -1308,10 +1308,10 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@janda-com/front@^2.1.6":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.1.6.tgz#9db2d80a475ee02859c00a7b33ff4cb7f9483b7b"
-  integrity sha512-PHGMyH4SCeX/wP9+VDF5iLwQTjHRCstS93rekTeJJVYG82bEZNw7oP0YJJIWeuNBKyIMpadK7zx/TkdTV4Nh1g==
+"@janda-com/front@^2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.1.10.tgz#3d0cdc8e177d783353077a7935bfb5af6f159b69"
+  integrity sha512-WmzoMpVdiajl4ycKl7Ettr1//wk9qO/OZH4OZnoR9KOl4V9RVuRBhLfAFF3k5f1czfnhcIOFA4XAGs/wZ8gnMA==
   dependencies:
     "@apollo/react-common" "^3.1.3"
     "@types/graphql" "^14.5.0"

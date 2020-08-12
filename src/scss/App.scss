@@ -11,27 +11,6 @@ html:root {
   --primary-color-dark: #002167;
 }
 
-// 이부분 라이브러리로 ㄱ
-.radioBox__inner {
-  display: flex !important;
-  width: 100%;
-  flex-wrap: wrap !important;
-  width: 100% !important;
-}
-
-#root {
-  .JDslider {
-    margin-right: 0 !important;
-  }
-
-  .roomType__wrap .roomType__slider div {
-    height: 100%;
-  }
-}
-
-.iconWrapper.JDmodal__closeIcon {
-  position: absolute;
-}
 
 @import "./variables.scss";
 @import "../../node_modules/@janda-com/front/src/scss/all.scss";
@@ -46,6 +25,8 @@ html:root {
 @import "./component/SelectViewer.scss";
 @import "./component/CheckBox.scss";
 @import "./component/AgreePolicy.scss";
+@import "./component/Correct";
+@import "./component/DayPicker";
 
 @import "./page/Reservation.scss";
 @import "./page/ReservationFind.scss";

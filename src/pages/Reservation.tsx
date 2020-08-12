@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import DateSelecter from "../components/DateSelecter";
 import {
   useDayPicker,
@@ -25,7 +25,6 @@ import {
   IBookerInfo,
   IPayInfo,
 } from "./declare";
-import isMobile from "is-mobile";
 import BookerForm from "../components/roomType/bookerForm/BookerForm";
 import PayForm from "../components/roomType/payForm/PayForm";
 import PrevSelectViewer from "../components/PrevSelectViewer";
@@ -42,14 +41,17 @@ import {
 import { store } from "./helper";
 import moment from "moment";
 import { validation } from "../components/helper";
-import { JDdropDown, isEmpty,utils } from "@janda-com/front";
-import AgreePolicyModal from "../components/AgreePoilicyModal";
+import { isEmpty, utils } from "@janda-com/front";
 import ReactGA from "react-ga";
+import $ from "jquery";
+import isMobile from "is-mobile";
+
 const { parentScrollMove } = utils;
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
   houseData: getHouseForPublic_GetHouseForPublic_house;
   customMsgs: TOptionsObj;
+  sideShoudStatic?: boolean;
 }
 
 export const {
@@ -73,6 +75,7 @@ const Reservation: React.FC<IProps> = ({
   houseData,
   makeBookingFn,
   customMsgs,
+  sideShoudStatic,
 }) => {
   if (!houseData) throw Error("House date is not exsist");
   const { roomTypes, houseConfig } = houseData;
@@ -125,14 +128,13 @@ const Reservation: React.FC<IProps> = ({
     urlSearchedRoomType ? urlRoomSelectInfo : loadMemo("roomSelectInfo")
   );
 
+
   const selectedPrice = arraySum(roomSelectInfo.map((rs) => rs.price));
 
   const { from, to } = dayPickerHook;
 
   const handleDoResvBtn = () => {
 
-    console.log("!!!!!!cc");
-    console.log(bookerInfo);
 
     ReactGA.event({
       category: 'Resv',
@@ -242,7 +244,8 @@ const Reservation: React.FC<IProps> = ({
     totalPrice: selectedPrice + totalOptionPrice,
     dayPickerHook,
     handleStepChange,
-    totalOptionPrice
+    totalOptionPrice,
+    sideShoudStatic
   };
 
   const sharedSectionTitleProp: any = {
@@ -280,9 +283,17 @@ const Reservation: React.FC<IProps> = ({
 
   },[step])
 
+  useLayoutEffect(()=>{
+    if(!isMobile()) return;
+    if(sideShoudStatic) return;
+    const targetHegiht = $("#SelectViewer").height();
+    if(!targetHegiht) return;
+    $(".JDreservation").css("padding-bottom", targetHegiht);
+  },[roomSelectInfo.length])
+
   if (step === "select")
     return (
-      <div>
+      <div className="JDreservation">
         <h1>{name}</h1>
         <JDalign grid>
           <JDalign
@@ -337,20 +348,22 @@ const Reservation: React.FC<IProps> = ({
                   />
                 )}
               </JDalign>
-              {visibleRoomTypes?.map((RT) => {
+              {visibleRoomTypes?.map((RT,i) => {
                 const { name, _id } = RT;
+
+
                 return (
                   <RoomTypeWrap
-                    handleDoResvBtn={handleStepChange}
-                    urlSearched={_id == urlSearchedRoomType?._id}
-                    resvContext={resvContext}
-                    dateInfo={{
-                      checkIn: from || new Date(),
-                      checkOut: to || new Date(),
-                    }}
-                    houseData={houseData}
-                    roomType={RT}
-                    key={_id}
+                  handleDoResvBtn={handleStepChange}
+                  urlSearched={_id == urlSearchedRoomType?._id}
+                  resvContext={resvContext}
+                  dateInfo={{
+                    checkIn: from || new Date(),
+                    checkOut: to || new Date(),
+                  }}
+                  houseData={houseData}
+                  roomType={RT}
+                  key={"roomTypeWrap" + _id}
                   />
                 );
               })}

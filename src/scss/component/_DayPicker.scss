@@ -1,0 +1,40 @@
+// 데이픽커 수정
+.DayPickerModal__head {
+    z-index: 9999999 !important;
+    position: relative !important;
+    display: block !important;
+}
+
+.DayPicker-wrapper {
+    padding: 0 !important;
+}
+
+.ReactModal__Content {
+    min-height: 330px !important;
+}
+
+
+@media (max-width: 768px) {
+
+    #root .DayPicker.DayPicker--right,
+    .ReactModalPortal .DayPicker.DayPicker--right {
+        position: relative !important;
+    }
+}
+
+.DayPicker-Months {
+    padding-top: 0px !important;
+}
+
+.ReactModal__Content {
+    border-radius: 10px !important;
+}
+
+.DayPicker-Months {
+    width: 100% !important;
+}
+
+.DayPicker-NavBar {
+    position: absolute;
+    width: 92%;
+}

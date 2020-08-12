@@ -4,6 +4,7 @@ import {
   getHouseForPublic,
   makeBookingForPublic,
   makeBookingForPublicVariables,
+  getHouseForPublic_GetHouseForPublic_house,
 } from "../types/api";
 import {
   GET_HOUSE_FOR_PUBLIC,
@@ -24,41 +25,20 @@ import {
 } from "@janda-com/front";
 import { LANG } from "../App";
 import Reservation from "./Reservation";
-import { removeAllSaveInfo, getOptionsObj } from "./helper";
+import { removeAllSaveInfo, getOptionsObj, changePrimaryColor, getColorTag } from "./helper";
 import { InputText } from "@janda-com/front";
 import ReactGA from "react-ga";
+
 interface IProps {
   publickey: string;
   finishCallBack?: () => void;
+  sideShoudStatic?: boolean;
+  houseData?: getHouseForPublic_GetHouseForPublic_house;
+  loading?: boolean;
 }
 
-const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
-  // 스타트부킹(게스트)
-  const { data, loading } = useQuery<getHouseForPublic>(GET_HOUSE_FOR_PUBLIC, {
-    client,
-    skip: publickey === undefined,
-  });
-  
-  
+const ReservationWrap: React.FC<IProps> = ({ publickey, loading, houseData, finishCallBack, sideShoudStatic }) => {
   const confirmModal = useModal();
-
-  const houseData =
-    queryDataFormater(data, "GetHouseForPublic", "house", undefined) ||
-    undefined;
-
-  const themProvider = document
-  .getElementsByClassName("themeProvider")
-  .item(0) as HTMLElement;
-
-  const primaryColor = houseData?.tags.find(op => op.key === "--primary-color")?.value || null;
-
-  if (themProvider && primaryColor) {
-    themProvider.style.setProperty(
-      "--primary-color-dark",
-      primaryColor
-    );
-    themProvider.style.setProperty("--primary-color", primaryColor);
-  }
 
 
   const [makeBookingForPublicMu, { loading: makeBookingLoading }] = useMutation<
@@ -98,6 +78,8 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
 
   if (loading) return <div>loading</div>;
   if (!houseData) return <div>err</div>;
+
+
 
   const { houseConfig } = houseData;
   const { options: optArray } = houseConfig;
@@ -169,6 +151,7 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
         customMsgs={optObj}
         houseData={houseData}
         makeBookingFn={makeBookingFn}
+        sideShoudStatic={sideShoudStatic}
       />
     </Fragment>
   );

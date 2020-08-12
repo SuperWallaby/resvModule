@@ -3,8 +3,52 @@ $cardHeight: 11rem;
 .roomType {
   margin-bottom: $standard-small-space;
   border-radius: $standard-border-radius;
-  overflow: hidden;
 
+
+  &__checkbox {
+    display: none !important;
+
+    @include response($phablet) {
+      display: "block"
+    }
+
+    position: absolute !important;
+    top: space(3);
+    left: space(3) !important;
+    background-color: white;
+    z-index: $z-index-8;
+    border: none !important;
+    width: .8rem !important;
+    height: .8rem !important;
+
+    &.checkBoxMini--checked {
+      background-color: $primary-color !important;
+      color: white !important;
+    }
+  }
+
+  &__selectpart {
+    &--pc {
+
+      @include response($phablet) {
+        display: none !important;
+      }
+    }
+
+    &--mb {
+      min-width: 100%;
+      display: none !important;
+
+      padding-top: .8rem;
+      margin-top: .8rem;
+      border-top: 1px solid $grey-level2;
+
+
+      @include response($phablet) {
+        display: block;
+      }
+    }
+  }
 
   &__detailSection {
     padding: space(1);
@@ -50,10 +94,27 @@ $cardHeight: 11rem;
     position: relative;
     width: 100%;
     height: 100%;
+
+    @include response($phablet) {
+      padding: space(2);
+      box-sizing: border-box;
+    }
+
+  }
+
+  &__mid {
+
+    @include response($phablet) {
+      margin-right: 0 !important;
+    }
   }
 
   &__right {
     padding: $standard-space;
+
+    @include response($phablet) {
+      padding-left: 0;
+    }
   }
 
   &__wrap {
@@ -67,11 +128,22 @@ $cardHeight: 11rem;
   }
 
   &--selected {
+
+    .roomType__inner {
+      background-color: $primary-color;
+      color: white;
+
+      @include response($phablet) {
+        border-width: 2px;
+        border-color: $primary-color;
+        background-color: white;
+      }
+    }
+
     .roomType__wrap {
       height: auto;
       margin-bottom: 0;
-      background-color: $primary-color;
-      color: white;
+      border-radius: space(1);
 
       .JDbtn__contents {
         color: $html-color;

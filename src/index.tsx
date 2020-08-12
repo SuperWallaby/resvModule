@@ -10,7 +10,9 @@ export type TRoute = 'book' | 'search';
 export interface RESV_INIT_OPTION {
 	lang?: 'kr' | 'en';
 	route?: TRoute;
-	ga_track?: Tracker[]
+	ga_track?: Tracker[];
+	elementId?: string;
+	sideShoudStatic?: boolean;
 }
 
 const defaultInitOp: RESV_INIT_OPTION = {
@@ -30,7 +32,7 @@ class JD_RESV implements APP_PROP {
 	start(initOp?: RESV_INIT_OPTION) {
 		ReactDOM.render(
 			<App publickey={this.publickey} {...this.initOp} {...initOp} />,
-			document.getElementById('JD_RESV_PAGE')
+			document.getElementById(initOp?.elementId || 'JD_RESV_PAGE')
 		);
 	}
 }
@@ -41,7 +43,8 @@ if (process.env.NODE_ENV === 'development') {
 	const jdmoudle = new JD_RESV(TEST_GANG_KEY,{
 		ga_track: [{
 			trackingId: "UA-171491715-1"
-		}]
+		}],
+		sideShoudStatic: false
 	});
 
 	jdmoudle.start();
