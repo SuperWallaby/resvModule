@@ -175,10 +175,13 @@ const CountSelecter: React.FC<IProps> = ({
 		>
 			{isDomitory ? (
 				<Fragment>
-					<JDselect onChange={(selected)=>{
+					<JDselect 
+										 menuPlacement="top"
+					onChange={(selected)=>{
 						handleCount("male",selected.value);
 					}} label={LANG('male')} selectedOption={selectedMaleOp} options={maleOp}/>
 					<JDselect
+					 menuPlacement="top"
 					 onChange={(selected)=>{
 						handleCount("female",selected.value);
 					}}

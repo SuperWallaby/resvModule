@@ -1303,13 +1303,20 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@janda-com/front@^2.0.34":
-  version "2.0.34"
-  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.0.34.tgz#a550a008e1a53d3f998e26de636b6dbcdb90636f"
-  integrity sha512-bk+xbjF4QXJja/amEqQC4n0GqaWLiLkqon291+diKgCi6yLqbXWNu1OEV6Cz3UmUIQMCo8eTw/Ii799J9P9pgg==
+"@icons/material@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.npmjs.org/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
+  integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
+
+"@janda-com/front@^2.1.19":
+  version "2.1.19"
+  resolved "https://registry.npmjs.org/@janda-com/front/-/front-2.1.19.tgz#dfbb3135c9b3d90a02fc0dc6a2de336d1f8fd0bd"
+  integrity sha512-voEawB61yHiS4WLhWFRomnG4AUEL7rAzGHPpzbaWwf8lbLC8hl2pspbr5GJroFTspg02ctzRN7DjwFpAplXRlA==
   dependencies:
     "@apollo/react-common" "^3.1.3"
+    "@types/graphql" "^14.5.0"
     "@types/react-dom" "^16.9.4"
+    "@types/react-helmet" "^6.0.0"
     "@types/react-modal" "^3.10.5"
     "@types/react-paginate" "^6.2.1"
     "@types/react-select" "^3.0.10"
@@ -1318,11 +1325,13 @@
     "@types/react-toastify" "^4.1.0"
     apollo-client "^2.6.8"
     classnames "^2.2.6"
-    graphql "^14.6.0"
     is-mobile "^2.2.1"
     jquery "^3.4.1"
     moment-timezone "^0.5.28"
+    randomcolor "^0.5.4"
+    react-color "^2.18.1"
     react-docgen-typescript-loader "^3.7.1"
+    react-helmet "^6.1.0"
     react-image-file-resizer "^0.2.1"
     react-modal "^3.11.2"
     react-paginate "^6.3.2"
@@ -1917,6 +1926,13 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/graphql@^14.5.0":
+  version "14.5.0"
+  resolved "https://registry.npmjs.org/@types/graphql/-/graphql-14.5.0.tgz#a545fb3bc8013a3547cf2f07f5e13a33642b75d6"
+  integrity sha512-MOkzsEp1Jk5bXuAsHsUi6BVv0zCO+7/2PTiZMXWDSsMXvNU6w/PLMQT2vHn8hy2i0JqojPz1Sz6rsFjHtsU0lA==
+  dependencies:
+    graphql "*"
+
 "@types/history@*":
   version "4.7.6"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.6.tgz#ed8fc802c45b8e8f54419c2d054e55c9ea344356"
@@ -2016,6 +2032,13 @@
   version "16.9.8"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.8.tgz#fe4c1e11dfc67155733dfa6aa65108b4971cb423"
   integrity sha512-ykkPQ+5nFknnlU6lDd947WbQ6TE3NNzbQAkInC2EKY1qeYdTKp7onFusmYZb+ityzx2YviqT6BXSu+LyWWJwcA==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-helmet@^6.0.0":
+  version "6.1.0"
+  resolved "https://registry.npmjs.org/@types/react-helmet/-/react-helmet-6.1.0.tgz#af586ed685f4905e2adc7462d1d65ace52beee7a"
+  integrity sha512-PYRoU1XJFOzQ3BHvWL1T8iDNbRjdMDJMT5hFmZKGbsq09kbSqJy61uwEpTrbTNWDopVphUT34zUSVLK9pjsgYQ==
   dependencies:
     "@types/react" "*"
 
@@ -6257,7 +6280,12 @@ graphql-tag@2.10.3, graphql-tag@^2.10.1, graphql-tag@^2.10.3:
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.3.tgz#ea1baba5eb8fc6339e4c4cf049dabe522b0edf03"
   integrity sha512-4FOv3ZKfA4WdOKJeHdz6B3F/vxBLSgmBcGeAFPf4n1F64ltJUvOOerNj0rsJxONQGdhUMynQIvd6LzB+1J5oKA==
 
-"graphql@14.0.2 - 14.2.0 || ^14.3.1", graphql@^14.5.3, graphql@^14.6.0:
+graphql@*:
+  version "15.3.0"
+  resolved "https://registry.npmjs.org/graphql/-/graphql-15.3.0.tgz#3ad2b0caab0d110e3be4a5a9b2aa281e362b5278"
+  integrity sha512-GTCJtzJmkFLWRfFJuoo9RWWa/FfamUHgiFosxi/X1Ani4AVWbeyBenZTNX6dM+7WSbbFfTo/25eh0LLkwHMw2w==
+
+"graphql@14.0.2 - 14.2.0 || ^14.3.1", graphql@^14.5.3:
   version "14.6.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.6.0.tgz#57822297111e874ea12f5cd4419616930cd83e49"
   integrity sha512-VKzfvHEKybTKjQVpTFrA5yUq2S9ihcZvfJAtsDBBCuV6wauPu1xl/f9ehgVf0FcEJJs4vz6ysb/ZMkGigQZseg==
@@ -8206,6 +8234,11 @@ lodash.xorby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
+lodash@^4.0.1:
+  version "4.17.19"
+  resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
+
 log-symbols@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-1.0.2.tgz#376ff7b58ea3086a0f09facc74617eca501e1a18"
@@ -8353,6 +8386,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+material-colors@^1.2.1:
+  version "1.2.6"
+  resolved "https://registry.npmjs.org/material-colors/-/material-colors-1.2.6.tgz#6d1958871126992ceecc72f4bcc4d8f010865f46"
+  integrity sha512-6qE4B9deFBIa9YSpOc9O0Sgc43zTeVYbgDT5veRKSlB2+ZuHNoVVxA1L/ckMUayV9Ay9y7Z/SZCLcGteW9i7bg==
 
 md5.js@^1.3.4:
   version "1.3.5"
@@ -10524,6 +10562,11 @@ randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   dependencies:
     safe-buffer "^5.1.0"
 
+randomcolor@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.npmjs.org/randomcolor/-/randomcolor-0.5.4.tgz#df615b13f25b89ea58c5f8f72647f0a6f07adcc3"
+  integrity sha512-nYd4nmTuuwMFzHL6W+UWR5fNERGZeVauho8mrJDUSXdNDbao4rbrUwhuLgKC/j8VCS5+34Ria8CsTDuBjrIrQA==
+
 randomfill@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/randomfill/-/randomfill-1.0.4.tgz#c92196fc86ab42be983f1bf31778224931d61458"
@@ -10581,6 +10624,18 @@ react-app-rewired@^2.1.5:
   integrity sha512-06flj0kK5tf/RN4naRv/sn6j3sQd7rsURoRLKLpffXDzJeNiAaTNic+0I8Basojy5WDwREkTqrMLewSAjcb13w==
   dependencies:
     semver "^5.6.0"
+
+react-color@^2.18.1:
+  version "2.18.1"
+  resolved "https://registry.npmjs.org/react-color/-/react-color-2.18.1.tgz#2cda8cc8e06a9e2c52ad391a30ddad31972472f4"
+  integrity sha512-X5XpyJS6ncplZs74ak0JJoqPi+33Nzpv5RYWWxn17bslih+X7OlgmfpmGC1fNvdkK7/SGWYf1JJdn7D2n5gSuQ==
+  dependencies:
+    "@icons/material" "^0.2.4"
+    lodash "^4.17.11"
+    material-colors "^1.2.1"
+    prop-types "^15.5.10"
+    reactcss "^1.2.0"
+    tinycolor2 "^1.4.1"
 
 react-day-picker@^7.4.0:
   version "7.4.8"
@@ -10658,6 +10713,21 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
 
+react-fast-compare@^3.1.1:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
+  integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
+
+react-helmet@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.npmjs.org/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
+  integrity sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==
+  dependencies:
+    object-assign "^4.1.1"
+    prop-types "^15.7.2"
+    react-fast-compare "^3.1.1"
+    react-side-effect "^2.1.0"
+
 react-image-file-resizer@^0.2.1:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/react-image-file-resizer/-/react-image-file-resizer-0.2.4.tgz#e8235542d363043112cbf0d4ca53255ff76ff4ed"
@@ -10723,6 +10793,11 @@ react-scripts-plugin-no-minify@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/react-scripts-plugin-no-minify/-/react-scripts-plugin-no-minify-0.4.0.tgz#65f75e8aa5203494aac26798b4cca0c7ad471f4d"
   integrity sha512-vASbAQ+FCvCduyg2ojGY878zHvqFhXLUEDgtQ1G/Edj/y+pEfBY4QVpcn0YApAHQ0YmBkeSiDCRhw1hu5inwWg==
+
+react-side-effect@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/react-side-effect/-/react-side-effect-2.1.0.tgz#1ce4a8b4445168c487ed24dab886421f74d380d3"
+  integrity sha512-IgmcegOSi5SNX+2Snh1vqmF0Vg/CbkycU9XZbOHJlZ6kMzTmi3yc254oB1WCkgA7OQtIAoLmcSFuHTc/tlcqXg==
 
 react-slick@^0.25.2:
   version "0.25.2"
@@ -10812,6 +10887,13 @@ react@^16.13.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
+
+reactcss@^1.2.0:
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/reactcss/-/reactcss-1.2.3.tgz#c00013875e557b1cf0dfd9a368a1c3dab3b548dd"
+  integrity sha512-KiwVUcFu1RErkI97ywr8nvx8dNOpT03rbnma0SSalTYjkrPYaEajR4a/MRt6DZ46K6arDRbWMNHF+xH7G7n/8A==
+  dependencies:
+    lodash "^4.0.1"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -12404,6 +12486,11 @@ tiny-warning@^1.0.0, tiny-warning@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
   integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
+
+tinycolor2@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
+  integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
 
 title-case@^2.1.0:
   version "2.1.1"

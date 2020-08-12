@@ -6,7 +6,7 @@
   "jsnext:main": "dist/RC.es.js",
   "dependencies": {
     "@babel/core": "7.8.4",
-    "@janda-com/front": "^2.0.34",
+    "@janda-com/front": "^2.1.19",
     "@svgr/webpack": "4.3.3",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
@@ -92,6 +92,8 @@
     "build-for-react": "yarn build  && yarn publish",
     "build:bundle": "webpack --config webpack.config.js",
     "upload": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/1.2.0/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/1.0.0/resvModule.css ",
+    "upload:stable": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/booking--stable/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/booking--stable/resvModule.css ",
+    "upload:latest": "aws s3 cp ./dist/jdresv.min.js s3://stayjanda.modules.public/resvModule/booking--latest/resvModule.js && aws s3 cp ./build/static/css/main.min.css s3://stayjanda.modules.public/resvModule/booking--latest/resvModule.css ",
     "test": "react-app-rewired test --env=jsdom",
     "cjs": "yarn prod && yarn build:bundle && yarn upload",
     "precodegen": "apollo schema:download --endpoint=https://temp-booking.stayjanda.cloud/graphql",
