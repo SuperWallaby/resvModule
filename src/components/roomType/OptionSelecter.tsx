@@ -4,6 +4,8 @@ import { JDtypho, autoComma, JDalign } from "@janda-com/front";
 import { Counter } from "./CountSelecter";
 import React from "react";
 import { ISet } from "@janda-com/front/build/types/interface";
+import isMobile from "is-mobile";
+
 
 interface IProp {
     optionalItems: getHouseForPublic_GetHouseForPublic_house_roomTypes_optionalItems[];
@@ -14,6 +16,8 @@ interface IProp {
 
 
 export const OptionSelecter:React.FC<IProp> = ({optionalItems,targetSelectRoom,roomSelectInfo,setRoomSelectInfo}) => {
+
+
     return <div>
     {targetSelectRoom && optionalItems.map(op => {
         let targetOp = targetSelectRoom.options?.find(op => op._id === op._id);
@@ -56,7 +60,9 @@ export const OptionSelecter:React.FC<IProp> = ({optionalItems,targetSelectRoom,r
           vCenter:true
         }}>
         <JDtypho size="small" mr="large">*1인당</JDtypho>
-        <JDtypho mb="no">{autoComma(op.price || 0)} KRW</JDtypho>
+        <JDtypho style={{
+          width: isMobile() ? "min-content" : "max-content"
+        }} component="span"  mb="no">{autoComma(op.price || 0)} KRW</JDtypho>
         </JDalign>
     </JDalign>
   })}

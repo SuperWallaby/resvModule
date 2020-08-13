@@ -29,7 +29,7 @@ export const Counter: React.FC<CounterProp> = ({ handleCount, labelProp, target,
 			<JDtypho weight={600} mr="large" {...labelProp}>
 				{label}
 			</JDtypho>
-			<JDalign className="counter__inner">
+			<JDalign flex className="counter__inner">
 				<JDbutton
 					disabled={count === 0}
 					thema="grey1"

@@ -25,6 +25,10 @@ $flex-grid--column-margin: 4%;
   .roomType__optionalItem {
     padding: space(2) 0 !important;
     border-bottom: 1px solid $grey-level1;
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   .roomType__options {
@@ -38,4 +42,9 @@ $flex-grid--column-margin: 4%;
   .counter__inner .JDbtn {
     margin-bottom: 0 !important;
   }
+}
+
+
+.roomType__optionalItem:last-child {
+    border-bottom: none!important;
 }

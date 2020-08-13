@@ -177,7 +177,9 @@ const RoomType: React.FC<IProps> = ({
             }}
             className="roomType__slider"
           >
-            <CheckBoxMini handleClick={()=>{}} className="roomType__checkbox"  checked={isSelected}/>
+            <CheckBoxMini handleClick={(e:any)=>{e.stopPropagation();
+            handleRoomSelectTooggler();
+            }} className="roomType__checkbox"  checked={isSelected}/>
             <JDslider
               onClick={e => {e.preventDefault(); e.stopPropagation()}}
               autoplay

@@ -38,6 +38,7 @@ import {
   getUniqTag,
   bookingValidater,
   getUrlInformation,
+  stickyHeightChanger,
 } from "./helper";
 import { store } from "./helper";
 import moment from "moment";
@@ -88,10 +89,6 @@ const Reservation: React.FC<IProps> = ({
   );
 
   
-  console.log("dayPickerHook");
-  console.log(dayPickerHook)
-  console.log("dayPickerHook")
-  console.log(urlDateFrom)
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
 
   const uniqTags = getUniqTag(roomTypes || []);
@@ -266,13 +263,8 @@ const Reservation: React.FC<IProps> = ({
   });
 
   useLayoutEffect(()=>{
-    if(!isMobile()) return;
     if(sideShoudStatic) return;
-    const targetHegiht = $("#SelectViewer").height();
-    if(!targetHegiht) return;
-    console.log("targetHegiht");
-    console.log(targetHegiht);
-    $(".JDreservation").css("padding-bottom", targetHegiht);
+    stickyHeightChanger();
   },[roomSelectInfo.length])
 
 

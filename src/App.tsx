@@ -14,6 +14,7 @@ import { getHouseForPublic } from "./types/api";
 import { GET_HOUSE_FOR_PUBLIC } from "./apollo/queries";
 import { queryDataFormater } from "@janda-com/front";
 import { changePrimaryColor, getColorTag } from "./pages/helper";
+import "./scss/App.scss";
 
 export const JDlangsSet: any = {
   kr,
@@ -47,10 +48,12 @@ export interface APP_PROP extends RESV_INIT_OPTION {
 
 const { version } = require("../package.json");
 
-function App({ publickey, lang, route, ga_track, sideShoudStatic }: APP_PROP) {
+function App({ publickey, lang, route, ga_track, sideShoudStatic, mode }: APP_PROP) {
   const langHook = useLang(lang || "kr");
   const [step, setStep] = useState<"book" | "search">(route || "book");
-  sessionStorage.setItem("hpk", publickey);
+
+  if(publickey.length > 10) sessionStorage.setItem("hpk", publickey);
+  else sessionStorage.setItem("hk", publickey);
 
 
   const { data, loading } = useQuery<getHouseForPublic>(GET_HOUSE_FOR_PUBLIC, {

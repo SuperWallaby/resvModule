@@ -18,9 +18,6 @@ export const validation = (
 
   let countCan = true;
 
-  console.log("roomSelectInfo");
-  console.log(roomSelectInfo);
-
   roomSelectInfo.forEach((rsi: any) => {
     const countSum = rsi.count.female + rsi.count.male + rsi.count.roomCount;
     if (!countSum) countCan = false;

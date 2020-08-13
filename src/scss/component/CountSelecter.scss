@@ -13,6 +13,12 @@
 
   .counter {
     display: inline-block;
+    
+    .JDbtn:disabled {
+      .JDbtn__contents {
+        color: #ddd!important;
+      }
+    }
 
     &__btn,
     .counter__count {
@@ -33,6 +39,7 @@
     }
 
     &__inner {
+      display: flex;
       overflow: hidden;
       border-radius: $standard-border-radius;
       border: 1px solid $grey-level2;

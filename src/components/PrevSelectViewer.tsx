@@ -24,8 +24,6 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => 
 
   let totalOptionString = "";
 
-  console.log("roomSelectInfo");
-  console.log(roomSelectInfo);
 
   const imgs: string[] = [];
   roomSelectInfo.forEach((rsi) => {

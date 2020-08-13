@@ -18,6 +18,7 @@ import { HouseOptionsKey, PayMethod } from "../types/enum";
 import { IRadiosOps } from "@janda-com/front/build/components/radioButton/RadioButton";
 import { haveUrlProduct } from "./Reservation";
 import $, { nodeName } from "jquery";
+import isMobile from "is-mobile";
 interface IUrlParamInformation {
   urlTagNames: string[] | null;
   urlDateFrom: Date | undefined;
@@ -262,4 +263,11 @@ export const changePrimaryColor = (primaryColor:string | null) => {
       el.style.setProperty("--primary-color", primaryColor);
     })
   }
+}
+
+export const stickyHeightChanger = () => {
+  if(!isMobile()) return;
+  const targetHegiht = $("#SelectViewer").height();
+  if(!targetHegiht) return;
+  $(".JDreservation").css("padding-bottom", targetHegiht);
 }

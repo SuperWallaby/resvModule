@@ -12,10 +12,10 @@ const request = async (operation: any) => {
   operation.setContext({
     headers: {
       UTH: localStorage.getItem("UTH") || "",
-      "H-KEY": localStorage.getItem("hk") || "",
       "X-JWT": localStorage.getItem("jwt") || "",
       "HP-Key": sessionStorage.getItem("hpk") || "",
       "HM-Key": sessionStorage.getItem("hmk") || "",
+      "H-KEY": sessionStorage.getItem("hk") || localStorage.getItem("hk") || "",
     },
   });
 };

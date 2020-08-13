@@ -55,7 +55,7 @@ const BookerForm: React.FC<IProps> = ({ resvContext }) => {
 				<JDselect
 					// @ts-ignore
 					autoSize
-					option={ngoSelectOp}
+					options={[{ label: '+82', value: 82 }]}
 					selectedOption={{ label: '+82', value: 82 }}
 					textOverflow="visible"
 					mr="normal"

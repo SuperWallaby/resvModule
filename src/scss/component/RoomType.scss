@@ -7,19 +7,24 @@ $cardHeight: 11rem;
 
   &__checkbox {
     display: none !important;
+    border: 1px solid rgba(0,0,0,.15)!important;
+    border-radius: 3px;
+    position: relative;
+    z-index: $z-index-5;
 
     @include response($phablet) {
-      display: "block"
+      display: flex!important;
+      align-items: center!important;
     }
 
     position: absolute !important;
     top: space(3);
+    box-sizing: border-box;
     left: space(3) !important;
     background-color: white;
     z-index: $z-index-8;
-    border: none !important;
-    width: .8rem !important;
-    height: .8rem !important;
+    width: 1rem !important;
+    height: 1rem !important;
 
     &.checkBoxMini--checked {
       background-color: $primary-color !important;
@@ -174,6 +179,7 @@ $cardHeight: 11rem;
 
     padding: $standard-space;
     background-color: $grey-level2;
+    
 
   }
 }

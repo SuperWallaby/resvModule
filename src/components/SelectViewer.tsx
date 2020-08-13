@@ -8,6 +8,7 @@ import moment from "moment";
 import { CalculateViewerModal } from './DetailPriceView';
 import { priceSurvey } from '../utils/priceSurvey';
 import isMobile from "is-mobile";
+import { stickyHeightChanger } from '../pages/helper';
 
 interface IProps {
 	resvContext: IResvContext;
@@ -48,6 +49,12 @@ const SelectViewer: React.FC<IProps> = ({ resvContext }) => {
 		</JDtypho>
 		<JDicon icon={isOpen ? "arrowDown" : "arrowUp"}/>
   </JDalign> : null
+
+
+	useLayoutEffect(()=>{
+		if(sideShoudStatic) return;
+		stickyHeightChanger();
+	},[isOpen])
 
 
 	if (!to || !from) {
