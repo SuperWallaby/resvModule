@@ -1,3 +1,7 @@
+html {
+	position: relative;
+}
+
 .selectViewer {
 	position: sticky;
 	top: space(2);
@@ -5,6 +9,37 @@
 	font-size: $typho-small;
 	color: $grey-level4;
 	border-radius: $standard-border-radius;
+
+	@include response($phablet) {
+		position: fixed;
+		bottom: 0;
+		transform: translate3d(0, 0, 0);
+		z-index: $z-index-9;
+		background-color: white;
+		left: 0;
+		right: 0;
+		top: unset;
+		width: 100%;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	&--close {
+		.selectViewer__body {
+			height: 0px !important;
+			overflow: hidden;
+		}
+	}
+
+	&__body {
+		overflow: auto;
+		max-height: 23rem;
+	}
+
+	&__head {
+		padding: space(1) space(2) !important;
+		background-color: $primary-color;
+		color: white;
+	}
 
 	&__header {
 		background-color: $grey-level1;
@@ -32,7 +67,10 @@
 		}
 	}
 
-	&>div {
+	&__header,
+	&__bottom,
+	&__calculater,
+	&__title {
 		padding: $standard-space;
 	}
 }

@@ -2,6 +2,7 @@ import {
   getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices,
   getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices,
   getHouseForPublic_GetHouseForPublic_house_roomTypes,
+  getHouseForPublic_GetHouseForPublic_house,
 } from "../types/api";
 import { arraySum, toast, isPhone, getAllFromUrl } from "@janda-com/front";
 import { IPayInfo, IBookerInfo, IRoomSelectInfo } from "./declare";
@@ -242,3 +243,23 @@ export const loadMemo = (
       return sessionStorage.getItem("step") || DEFAULT_STEP;
   }
 };
+
+export const getColorTag = (houseData?:getHouseForPublic_GetHouseForPublic_house) => houseData?.tags.find(op => op.key === "--primary-color")?.value || null;
+
+export const getTheme = () => $(".themeProvider");
+
+export const changePrimaryColor = (primaryColor:string | null) => {
+  if(!primaryColor) return;
+  const themProvider = getTheme();
+
+  if (themProvider && primaryColor) {
+
+    themProvider.get().map(el => {
+      el.style.setProperty(
+        "--primary-color-dark",
+        primaryColor
+      );
+      el.style.setProperty("--primary-color", primaryColor);
+    })
+  }
+}

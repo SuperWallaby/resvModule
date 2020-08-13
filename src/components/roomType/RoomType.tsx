@@ -11,21 +11,25 @@ import {
   JDbadge,
   JDphotoModal,
   useModal,
+  JDmodal,
+  JDicon,
+  JDdayPicker,
   useSelect,
   selectOpCreater,
+  toast,
+  isEmpty, 
+  JDcheckBox
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
 import { LANG } from "../../App";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
-import CountSelecter, {Counter} from "./CountSelecter";
+import CountSelecter,{Counter} from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 import PopUpDetailModal from "./PopUpDetailModal";
 import { OptionSelecter } from "./OptionSelecter";
-import { isEmpty } from "@janda-com/front";
-
-const IS_MOBILE = false;
-
+import isMobile from "is-mobile";
+import CheckBoxMini from "../../atom/CheckBox";
 const { autoComma } = utils;
 
 interface IProps {
@@ -67,9 +71,15 @@ const RoomType: React.FC<IProps> = ({
       start: 10,
     })
   );
+  const [detailOpen, setDetailOpen] = useState(false);
   const productVeiwerModal = useModal(true);
   const photoModalHook = useModal();
-  const { setRoomSelectInfo, roomSelectInfo, from, to } = resvContext;
+  const {
+    setRoomSelectInfo,
+    roomSelectInfo,
+    from,
+    to,
+  } = resvContext;
   const {
     fullDatePrice,
     isDomitory,
@@ -87,6 +97,7 @@ const RoomType: React.FC<IProps> = ({
     availableCount.roomCount;
   const isSoldOut = !totalCan && !countLoading && from && to;
   const loading = countLoading && from && to;
+  const exception = roomType.name == "요트퍼블릭 60분";
 
   if (images?.length === 0) {
     images.push(img?.url);
@@ -145,31 +156,30 @@ const RoomType: React.FC<IProps> = ({
     <div className={classes}>
       <div className="roomType__inner">
         <JDalign
+          onClick={isMobile() ? handleRoomSelectTooggler : undefined}
           className="roomType__wrap"
           flex={{
-            center: IS_MOBILE ? true : false,
-            column: IS_MOBILE ? true : false,
-            grow: IS_MOBILE ? false : true,
-          }}
-          style={{
-            padding: IS_MOBILE ? "0.4rem" : 0,
-            paddingTop: IS_MOBILE ? "0.8rem" : 0,
+            grow:  true,
+            wrap: true
           }}
         >
           <JDalign
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               photoModalHook.openModal({
                 images,
               });
             }}
             style={{
-              height: IS_MOBILE ? "24rem" : "11rem",
-              width: IS_MOBILE ? "19rem" : undefined,
-              maxWidth: IS_MOBILE ? undefined : "10.7rem",
+              height: "11rem",
+              maxWidth: "10.7rem",
             }}
             className="roomType__slider"
           >
+            <CheckBoxMini handleClick={()=>{}} className="roomType__checkbox"  checked={isSelected}/>
             <JDslider
+              onClick={e => {e.preventDefault(); e.stopPropagation()}}
               autoplay
               dots={false}
               mr="small"
@@ -244,16 +254,37 @@ const RoomType: React.FC<IProps> = ({
                 style={{
                   whiteSpace: "pre-line",
                 }}
+                className="roomType__mid"
                 mr="large"
               >
                 {description && (
                   <JDtypho size="small" className="roomType__describ">
-                    {description}
+                    {isMobile() ?  description.slice(0,60) : description}
+                    {isMobile() && description.length > 60 && <JDtypho onClick={()=>{
+                      setDetailOpen(!detailOpen);
+                    }} hover color="point">
+                      {detailOpen ? '...닫기' : '...더보기'}
+                      </JDtypho>}
                   </JDtypho>
                 )}
+                <JDalign
+                 mr="no"
+                 flex={{
+                   end:true
+                 }}
+                  className="roomType__selectpart--mb"
+                >
+                  <JDtypho mr="tiny" mb="no" size="h6">
+                    {autoComma(fullDatePrice)} 
+                  </JDtypho>
+                    <JDtypho style={{
+                      alignSelf: "flex-end"
+                    }} size="small">KRW</JDtypho>
+                </JDalign>
               </JDalign>
             </JDalign>
             <JDalign
+              className="roomType__selectpart--pc"
               style={{
                 alignItems: "flex-end",
               }}
@@ -289,9 +320,13 @@ const RoomType: React.FC<IProps> = ({
                 </JDtypho>
               )}
             </JDalign>
+
           </JDalign>
         </JDalign>
       </div>
+      {detailOpen && <div className="roomType__detailSection">
+        {description}
+        </div>}
       <JDphotoModal modalHook={photoModalHook} />
       {targetSelectInfo && (
         <div className="roomType__countSelectWrap">
@@ -311,23 +346,23 @@ const RoomType: React.FC<IProps> = ({
           <JDtypho className="roomType__optionTitle" weight={600} >옵션선택</JDtypho>
          <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
       </div>
-}
+      }
       </div>
       )}
 
       {popUpDetailPage && targetSelectInfo && (
         <PopUpDetailModal
-          DailyPrice={DailyPrice}
+          roomTypeContext={roomTypeContext}
           availableCount={availableCount}
           roomType={roomType}
-          roomTypeContext={roomTypeContext}
+          handleDoResvBtn={handleDoResvBtn}
           resvContext={resvContext}
           optionalItems={optionalItems}
           images={roomType.images || []}
           isSoldOut={!!isSoldOut}
-          handleDoResvBtn={handleDoResvBtn}
-          productVeiwerModal={productVeiwerModal}
           popUpProductClose={popUpProductClose}
+          productVeiwerModal={productVeiwerModal}
+          DailyPrice={DailyPrice}
         />
       )}
     </div>

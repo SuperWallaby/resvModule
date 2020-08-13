@@ -174,20 +174,23 @@ const CountSelecter: React.FC<IProps> = ({
 			{...alignProp}
 		>
 			{isDomitory ? (
-				<Fragment>
-					<JDselect 
-										 menuPlacement="top"
+				<JDalign flex className="countSelecter__selectBoxs"> 
+					<JDselect
+					menuPlacement="top"
+					mb="no"
 					onChange={(selected)=>{
 						handleCount("male",selected.value);
 					}} label={LANG('male')} selectedOption={selectedMaleOp} options={maleOp}/>
 					<JDselect
+					mr="no"
+					mb="no"
 					 menuPlacement="top"
 					 onChange={(selected)=>{
 						handleCount("female",selected.value);
 					}}
 					label={LANG('female')} selectedOption={selectedFemaleOp} options={femaleOp}/>
 					<JDpreloader loading={loading}/>
-				</Fragment>
+				</JDalign>
 			) : (
 				<Counter
 					maxCount={availableCountRoom}

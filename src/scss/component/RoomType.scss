@@ -3,13 +3,61 @@ $cardHeight: 11rem;
 .roomType {
   margin-bottom: $standard-small-space;
   border-radius: $standard-border-radius;
-  // @extend %z-depth-half;
-  overflow: hidden;
+
+
+  &__checkbox {
+    display: none !important;
+
+    @include response($phablet) {
+      display: "block"
+    }
+
+    position: absolute !important;
+    top: space(3);
+    left: space(3) !important;
+    background-color: white;
+    z-index: $z-index-8;
+    border: none !important;
+    width: .8rem !important;
+    height: .8rem !important;
+
+    &.checkBoxMini--checked {
+      background-color: $primary-color !important;
+      color: white !important;
+    }
+  }
+
+  &__selectpart {
+    &--pc {
+
+      @include response($phablet) {
+        display: none !important;
+      }
+    }
+
+    &--mb {
+      min-width: 100%;
+      display: none !important;
+
+      padding-top: .8rem;
+      margin-top: .8rem;
+      border-top: 1px solid $grey-level2;
+
+
+      @include response($phablet) {
+        display: block;
+      }
+    }
+  }
+
+  &__detailSection {
+    padding: space(1);
+    white-space: pre-line;
+    line-height: 1.3;
+  }
 
   &__countSelectWrap {
     background-color: $grey-level1;
-    border: 1px #e2e2e2 solid;
-    box-sizing: border-box;
   }
 
   &__optionTitle {
@@ -18,17 +66,17 @@ $cardHeight: 11rem;
 
   &__countMainWrap {
     padding: $standard-space;
+
     border-bottom: 1px solid $grey-level2;
   }
 
   &__optionalItems {
-    padding: space(2);
-    background-color: #fff;
+    padding: $standard-space;
   }
 
   &__optionalItem {
-    border-top: 1px dashed $grey-level2;
-    padding: space(2.5) space(2) space(2.5) space(2);
+    border-bottom: 1px solid $grey-level2;
+    padding: $standard-space;
   }
 
   &__soldOut {
@@ -46,10 +94,27 @@ $cardHeight: 11rem;
     position: relative;
     width: 100%;
     height: 100%;
+
+    @include response($phablet) {
+      padding: space(2);
+      box-sizing: border-box;
+    }
+
+  }
+
+  &__mid {
+
+    @include response($phablet) {
+      margin-right: 0 !important;
+    }
   }
 
   &__right {
     padding: $standard-space;
+
+    @include response($phablet) {
+      padding-left: 0;
+    }
   }
 
   &__wrap {
@@ -63,11 +128,36 @@ $cardHeight: 11rem;
   }
 
   &--selected {
+
+    .roomType {
+      &__countSelectWrap {
+
+        @include response($phablet) {
+          color: inherit;
+          border: 2px solid $primary-color;
+          border-top: none;
+        }
+      }
+    }
+
+
+    .roomType__inner {
+      background-color: $primary-color;
+      color: white;
+
+      @include response($phablet) {
+        color: inherit;
+        border-width: 2px;
+        border-color: $primary-color;
+        background-color: white;
+      }
+    }
+
+
     .roomType__wrap {
       height: auto;
       margin-bottom: 0;
-      background-color: $primary-color;
-      color: white;
+      border-radius: space(1);
 
       .JDbtn__contents {
         color: $html-color;

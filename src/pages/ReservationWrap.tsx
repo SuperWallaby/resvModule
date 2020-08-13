@@ -4,6 +4,7 @@ import {
   getHouseForPublic,
   makeBookingForPublic,
   makeBookingForPublicVariables,
+  getHouseForPublic_GetHouseForPublic_house,
 } from "../types/api";
 import {
   GET_HOUSE_FOR_PUBLIC,
@@ -26,36 +27,42 @@ import { LANG } from "../App";
 import Reservation from "./Reservation";
 import { removeAllSaveInfo, getOptionsObj } from "./helper";
 import { InputText } from "@janda-com/front";
+import ReactGA from "react-ga";
 
 interface IProps {
   publickey: string;
   finishCallBack?: () => void;
+  sideShoudStatic?: boolean;
+  houseData?: getHouseForPublic_GetHouseForPublic_house;
+  loading?: boolean;
 }
 
-const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
-  // 스타트부킹(게스트)
-  const { data, loading } = useQuery<getHouseForPublic>(GET_HOUSE_FOR_PUBLIC, {
-    client,
-    skip: publickey === undefined,
-  });
-
+const ReservationWrap: React.FC<IProps> = ({ publickey, loading, houseData, finishCallBack, sideShoudStatic }) => {
   const confirmModal = useModal();
 
-  const houseData =
-    queryDataFormater(data, "GetHouseForPublic", "house", undefined) ||
-    undefined;
 
   const [makeBookingForPublicMu, { loading: makeBookingLoading }] = useMutation<
     makeBookingForPublic,
     makeBookingForPublicVariables
   >(MAKE_BOOKING_FOR_PUBLIC, {
     client,
+    onError: (e) => {
+      ReactGA.exception({
+        description: 'makeBookingForPublicMu Error Occur',
+        fatal: true
+      });
+    },
     onCompleted: ({ MakeBookingForPublic }) => {
+      
       onCompletedMessage(MakeBookingForPublic, LANG("COMPLETE"), LANG("FAIL"));
       const bookingNum = MakeBookingForPublic.booking?.bookingNum || "";
       removeAllSaveInfo();
       localStorage.setItem("jdbn", bookingNum);
       if (MakeBookingForPublic.ok) {
+        ReactGA.event({
+          category: "Resv",
+          action: "completed"
+        });
         confirmModal.openModal({
           bookingNum,
         });
@@ -78,6 +85,7 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, finishCallBack }) => {
   const { bookingNum } = confirmModal.info || {
     bookingNum: "",
   };
+
 
   return (
     <Fragment>

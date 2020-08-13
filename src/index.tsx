@@ -3,12 +3,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App, { APP_PROP } from './App';
 import * as serviceWorker from './serviceWorker';
+import { Tracker } from 'react-ga';
 
 export type TRoute = 'book' | 'search';
 
 export interface RESV_INIT_OPTION {
 	lang?: 'kr' | 'en';
 	route?: TRoute;
+	ga_track?: Tracker[];
+	elementId?: string;
+	sideShoudStatic?: boolean;
 }
 
 const defaultInitOp: RESV_INIT_OPTION = {
@@ -28,7 +32,7 @@ class JD_RESV implements APP_PROP {
 	start(initOp?: RESV_INIT_OPTION) {
 		ReactDOM.render(
 			<App publickey={this.publickey} {...this.initOp} {...initOp} />,
-			document.getElementById('JD_RESV_PAGE')
+			document.getElementById(initOp?.elementId || 'JD_RESV_PAGE')
 		);
 	}
 }
@@ -36,7 +40,12 @@ class JD_RESV implements APP_PROP {
 if (process.env.NODE_ENV === 'development') {
 	const TEST_GANG_KEY = '1764b1ab-8ea3-13a8-b4dd-a233681b8575';
 	const TEST_MY_KEY = '163105a1-6104-36d5-8383-7d3a0320bd39';
-	const jdmoudle = new JD_RESV(TEST_MY_KEY);
+	const jdmoudle = new JD_RESV(TEST_MY_KEY,{
+		ga_track: [{
+			trackingId: "UA-171491715-1"
+		}],
+		sideShoudStatic: true
+	});
 
 	jdmoudle.start();
 }

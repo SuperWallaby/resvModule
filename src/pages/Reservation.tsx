@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import DateSelecter from "../components/DateSelecter";
 import {
   useDayPicker,
@@ -45,11 +45,14 @@ import { validation } from "../components/helper";
 import { JDdropDown } from "@janda-com/front";
 import AgreePolicyModal from "../components/AgreePoilicyModal";
 import { isEmpty } from "@janda-com/front";
+import ReactGA from "react-ga";
+import $ from "jquery";
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
   houseData: getHouseForPublic_GetHouseForPublic_house;
   customMsgs: TOptionsObj;
+  sideShoudStatic?: boolean;
 }
 
 export const {
@@ -70,6 +73,7 @@ const Reservation: React.FC<IProps> = ({
   houseData,
   makeBookingFn,
   customMsgs,
+  sideShoudStatic,
 }) => {
   if (!houseData) throw Error("House date is not exsist");
   const dropDownHook = useDropDown(true);
@@ -133,8 +137,13 @@ const Reservation: React.FC<IProps> = ({
 
   
   const handleDoResvBtn = () => {
-    console.log("from");
-    console.log(from);
+
+    ReactGA.event({
+      category: 'Resv',
+      action: 'Click Resv Btn'
+    });
+
+
     if (bookingValidater(bookerInfo, payInfo)) {
       const { memo, hiddenMemo, name, password, phoneNumber } = bookerInfo;
       const {
@@ -256,9 +265,20 @@ const Reservation: React.FC<IProps> = ({
     return visible;
   });
 
+  useLayoutEffect(()=>{
+    if(!isMobile()) return;
+    if(sideShoudStatic) return;
+    const targetHegiht = $("#SelectViewer").height();
+    if(!targetHegiht) return;
+    console.log("targetHegiht");
+    console.log(targetHegiht);
+    $(".JDreservation").css("padding-bottom", targetHegiht);
+  },[roomSelectInfo.length])
+
+
   if (step === "select")
     return (
-      <div>
+      <div className="JDreservation">
         <JDalign grid>
           <JDalign
             col={{
@@ -342,30 +362,9 @@ const Reservation: React.FC<IProps> = ({
               md: 12,
             }}
           >
-            <JDtypho mb="normal" weight={600}>
-              {LANG("check_select")}
-            </JDtypho>
             <SelectViewer resvContext={resvContext} />
           </JDalign>
         </JDalign>
-        {isMobile() && (
-          <JDdropDown
-            mode={"floatBottom"}
-            {...dropDownHook}
-            isOpen={true}
-            Buttons={() => {
-              return [
-                <JDbutton
-                  onClick={handleStepChange}
-                  thema="primary"
-                  size="large"
-                  key={"Asd"}
-                  label="예약하기"
-                />,
-              ];
-            }}
-          />
-        )}
       </div>
     );
 
@@ -378,13 +377,6 @@ const Reservation: React.FC<IProps> = ({
             lg: 12,
           }}
         >
-          <JDbutton
-            size="long"
-            label={LANG("go_back")}
-            onClick={() => {
-              setStep("select");
-            }}
-          />
           <JDtypho {...sharedSectionTitleProp}>{LANG("bookerInfo")}</JDtypho>
           <BookerForm resvContext={resvContext} />
           <JDtypho {...sharedSectionTitleProp}>{LANG("pay_form")}</JDtypho>
@@ -401,25 +393,12 @@ const Reservation: React.FC<IProps> = ({
           }}
         >
           <JDtypho {...sharedSectionTitleProp}>{LANG("check_select")}</JDtypho>
-          <PrevSelectViewer resvContext={resvContext} />
+          <PrevSelectViewer handleDoResvBtn={handleDoResvBtn} resvContext={resvContext} />
           {customMsgs.ResvCautionMsg && (
             <JDtypho mb="small" size="small">
               {"*" + customMsgs.ResvCautionMsg}
             </JDtypho>
           )}
-        </JDalign>
-        <JDalign
-          col={{
-            full: 8,
-            lg: 12,
-          }}
-        >
-          <JDbutton
-            onClick={handleDoResvBtn}
-            size="longLarge"
-            thema="primary"
-            label={LANG("do_resv")}
-          />
         </JDalign>
       </JDalign>
     );

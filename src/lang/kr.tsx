@@ -22,7 +22,7 @@ export default {
 	cancel: '취소하기',
 	date_select: '날짜선택',
 	product_select: '상품선택',
-	check_select: '선택확인',
+	check_select: '선택확인/예약',
 	do_reservation: '예약하기',
 	bookerInfo: '예약자정보',
 	date: '날짜',

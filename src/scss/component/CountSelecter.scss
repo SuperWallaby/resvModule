@@ -4,10 +4,16 @@
     background-color: $grey-level1;
     display: flex;
     justify-content: space-around;
+
+
+    &__selectBoxs .JDselect {
+      flex: 1 1;
+    }
   }
 
   .counter {
     display: inline-block;
+
     &__btn,
     .counter__count {
       border-radius: 0px;
@@ -15,9 +21,11 @@
       font-weight: 600;
     }
 
+
     &__count {
       background-color: $grey-level2;
     }
+
     &__btn {
       background-color: white;
       color: $grey-level3 !important;

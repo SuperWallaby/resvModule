@@ -1,5 +1,6 @@
 {
     "syntax.highlightLanguages": [
         "python",
-    ]
+    ],
+    "workbench.colorTheme": "Tomorrow Night Blue"
 }
