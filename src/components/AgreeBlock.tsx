@@ -2,8 +2,8 @@ import React from "react";
 import CheckBoxMini from "../atom/CheckBox";
 import { IResvContext } from "../pages/declare";
 import { JDtypho, JDalign, JDbutton, useModal } from "@janda-com/front";
-import { LANG } from "../App";
 import AgreePolicyModal from "./AgreePoilicyModal";
+import { LANG } from "../lang/lang";
 
 interface IProps {
   type: "use" | "personal";
@@ -77,35 +77,35 @@ const AgreeBlock: React.FC<IProps> = ({ type, resvContext }) => {
             />
           </JDalign>
         ) : (
-          <JDalign
-            flex={{
-              around: true,
-              grow: true,
-            }}
-          >
             <JDalign
               flex={{
-                vCenter: true,
+                around: true,
+                grow: true,
               }}
             >
-              <JDtypho color="error" mr="tiny">
-                {LANG("must")}
-              </JDtypho>
-              {LANG("personal_use_agree")}
-            </JDalign>
+              <JDalign
+                flex={{
+                  vCenter: true,
+                }}
+              >
+                <JDtypho color="error" mr="tiny">
+                  {LANG("must")}
+                </JDtypho>
+                {LANG("personal_use_agree")}
+              </JDalign>
 
-            <JDbutton
-              size="small"
-              mode="border"
-              onClick={() => {
-                agreePolicyModalHook.openModal();
-              }}
-              mb="no"
-              mr="no"
-              label="약관보기"
-            />
-          </JDalign>
-        )}
+              <JDbutton
+                size="small"
+                mode="border"
+                onClick={() => {
+                  agreePolicyModalHook.openModal();
+                }}
+                mb="no"
+                mr="no"
+                label="약관보기"
+              />
+            </JDalign>
+          )}
       </JDtypho>
       <AgreePolicyModal modalHook={agreePolicyModalHook} />
     </JDalign>

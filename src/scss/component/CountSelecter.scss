@@ -13,10 +13,12 @@
 
   .counter {
     display: inline-block;
-    
+
     .JDbtn:disabled {
+      background-color: $grey-level0;
+
       .JDbtn__contents {
-        color: #ddd!important;
+        color: #ddd !important;
       }
     }
 

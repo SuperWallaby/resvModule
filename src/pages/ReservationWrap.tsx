@@ -23,11 +23,11 @@ import {
   JDlabel,
   toast,
 } from "@janda-com/front";
-import { LANG } from "../App";
 import Reservation from "./Reservation";
 import { removeAllSaveInfo, getOptionsObj } from "./helper";
 import { InputText } from "@janda-com/front";
 import ReactGA from "react-ga";
+import { LANG } from "../lang/lang";
 
 interface IProps {
   publickey: string;
@@ -53,7 +53,7 @@ const ReservationWrap: React.FC<IProps> = ({ publickey, loading, houseData, fini
       });
     },
     onCompleted: ({ MakeBookingForPublic }) => {
-      
+
       onCompletedMessage(MakeBookingForPublic, LANG("COMPLETE"), LANG("FAIL"));
       const bookingNum = MakeBookingForPublic.booking?.bookingNum || "";
       removeAllSaveInfo();

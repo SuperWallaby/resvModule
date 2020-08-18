@@ -18,7 +18,6 @@ import {
   getHouseForPublic_GetHouseForPublic_house,
 } from "../types/api";
 import RoomTypeWrap from "../components/roomType/RoomTypeWrap";
-import { LANG } from "../App";
 import {
   IRoomSelectInfo,
   IResvContext,
@@ -48,6 +47,7 @@ import AgreePolicyModal from "../components/AgreePoilicyModal";
 import { isEmpty } from "@janda-com/front";
 import ReactGA from "react-ga";
 import $ from "jquery";
+import { LANG } from "../lang/lang";
 
 interface IProps {
   makeBookingFn: (param: makeBookingForPublicVariables) => void;
@@ -88,7 +88,7 @@ const Reservation: React.FC<IProps> = ({
     urlDateTo || loadMemo("to")
   );
 
-  
+
   const [payInfo, setPayInfo] = useState<IPayInfo>(loadMemo("payInfo"));
 
   const uniqTags = getUniqTag(roomTypes || []);
@@ -100,9 +100,9 @@ const Reservation: React.FC<IProps> = ({
 
   if (!urlSearchedRoomType)
     urlSearchedRoomType = roomTypes?.find((r, i) => i + 1 === urlProductIndex);
-  
-  if(!urlSearchedRoomType)
-    urlSearchedRoomType = roomTypes?.find((r,i) => r.code === urlRoomTypeCode);
+
+  if (!urlSearchedRoomType)
+    urlSearchedRoomType = roomTypes?.find((r, i) => r.code === urlRoomTypeCode);
 
   const urlRoomSelectInfo: IRoomSelectInfo[] = [
     {
@@ -132,7 +132,7 @@ const Reservation: React.FC<IProps> = ({
 
   const { from, to } = dayPickerHook;
 
-  
+
   const handleDoResvBtn = () => {
 
     ReactGA.event({
@@ -157,7 +157,7 @@ const Reservation: React.FC<IProps> = ({
           agreePrivacyPolicy: true,
           memo: `${
             hiddenMemo ? `[${hiddenMemo}]` : ""
-          }  ${ sender ? `["입금자:"${sender}] ${memo}` : ""}`,
+            }  ${sender ? `["입금자:"${sender}] ${memo}` : ""}`,
           email: "crawl1234@nave.com",
           name: name,
           password: password,
@@ -165,16 +165,16 @@ const Reservation: React.FC<IProps> = ({
           funnels: Funnels.HOMEPAGE,
         },
         optionalItemSubmit: roomSelectInfo.filter(rs => !isEmpty(rs.options)).map(rs => ({
-          items:  (rs.options || []).map(op => ({
-              itemId: op._id,
-              count: op.count,
-              price: op.price
-            })),
+          items: (rs.options || []).map(op => ({
+            itemId: op._id,
+            count: op.count,
+            price: op.price
+          })),
           roomTypeId: rs.roomTypeId
         })),
         checkInOut: {
-          checkIn: moment(dayPickerHook.from).add(9,"h").toDate(),
-          checkOut: moment(dayPickerHook.from).add(9,"h").add(1, "d").toDate(),
+          checkIn: moment(dayPickerHook.from).add(9, "h").toDate(),
+          checkOut: moment(dayPickerHook.from).add(9, "h").add(1, "d").toDate(),
         },
         paymentParams: {
           payMethod: paymethod as PayMethod,
@@ -262,10 +262,10 @@ const Reservation: React.FC<IProps> = ({
     return visible;
   });
 
-  useLayoutEffect(()=>{
-    if(sideShoudStatic) return;
+  useLayoutEffect(() => {
+    if (sideShoudStatic) return;
     stickyHeightChanger();
-  },[roomSelectInfo.length])
+  }, [roomSelectInfo.length])
 
 
   if (step === "select")
@@ -343,7 +343,7 @@ const Reservation: React.FC<IProps> = ({
             </div>
             <JDdayPickerModal
               autoClose
-              callBackChangeDate={() => {}}
+              callBackChangeDate={() => { }}
               modalHook={dayPickerModalHook}
               {...dayPickerHook}
             />

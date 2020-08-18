@@ -17,13 +17,13 @@ import {
 } from "../types/api";
 import { SEARCH_BOOKING } from "../apollo/queries";
 import { onCompletedMessage } from "@janda-com/front";
-import { LANG } from "../App";
 import { InfoRender } from "../atom/InfoRender";
 import { dateRangeFormat } from "@janda-com/front";
 import { getRoomSelectInfo } from "../utils/typeChanger";
 import moment from "moment";
 import { autoComma } from "@janda-com/front";
 import { runInContext } from "lodash";
+import { LANG } from "../lang/lang";
 
 export interface IProps {
   callBackGoToBook: () => void;
@@ -70,11 +70,12 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
 
     const roomSelectInfo = getRoomSelectInfo(guests, roomTypes);
 
-    const itemArray:getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted_items[] = [];
-     optionalItemSubmitted?.forEach(sub => {
-       sub.items.forEach(item =>{
+    const itemArray: getBookingForPublic_GetBookingForPublic_booking_optionalItemSubmitted_items[] = [];
+    optionalItemSubmitted?.forEach(sub => {
+      sub.items.forEach(item => {
         itemArray.push(item);
-     })}); 
+      })
+    });
 
     return (
       <div className="searchResult">
@@ -86,7 +87,7 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
         </div>
         <div className="searchResult__body">
           {roomSelectInfo.map((ri) => {
-            const { count,roomTypeId } = ri;
+            const { count, roomTypeId } = ri;
             const { female, male, roomCount } = count;
             return (
               <InfoRender
@@ -133,7 +134,7 @@ export const ResvFinder: React.FC<IProps> = ({ callBackGoToBook }) => {
             label={LANG("option")}
             value={<div>
               {itemArray.map(ii => <div key={ii.itemId}>
-                {ii.itemLabel +":"+ ii.count + "=" + autoComma(ii.price)}
+                {ii.itemLabel + ":" + ii.count + "=" + autoComma(ii.price)}
               </div>)}
             </div>}
           />

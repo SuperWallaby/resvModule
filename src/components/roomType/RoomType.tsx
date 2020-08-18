@@ -11,25 +11,20 @@ import {
   JDbadge,
   JDphotoModal,
   useModal,
-  JDmodal,
-  JDicon,
-  JDdayPicker,
   useSelect,
   selectOpCreater,
-  toast,
-  isEmpty, 
-  JDcheckBox
+  isEmpty,
 } from "@janda-com/front";
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from "../../types/api";
-import { LANG } from "../../App";
 import { IResvContext, IRoomSelectInfo } from "../../pages/declare";
-import CountSelecter,{Counter} from "./CountSelecter";
+import CountSelecter from "./CountSelecter";
 import { IRoomTypeContext } from "./RoomTypeWrap";
 import { getAvailableCountFromQuery } from "./helper";
 import PopUpDetailModal from "./PopUpDetailModal";
 import { OptionSelecter } from "./OptionSelecter";
 import isMobile from "is-mobile";
 import CheckBoxMini from "../../atom/CheckBox";
+import { LANG } from "../../lang/lang";
 const { autoComma } = utils;
 
 interface IProps {
@@ -145,8 +140,8 @@ const RoomType: React.FC<IProps> = ({
         </JDtypho>
       </span>
     ) : (
-      <span>{currentPrice}</span>
-    );
+          <span>{currentPrice}</span>
+        );
 
   const popUpProductClose = () => {
     window.history.go(-1);
@@ -159,7 +154,7 @@ const RoomType: React.FC<IProps> = ({
           onClick={isMobile() ? handleRoomSelectTooggler : undefined}
           className="roomType__wrap"
           flex={{
-            grow:  true,
+            grow: true,
             wrap: true
           }}
         >
@@ -177,11 +172,12 @@ const RoomType: React.FC<IProps> = ({
             }}
             className="roomType__slider"
           >
-            <CheckBoxMini handleClick={(e:any)=>{e.stopPropagation();
-            handleRoomSelectTooggler();
-            }} className="roomType__checkbox"  checked={isSelected}/>
+            <CheckBoxMini handleClick={(e: any) => {
+              e.stopPropagation();
+              handleRoomSelectTooggler();
+            }} className="roomType__checkbox" checked={isSelected} />
             <JDslider
-              onClick={e => {e.preventDefault(); e.stopPropagation()}}
+              onClick={e => { e.preventDefault(); e.stopPropagation() }}
               autoplay
               dots={false}
               mr="small"
@@ -261,27 +257,27 @@ const RoomType: React.FC<IProps> = ({
               >
                 {description && (
                   <JDtypho size="small" className="roomType__describ">
-                    {isMobile() ?  description.slice(0,60) : description}
-                    {isMobile() && description.length > 60 && <JDtypho onClick={()=>{
+                    {isMobile() ? description.slice(0, 60) : description}
+                    {isMobile() && description.length > 60 && <JDtypho onClick={() => {
                       setDetailOpen(!detailOpen);
                     }} hover color="point">
                       {detailOpen ? '...닫기' : '...더보기'}
-                      </JDtypho>}
+                    </JDtypho>}
                   </JDtypho>
                 )}
                 <JDalign
-                 mr="no"
-                 flex={{
-                   end:true
-                 }}
+                  mr="no"
+                  flex={{
+                    end: true
+                  }}
                   className="roomType__selectpart--mb"
                 >
                   <JDtypho mr="tiny" mb="no" size="h6">
-                    {autoComma(fullDatePrice)} 
+                    {autoComma(fullDatePrice)}
                   </JDtypho>
-                    <JDtypho style={{
-                      alignSelf: "flex-end"
-                    }} size="small">KRW</JDtypho>
+                  <JDtypho style={{
+                    alignSelf: "flex-end"
+                  }} size="small">KRW</JDtypho>
                 </JDalign>
               </JDalign>
             </JDalign>
@@ -317,10 +313,10 @@ const RoomType: React.FC<IProps> = ({
                   loading={true}
                 />
               ) : (
-                <JDtypho mb="no" size="h6">
-                  {autoComma(fullDatePrice)} KRW
-                </JDtypho>
-              )}
+                  <JDtypho mb="no" size="h6">
+                    {autoComma(fullDatePrice)} KRW
+                  </JDtypho>
+                )}
             </JDalign>
 
           </JDalign>
@@ -328,11 +324,11 @@ const RoomType: React.FC<IProps> = ({
       </div>
       {detailOpen && <div className="roomType__detailSection">
         {description}
-        </div>}
+      </div>}
       <JDphotoModal modalHook={photoModalHook} />
       {targetSelectInfo && (
         <div className="roomType__countSelectWrap">
-          <div className="roomType__countMainWrap"> 
+          <div className="roomType__countMainWrap">
             <CountSelecter
               availableCount={availableCount}
               roomTypeContext={roomTypeContext}
@@ -342,14 +338,14 @@ const RoomType: React.FC<IProps> = ({
               roomType={roomType}
               resvContext={resvContext}
             />
+          </div>
+          {isEmpty(optionalItems) ||
+            <div className="roomType__optionalItems">
+              <JDtypho className="roomType__optionTitle" weight={600} >옵션선택</JDtypho>
+              <OptionSelecter resvContext={resvContext} optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
+            </div>
+          }
         </div>
-        {isEmpty(optionalItems) ||
-        <div className="roomType__optionalItems">
-          <JDtypho className="roomType__optionTitle" weight={600} >옵션선택</JDtypho>
-         <OptionSelecter optionalItems={optionalItems} targetSelectRoom={targetSelectRoom} setRoomSelectInfo={setRoomSelectInfo} roomSelectInfo={roomSelectInfo} />
-      </div>
-      }
-      </div>
       )}
 
       {popUpDetailPage && targetSelectInfo && (

@@ -14,33 +14,8 @@ import { getHouseForPublic } from "./types/api";
 import { GET_HOUSE_FOR_PUBLIC } from "./apollo/queries";
 import { queryDataFormater } from "@janda-com/front";
 import { changePrimaryColor, getColorTag } from "./pages/helper";
+import { useLang } from "./lang/lang"
 import "./scss/App.scss";
-
-export const JDlangsSet: any = {
-  kr,
-};
-
-export const JDlang = (lang: "kr" | "en", key: string, key2?: string) => {
-  if (!JDlangsSet[lang]) return "";
-  if (!JDlangsSet[lang][key]) return "";
-  if (key2) {
-    if (!JDlangsSet[lang][key][key2]) return;
-    return JDlangsSet[lang][key][key2];
-  }
-  return JDlangsSet[lang][key];
-};
-
-export let LANG: (key: string, key2?: string) => any = () => {
-  return;
-};
-
-const useLang = (defaultLang: "kr" | "en") => {
-  const [currentLang, setCurrentLang] = useState(defaultLang);
-
-  LANG = JDlang.bind(JDlang, currentLang);
-
-  return { currentLang, setCurrentLang };
-};
 
 export interface APP_PROP extends RESV_INIT_OPTION {
   publickey: string;
@@ -48,11 +23,11 @@ export interface APP_PROP extends RESV_INIT_OPTION {
 
 const { version } = require("../package.json");
 
-function App({ publickey, lang, route, ga_track, sideShoudStatic, mode }: APP_PROP) {
+function App({ publickey, lang, route, ga_track, sideShoudStatic }: APP_PROP) {
   const langHook = useLang(lang || "kr");
   const [step, setStep] = useState<"book" | "search">(route || "book");
 
-  if(publickey.length > 10) sessionStorage.setItem("hpk", publickey);
+  if (publickey.length > 10) sessionStorage.setItem("hpk", publickey);
   else sessionStorage.setItem("hk", publickey);
 
 
@@ -62,8 +37,8 @@ function App({ publickey, lang, route, ga_track, sideShoudStatic, mode }: APP_PR
   });
 
   const houseData =
-  queryDataFormater(data, "GetHouseForPublic", "house", undefined) ||
-  undefined;
+    queryDataFormater(data, "GetHouseForPublic", "house", undefined) ||
+    undefined;
 
   changePrimaryColor(getColorTag(houseData));
 
@@ -71,11 +46,11 @@ function App({ publickey, lang, route, ga_track, sideShoudStatic, mode }: APP_PR
     setStep("search");
   };
 
-  useEffect(()=>{
-    if(ga_track) 
-      ReactGA.initialize(ga_track,{ debug: true, alwaysSendToDefaultTracker: false }
-    );
-  },[])
+  useEffect(() => {
+    if (ga_track)
+      ReactGA.initialize(ga_track, { debug: true, alwaysSendToDefaultTracker: false }
+      );
+  }, [])
 
   return (
     <div className="App themeProvider">

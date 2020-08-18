@@ -1,6 +1,5 @@
 import React from "react";
 import { IUseModal, JDmodal, JDtypho } from "@janda-com/front";
-import { LANG } from "../App";
 
 interface Iprops {
   modalHook: IUseModal;
@@ -11,7 +10,7 @@ const companyName = "JANDA"
 const AgreePolicyModal: React.FC<Iprops> = ({ modalHook }) => {
   return (
     <JDmodal {...modalHook}>
-      
+
       <div className="sub-contens">
         <div className="info_text">
           <div>

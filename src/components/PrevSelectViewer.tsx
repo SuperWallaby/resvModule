@@ -9,14 +9,14 @@ import {
   autoComma,
   JDbutton,
 } from "@janda-com/front";
-import { LANG } from "../App";
 import { IResvContext } from "../pages/declare";
+import { LANG } from "../lang/lang";
 interface IProps {
   resvContext: IResvContext;
   handleDoResvBtn: () => void;
 }
 
-const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => {
+const PrevSelectViewer: React.FC<IProps> = ({ resvContext, handleDoResvBtn }) => {
   const { totalPrice, roomSelectInfo, from, setStep, to } = resvContext;
   let totalWoman = 0;
   let totalMale = 0;
@@ -35,7 +35,7 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => 
 
   const optionalSelectInfo = roomSelectInfo.map(rsi => ({
     roomTypeName: rsi.roomTypeName,
-    optString: rsi.options?.map((op)=> op.label + ": " + op.count).join(",")
+    optString: rsi.options?.map((op) => op.label + ": " + op.count).join(",")
   }))
   return (
     <div className="prevSelectViewer">
@@ -95,7 +95,7 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => 
         >
           <JDtypho weight={600}>{LANG("option")}</JDtypho>
           <JDtypho />{optionalSelectInfo.map(osi => <div>
-            {osi.roomTypeName + " - " +(osi.optString || "")}
+            {osi.roomTypeName + " - " + (osi.optString || "")}
           </div>)}
         </JDalign>
       </div>
@@ -103,23 +103,23 @@ const PrevSelectViewer: React.FC<IProps> = ({ resvContext,handleDoResvBtn }) => 
         {autoComma(totalPrice)} KRW
       </JDalign>
       <JDbutton
-            onClick={handleDoResvBtn}
-            size="longLarge"
-            thema="primary"
-            label={LANG("do_resv")}
-          />
-                <JDbutton
-            id="PcGoBackBtn"
-            iconProp={{
-              icon: "arrowBack"
-            }}
-            mode="border"
-            size="long"
-            label={LANG("go_back")}
-            onClick={() => {
-              setStep("select");
-            }}
-          />
+        onClick={handleDoResvBtn}
+        size="longLarge"
+        thema="primary"
+        label={LANG("do_resv")}
+      />
+      <JDbutton
+        id="PcGoBackBtn"
+        iconProp={{
+          icon: "arrowBack"
+        }}
+        mode="border"
+        size="long"
+        label={LANG("go_back")}
+        onClick={() => {
+          setStep("select");
+        }}
+      />
     </div>
   );
 };

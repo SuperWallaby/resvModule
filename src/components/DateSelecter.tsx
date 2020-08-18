@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import moment from 'moment';
 import { IUseDayPicker, JDicon, JDtypho } from '@janda-com/front';
 import { JDalign } from '@janda-com/front';
-import { LANG } from '../App';
 import { IResvContext } from '../pages/declare';
+import { LANG } from '../lang/lang';
 
 interface Iprops {
 	dayPickerHook: IUseDayPicker;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { InputText, JDalign, JDselect, JDtypho, WindowSizeNumber, useSelect, useWindowSize } from '@janda-com/front';
-import { LANG } from '../../../App';
 import { IResvContext, IPayInfo } from '../../../pages/declare';
 import { PayMethod } from '../../../types/enum';
+import { LANG } from '../../../lang/lang';
 
 interface IProps {
 	resvContext: IResvContext;

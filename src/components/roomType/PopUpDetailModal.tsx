@@ -24,9 +24,9 @@ import {
 } from '../../types/api';
 import CountSelecter from './CountSelecter';
 import { IRoomTypeContext } from './RoomTypeWrap';
-import { LANG } from '../../App';
 import { OptionSelecter } from './OptionSelecter';
 import { isEmpty } from '@janda-com/front';
+import { LANG } from '../../lang/lang';
 
 interface IProp {
 	popUpProductClose: () => void;
@@ -131,6 +131,7 @@ export const PopUpDetailPage: React.FC<IProp> = ({
 									displayIcon={true}
 									mode="input"
 									{...dayPickerHook}
+									isRange={true}
 									inputComponent={(prop: any) => (
 										<div>
 											<JDbutton mode="border" {...prop}>
@@ -207,6 +208,7 @@ export const PopUpDetailPage: React.FC<IProp> = ({
 								옵션선택
 							</JDtypho>
 							<OptionSelecter
+								resvContext={resvContext}
 								optionalItems={optionalItems}
 								targetSelectRoom={targetSelectInfo}
 								setRoomSelectInfo={setRoomSelectInfo}

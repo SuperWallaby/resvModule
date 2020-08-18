@@ -1,6 +1,6 @@
-import { LANG } from "../App";
 import { isEmpty, arraySum, toast } from "@janda-com/front";
 import { IRoomSelectInfo } from "../pages/declare";
+import { LANG } from "../lang/lang";
 
 export const validation = (
   roomSelectInfo: IRoomSelectInfo[],

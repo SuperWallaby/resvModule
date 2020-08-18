@@ -1,17 +1,20 @@
-import { PriceLine,SubLine } from "../components/DetailPriceView";
+import { PriceLine,SubLine } from "../components/CalculateViewer";
 import { IRoomSelectInfo } from "../pages/declare";
 import { autoComma } from "@janda-com/front";
 import { PricingType } from "../types/api";
 
 export const priceSurvey = (data:IRoomSelectInfo[]): PriceLine[] => {
 
-    const tempCount = data.map((d) => ({
-        count: d.count.female + d.count.male + d.count.roomCount,
+    const tempCount = data.map((d) => {
+        const totalCount = d.count.female + d.count.male + d.count.roomCount || 0
+
+        return {
+        count: totalCount,
         price: d.price,
         options: d.options,
         roomTypeName: d.roomTypeName,
         pricingType: d.pricingType
-    }))
+    }})
 
     return tempCount.map((d):PriceLine => {
         return {
@@ -24,7 +27,7 @@ export const priceSurvey = (data:IRoomSelectInfo[]): PriceLine[] => {
                 }
             }) || [],
             title: d.roomTypeName || "",
-            describe: `${autoComma(d.price)} x ${d.count}${d.pricingType === PricingType.DOMITORY ? "명" : "개"}` 
+            describe: `${autoComma(d.price / d.count)} x ${d.count}${d.pricingType === PricingType.DOMITORY ? "명" : "개"}` 
         }
     })
 }

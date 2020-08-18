@@ -1,8 +1,8 @@
 import React from 'react';
 import { InputText, JDalign, JDselect, JDtypho, hooks, WindowSizeNumber } from '@janda-com/front';
-import { LANG } from '../../../App';
 import { IResvContext, IBookerInfo } from '../../../pages/declare';
 import { NGO_NUMS } from '../../nationalcode';
+import { LANG } from '../../../lang/lang';
 const { useWindowSize } = hooks;
 
 interface IProps {

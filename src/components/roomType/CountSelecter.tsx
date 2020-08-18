@@ -2,12 +2,12 @@ import React, { Fragment, useState } from 'react';
 import { JDtypho, JDalign, JDbutton, IJDalignProp, JDselect, JDpreloader } from '@janda-com/front';
 import { IResvContext, IRoomSelectInfo } from '../../pages/declare';
 import { getHouseForPublic_GetHouseForPublic_house_roomTypes } from '../../types/api';
-import { LANG } from '../../App';
 import { IRoomTypeContext, Gender } from './RoomTypeWrap';
 import { getAvailableCountFromQuery } from './helper';
 import { queryDataFormater } from '@janda-com/front';
 import { IJDtyphoProp } from '@janda-com/front/build/components/typho/Typho';
 import { selectOpCreater } from '@janda-com/front';
+import { LANG } from '../../lang/lang';
 
 interface CounterProp {
 	count: number;
@@ -48,7 +48,7 @@ export const Counter: React.FC<CounterProp> = ({ handleCount, labelProp, target,
 					disabled={maxCount <= count}
 					thema="grey1"
 					mode="flat"
-					className="counter__btn"
+					className="counter__btn counter__btn--right"
 					onClick={() => {
 						handleCount(true, target);
 					}}
@@ -84,7 +84,7 @@ const CountSelecter: React.FC<IProps> = ({
 	availableCount,
 	alignProp
 }) => {
-	const [ loading, setLoading ] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const { refetchCapacity, capacityData, sharedQueryVariable } = roomTypeContext;
 	const {
 		femaleCount: availableCountFemale,
@@ -92,12 +92,12 @@ const CountSelecter: React.FC<IProps> = ({
 		roomCount: availableCountRoom
 	} = availableCount;
 	const { roomSelectInfo, setRoomSelectInfo } = resvContext;
-	const [ maxCount, setMaxCount ] = useState({	
+	const [maxCount, setMaxCount] = useState({
 		maxFemale: availableCountFemale,
 		maxMale: availableCountMale
 	});
 
-	const handleCount = async ( target: 'male' | 'female' | 'room', count:number) => {
+	const handleCount = async (target: 'male' | 'female' | 'room', count: number) => {
 		if (loading) return;
 		setLoading(true);
 		if (!targetSelectInfo) throw Error('This must not happend by UI :: RoomType');
@@ -151,7 +151,7 @@ const CountSelecter: React.FC<IProps> = ({
 		targetSelectInfo.price =
 			fullDatePrice * (targetSelectInfo.count.male + targetSelectInfo.count.female + targetSelectInfo.count.roomCount);
 
-		setRoomSelectInfo([ ...roomSelectInfo ]);
+		setRoomSelectInfo([...roomSelectInfo]);
 
 		setLoading(false);
 	};
@@ -159,8 +159,8 @@ const CountSelecter: React.FC<IProps> = ({
 	const { count } = targetSelectInfo;
 	const { male, female, roomCount } = count;
 
-	const maleOp = selectOpCreater({count:maxCount.maxMale, labelAdd:"명",start:0 })
-	const femaleOp = selectOpCreater({count:maxCount.maxMale, labelAdd:"명",start:0 })
+	const maleOp = selectOpCreater({ count: maxCount.maxMale, labelAdd: "명", start: 0 })
+	const femaleOp = selectOpCreater({ count: maxCount.maxMale, labelAdd: "명", start: 0 })
 	const selectedMaleOp = maleOp.find(op => op.value === male);
 	const selectedFemaleOp = maleOp.find(op => op.value === female);
 
@@ -174,39 +174,39 @@ const CountSelecter: React.FC<IProps> = ({
 			{...alignProp}
 		>
 			{isDomitory ? (
-				<JDalign flex className="countSelecter__selectBoxs"> 
+				<JDalign flex className="countSelecter__selectBoxs">
 					<JDselect
-					menuPlacement="top"
-					mb="no"
-					onChange={(selected)=>{
-						handleCount("male",selected.value);
-					}} label={LANG('male')} selectedOption={selectedMaleOp} options={maleOp}/>
+						menuPlacement="top"
+						mb="no"
+						onChange={(selected) => {
+							handleCount("male", selected.value);
+						}} label={LANG('male')} selectedOption={selectedMaleOp} options={maleOp} />
 					<JDselect
-					mr="no"
-					mb="no"
-					 menuPlacement="top"
-					 onChange={(selected)=>{
-						handleCount("female",selected.value);
-					}}
-					label={LANG('female')} selectedOption={selectedFemaleOp} options={femaleOp}/>
-					<JDpreloader loading={loading}/>
+						mr="no"
+						mb="no"
+						menuPlacement="top"
+						onChange={(selected) => {
+							handleCount("female", selected.value);
+						}}
+						label={LANG('female')} selectedOption={selectedFemaleOp} options={femaleOp} />
+					<JDpreloader loading={loading} />
 				</JDalign>
 			) : (
-				<Counter
-					maxCount={availableCountRoom}
-					label={LANG('room_count')}
-					handleCount={(flag) => {
-						let count = roomCount + (flag ? 1 : -1);
+					<Counter
+						maxCount={availableCountRoom}
+						label={LANG('room_count')}
+						handleCount={(flag) => {
+							let count = roomCount + (flag ? 1 : -1);
 
-						if(count < 0) 
-							count = 0;
-						
-						handleCount("room",count);
-					}}
-					target={'room'}
-					count={roomCount}
-				/>
-			)}
+							if (count < 0)
+								count = 0;
+
+							handleCount("room", count);
+						}}
+						target={'room'}
+						count={roomCount}
+					/>
+				)}
 		</JDalign>
 	);
 };
