@@ -117,7 +117,7 @@
     "**/react-dom": "16.13.0"
   },
   "peerDependencies": {
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react": "^16",
     "react-day-picker": "^7.4.8",
     "react-dom": "^16"
@@ -140,7 +140,7 @@
     "@types/react-window-size": "^1.2.0",
     "@types/styled-components": "^5.1.0",
     "customize-cra": "^0.9.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react-app-rewired": "^2.1.5",
     "rollup": "^1.27.13",
     "rollup-plugin-commonjs": "^10.1.0",
